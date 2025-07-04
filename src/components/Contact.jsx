@@ -80,7 +80,7 @@ const Contact = () => {
         <h3 className={styles.sectionHeadText}>Contact.</h3>
         <div className="mt-8 flex flex-wrap gap-6 justify-center">
           <a
-            href="https://github.com/Abej-Rijwi"
+            href="https://github.com/Premchand006"
             target="_blank"
             rel="noopener noreferrer"
             className="flex flex-col items-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-700 to-purple-800 hover:from-purple-600 hover:to-purple-700 text-white font-medium rounded-xl transition duration-300 transform hover:scale-105 shadow-lg w-full sm:w-auto"
