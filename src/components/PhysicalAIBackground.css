@@ -1,0 +1,68 @@
+/* ── PhysicalAIBackground ───────────────────────────────────────
+   Full-section, behind-content backdrop. Three stacked layers:
+   a deep radial-gradient base, the animated canvas, and a soft
+   vignette to draw the eye toward the centred content.
+   Tone is held to within a few values of #000000 (bg-primary)
+   so the layer never reads brighter than the rest of the site. */
+
+.phys-ai-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: transparent;
+}
+
+/* Subtle near-black radial — removed as per request to keep image unfaded */
+.phys-ai-bg__gradient {
+    position: absolute;
+    inset: 0;
+    display: none;
+}
+
+.phys-ai-bg__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    mix-blend-mode: screen;
+    opacity: 0.92;
+}
+
+.phys-ai-bg__vignette {
+    position: absolute;
+    inset: 0;
+    display: none;
+}
+
+/* Tech-stack section needs the canvas behind, content above. */
+.section--tech-stack .section__content {
+    position: relative;
+    z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .phys-ai-bg__canvas {
+        opacity: 0.7;
+    }
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* In light mode the layer stack inverts: the deep radial becomes an ivory
+   wash and the vignette fades to the page colour so the section still
+   blends with its neighbours — now toward paper instead of black. */
+html[data-theme='light'] .phys-ai-bg__gradient {
+    background: transparent;
+}
+
+/* The canvas draws additive light glows; `screen` on ivory would wash
+   them out to nothing. `multiply` re-reads them as ink on paper. */
+html[data-theme='light'] .phys-ai-bg__canvas {
+    mix-blend-mode: multiply;
+}
+
+html[data-theme='light'] .phys-ai-bg__vignette {
+    background: transparent;
+}

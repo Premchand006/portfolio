@@ -1,0 +1,71 @@
+.button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-weight: 500;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.button:hover {
+    color: var(--accent-gold);
+    border-color: transparent;
+}
+
+.button:active {
+    color: var(--accent-gold-soft);
+}
+
+.button__content {
+    position: relative;
+    z-index: 1;
+}
+
+.button__border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+}
+
+/* Sizes */
+.button--sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.button--md {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+}
+
+.button--lg {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+}
+
+/* Variants */
+.button--default {
+    background: transparent;
+}
+
+.button--ghost {
+    border-color: transparent;
+}
+
+.button--ghost:hover {
+    border-color: transparent;
+}
+
+.button--filled {
+    background: var(--bg-tertiary);
+    border-color: var(--border-subtle);
+}

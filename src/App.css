@@ -1,0 +1,24 @@
+.app {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.snap-container {
+  height: 100vh;
+  overflow-y: scroll;
+  /* Long-scroll: no scroll-snap. This stays the single scrolling root for the
+     whole continuous page (the .app ancestor is overflow:hidden). */
+  scroll-behavior: smooth;
+}
+
+.snap-container::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+
+.snap-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

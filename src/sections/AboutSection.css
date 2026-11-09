@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+.about-new {
+    width: 100%;
+    margin-top: 5vmin;
+}
+
+.about-new__container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+}
+
+.about-new__top {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+}
+
+@media (min-width: 1024px) {
+    .about-new__top {
+        grid-template-columns: 1.4fr 0.6fr;
+        gap: var(--space-3xl);
+        align-items: center;
+    }
+}
+
+.about-new__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+.about-new__description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    max-width: 600px;
+}
+
+.about-new__interests {
+    margin-top: var(--space-lg);
+}
+
+.about-new__interests-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: var(--space-sm);
+    margin-bottom: var(--space-md);
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.about-new__interests-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: var(--border-subtle);
+    margin-left: 1rem;
+}
+
+.about-new__interests-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm) var(--space-md);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.about-new__interests-list li {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.about-new__interests-list li::before {
+    content: '•';
+    color: var(--accent-gold);
+}
+
+.about-new__image-block {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    margin-left: auto;
+    aspect-ratio: 1 / 1.1;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: crosshair;
+}
+
+.about-new__image-text {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-family: var(--font-display);
+    font-weight: 500;
+    transition: opacity 0.4s ease;
+    z-index: 10;
+}
+
+.about-new__image-block:hover .about-new__image-text {
+    opacity: 0;
+}
+
+.about-new__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.05);
+    filter: grayscale(100%);
+    transition: opacity 0.6s ease, transform 0.6s ease, filter 0.6s ease;
+}
+
+.about-new__image-block:hover .about-new__image {
+    opacity: 1;
+    transform: scale(1);
+    filter: grayscale(0%);
+}
+
+.about-new__image-caption {
+    text-align: right;
+    width: 100%;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    margin-top: var(--space-sm);
+    font-style: italic;
+}
+
+/* Right column hosting the polaroid scroll stack — centered in its grid cell */
+.about-new__polaroids {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    width: 100%;
+    /* align-self:stretch already fills the grid row; the min-height clamp below
+       is the real floor. (Was height:100%, which relied on the old 100vh section.) */
+    height: auto;
+    /* Fluid reserved height + lift: both were raw px (540px / -80px) which
+       don't scale, so the deck drifted and clipped as the viewport changed.
+       vh-based values keep the deck aligned and shrink the lift on short
+       screens so the top card / pin never clips above the column. */
+    min-height: clamp(420px, 50vh, 560px);
+    transform: translateY(clamp(-26rem, -38vh, -22rem));
+}
+
+@media (max-width: 1023px) {
+    .about-new__polaroids {
+        min-height: clamp(380px, 56vh, 460px);
+    }
+}
+
+/* Stylized Heading */
+
+.section__header--left-stylized {
+    text-align: left;
+    margin-bottom: var(--space-2xl);
+    width: 100%;
+}
+
+.stylized-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.stylized-heading__line1 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    transform: rotate(-3deg);
+    margin-bottom: -0.5rem;
+}
+
+.stylized-star {
+    font-size: 0.4em;
+    color: var(--accent-gold);
+}
+
+.stylized-script {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stylized-heading__line2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(3.5rem, 7vw, 5.5rem);
+    letter-spacing: 0.05em;
+    margin-left: 2rem;
+    color: var(--accent-red);
+    text-shadow:
+        0 0 18px var(--accent-red-glow),
+        0 0 40px rgba(198, 40, 40, 0.18);
+}
+
+.stylized-heading__line3 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transform: rotate(-2deg);
+    margin-top: -0.5rem;
+}
+
+.stylized-heading__line3::before,
+.stylized-heading__line3::after {
+    content: '?';
+    font-size: 0.5em;
+    color: var(--accent-gold);
+    font-family: var(--font-body);
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* Colours all ride the design tokens (flipped in index.css); the red glow
+   behind the stylized heading is semantic accent and stays.
+   About now paints the same soft blue-wave language as Education, Projects,
+   and Contact — ivory edge-melt at top & bottom so it still blends into
+   its neighbours seamlessly. */
+html[data-theme='light'] .section--about {
+    background:
+        linear-gradient(180deg,
+            #ffffff 0%,
+            rgba(255, 255, 255, 0) 16%,
+            rgba(255, 255, 255, 0) 84%,
+            #ffffff 100%),
+        radial-gradient(ellipse 70% 65% at 50% 50%,
+            rgba(255, 255, 255, 0.40) 0%,
+            rgba(255, 255, 255, 0.65) 100%),
+        url('/assets/backgrounds/about_white.png') center / cover no-repeat;
+}
+

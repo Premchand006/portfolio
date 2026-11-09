@@ -1,0 +1,34 @@
+# robots.txt — port-prem
+# Hello, crawler. Nice of you to check.
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+# You're cool. Carry on.
+
+User-agent: GPTBot
+Disallow: /
+# No, I don't consent to training a model
+# that will eventually replace me. Rude.
+
+User-agent: CCBot
+Disallow: /
+# Same energy as above.
+
+User-agent: LinkedInBot
+Allow: /
+# You may look. But my DMs are closed until
+# the recruiter-to-actual-job ratio improves.
+
+User-agent: Twitterbot
+Allow: /
+# Fine, but only the good tweets.
+
+User-agent: *
+Allow: /
+Crawl-delay: 2
+# Be polite. This server runs on dreams and
+# a Digital Ocean $6/mo droplet.
+
+Sitemap: https://premchand.dev/sitemap.xml
+

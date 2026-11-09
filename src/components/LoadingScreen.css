@@ -1,0 +1,287 @@
+/* ─────────────────────────────────────────────────────────────
+   LoadingScreen — coin-spin logo inside a light-grey buffer ring
+   + horizontal load bar on pure black.
+   ───────────────────────────────────────────────────────────── */
+
+.lsx {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    overflow: hidden;
+    isolation: isolate;
+    /* Ornate gold-damask backdrop sits behind the shimmer + coin animation
+       (both are child layers, so they keep rendering on top). A faint black
+       wash keeps the centre clean for the logo, headline, and load bar. */
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.18)),
+        url('/assets/backgrounds/open.png') center center / cover no-repeat,
+        #000000;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── Ambient golden shimmer ───────────────────────────────── */
+
+/* Soft off-centre gold glow sits in the backdrop — kept away from
+   the logo's centre on purpose, so it reads as ambient atmosphere
+   rather than a halo around the coin. */
+.lsx__shimmer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background:
+        radial-gradient(ellipse 50% 40% at 18% 80%,
+            rgba(210, 159, 34, 0.10) 0%,
+            rgba(255, 195, 60, 0.04) 40%,
+            transparent 75%),
+        radial-gradient(ellipse 55% 45% at 82% 20%,
+            rgba(210, 159, 34, 0.08) 0%,
+            rgba(255, 195, 60, 0.03) 40%,
+            transparent 75%);
+}
+
+/* Diagonal gold sweep drifts via transform on its own GPU layer,
+   washing slowly across the whole backdrop. */
+.lsx__shimmer::before {
+    content: '';
+    position: absolute;
+    inset: -50%;
+    background: linear-gradient(115deg,
+        transparent 40%,
+        rgba(210, 159, 34, 0.05) 48%,
+        rgba(255, 235, 130, 0.11) 50%,
+        rgba(210, 159, 34, 0.05) 52%,
+        transparent 60%);
+    transform: translate3d(-25%, -25%, 0);
+    animation: lsx-shimmer var(--shimmer-dur) ease-in-out infinite;
+    will-change: transform;
+}
+
+@keyframes lsx-shimmer {
+    0%, 100% { transform: translate3d(-25%, -25%, 0); }
+    50%      { transform: translate3d( 25%,  25%, 0); }
+}
+
+/* ── Centre stack ─────────────────────────────────────────── */
+
+.lsx__stage {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(28px, 5vmin, 48px);
+}
+
+/* ── Coin + buffer ring ───────────────────────────────────── */
+
+.lsx__coin {
+    position: relative;
+    width: clamp(72px, 12vmin, 110px);
+    height: clamp(72px, 12vmin, 110px);
+    perspective: 600px;
+}
+
+/* Light-grey loading buffer ring orbiting the logo. A faint full
+   ring shows the track; a brighter top arc rotates as the spinner. */
+.lsx__buffer {
+    position: absolute;
+    inset: clamp(-16px, -2vmin, -12px);
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.07);
+    border-top-color: rgba(220, 225, 235, 0.85);
+    border-right-color: rgba(220, 225, 235, 0.32);
+    animation: lsx-buffer-spin var(--buffer-spin) linear infinite;
+    pointer-events: none;
+    will-change: transform;
+}
+
+@keyframes lsx-buffer-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* Coin-face owns the rotateY flip on its own compositor layer. */
+.lsx__coin-face {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transform-style: preserve-3d;
+    transform: translateZ(0);
+    animation: lsx-coin-spin var(--coin-spin) linear infinite;
+    will-change: transform;
+}
+
+@keyframes lsx-coin-spin {
+    from { transform: translateZ(0) rotateY(0deg); }
+    to   { transform: translateZ(0) rotateY(360deg); }
+}
+
+.lsx__logo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: linear-gradient(145deg, #101012, #060606);
+    border-radius: 50%;
+    display: block;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.04),
+        0 6px 22px rgba(0, 0, 0, 0.55);
+}
+
+.lsx__logo--front {
+    transform: rotateY(0deg) translateZ(1px);
+}
+
+.lsx__logo--back {
+    transform: rotateY(180deg) translateZ(-1px);
+}
+
+.lsx__logo--fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(210, 159, 34, 0.85);
+    font-family: var(--font-display);
+    font-size: clamp(14px, 2.2vmin, 20px);
+    font-weight: 500;
+    letter-spacing: 4px;
+    background: linear-gradient(145deg, #101012, #060606);
+}
+
+/* ── Typewriter headline ──────────────────────────────────── */
+
+/* `position: relative` + invisible ghost span = width is reserved at the
+   final rendered string width, so the box doesn't reflow as characters
+   appear. The visible span lays over the ghost, anchored at the left. */
+.lsx__headline {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+}
+
+.lsx__headline-ghost {
+    visibility: hidden;
+}
+
+.lsx__headline-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: left;
+}
+
+.lsx__caret {
+    display: inline-block;
+    width: 1.5px;
+    height: 0.95em;
+    margin-left: 5px;
+    background: var(--accent-gold);
+    vertical-align: -2px;
+    animation: lsx-caret 0.72s ease-in-out infinite alternate;
+}
+
+@keyframes lsx-caret {
+    from { opacity: 1; }
+    to   { opacity: 0.05; }
+}
+
+/* ── Horizontal load bar ──────────────────────────────────── */
+
+.lsx__loader {
+    width: clamp(220px, 36vw, 420px);
+}
+
+.lsx__loader-track {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.10);
+    border-radius: 1px;
+    overflow: hidden;
+    box-shadow:
+        0 0 14px rgba(210, 159, 34, 0.22),
+        0 0 28px rgba(210, 159, 34, 0.10);
+}
+
+.lsx__loader-fill {
+    position: absolute;
+    inset: 0;
+    transform-origin: left center;
+    transform: scaleX(0) translateZ(0);
+    background: linear-gradient(90deg,
+        rgba(210, 159, 34, 0.35) 0%,
+        rgba(255, 235, 130, 1)   50%,
+        rgba(255, 200, 60, 1)    100%);
+    animation: lsx-loader-fill var(--load-dur) linear forwards;
+    will-change: transform;
+}
+
+@keyframes lsx-loader-fill {
+    from { transform: scaleX(0) translateZ(0); }
+    to   { transform: scaleX(1) translateZ(0); }
+}
+
+.lsx__loader-glint {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 245, 200, 0.0)  20%,
+        rgba(255, 245, 200, 0.75) 50%,
+        rgba(255, 245, 200, 0.0)  80%,
+        transparent 100%);
+    transform: translate3d(-100%, 0, 0);
+    animation: lsx-loader-glint var(--bar-glint) linear infinite;
+    will-change: transform;
+}
+
+@keyframes lsx-loader-glint {
+    from { transform: translate3d(-100%, 0, 0); }
+    to   { transform: translate3d( 100%, 0, 0); }
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+    .lsx__loader {
+        width: 70vw;
+    }
+
+    .lsx__headline {
+        letter-spacing: 3.5px;
+        font-size: 11.5px;
+    }
+}
+
+/* @media (prefers-reduced-motion: reduce) {
+    .lsx__coin-face,
+    .lsx__buffer,
+    .lsx__loader-fill,
+    .lsx__loader-glint,
+    .lsx__caret {
+        animation: none;
+    }
+
+    .lsx__loader-fill { transform: scaleX(1) translateZ(0); }
+} */
+
+/* ===== LIGHT THEME =====
+   No override: the loader leads into the always-black hero, so it keeps the
+   cinematic dark treatment in both themes. */

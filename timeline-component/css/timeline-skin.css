@@ -1,0 +1,76 @@
+﻿/* ============================================================
+   TIMELINE COMPONENT — Subpage overlay / v2 skin
+   (Extracted from v2-sub.css — only timeline-relevant rules)
+   ============================================================ */
+
+/* Timeline title typography */
+.timeline-title h1 {
+    font-family: var(--font-display) !important;
+    font-weight: 600 !important;
+    text-transform: lowercase;
+    letter-spacing: -0.03em !important;
+}
+
+/* Code label chip */
+.code-label {
+    font-family: var(--font-mono) !important;
+    border-radius: 12px !important;
+    border: 1px solid var(--line-dark);
+}
+
+/* Content cards */
+.timeline-content {
+    border: 1px solid var(--line) !important;
+    border-radius: 18px !important;
+    background: var(--paper) !important;
+    box-shadow: none !important;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease !important;
+}
+
+.timeline-item:hover .timeline-content {
+    transform: translateY(-4px);
+    box-shadow: 10px 10px 0 -3px var(--amber) !important;
+}
+
+.timeline-content h2 {
+    font-family: var(--font-display) !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
+}
+
+/* Tag pill */
+.timeline-content .tag {
+    font-family: var(--font-mono) !important;
+    font-size: 10px !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    background: var(--amber) !important;
+    color: var(--ink) !important;
+    border-radius: 99px !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    display: inline-flex !important;
+    align-items: center;
+    padding: 5px 14px !important;
+}
+
+/* Date text */
+.date {
+    font-family: var(--font-mono) !important;
+    font-size: 11px !important;
+    color: var(--muted) !important;
+}
+
+/* Image slider */
+.timeline-image .img-slider {
+    border-radius: 18px !important;
+    overflow: hidden;
+    border: 1px solid var(--line);
+}
+
+/* ------------------------------------------------------------ */
+/* Responsive                                                    */
+/* ------------------------------------------------------------ */
+@media (max-width: 768px) {
+    .sub-hero h1 { font-size: clamp(40px, 12vw, 72px); }
+}

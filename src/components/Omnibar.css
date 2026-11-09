@@ -1,0 +1,481 @@
+/* ─────────────────────────────────────────────────────────────
+   Command Palette
+   Dark themed, gold-accented, dependency-light. Replaces the old
+   Quick Nav. Keyboard-driven: ↑↓ navigate, ↵ go, Esc close.
+   ───────────────────────────────────────────────────────────── */
+
+.cmdp-overlay {
+    position: fixed;
+    inset: 0;
+    /* Lighter scrim than before (was 0.78) so the live page — globe, section
+       art — stays faintly visible and blurred behind the panel, giving the
+       glass something real to refract instead of flat dark. */
+    background: rgba(4, 6, 12, 0.48);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 12vh;
+}
+
+.cmdp {
+    width: 100%;
+    max-width: 600px;
+    /* Frosted glass panel — translucent tint + heavy blur/saturate so the
+       dimmed page reads through it. The inset top line is the bright glass
+       rim that sells the "liquid glass" edge. */
+    background: rgba(14, 16, 24, 0.55);
+    -webkit-backdrop-filter: blur(30px) saturate(1.4);
+    backdrop-filter: blur(30px) saturate(1.4);
+    border: 1px solid rgba(210, 159, 34, 0.22);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        0 25px 60px -12px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(210, 159, 34, 0.04);
+}
+
+/* ── Top: search input + esc tag ── */
+.cmdp__top {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cmdp__search-icon {
+    width: 16px;
+    height: 16px;
+    color: rgba(210, 159, 34, 0.7);
+    flex-shrink: 0;
+}
+
+.cmdp__input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.cmdp__input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.cmdp__mode-toggle {
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.55rem;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(210, 159, 34, 0.18);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.cmdp__mode-toggle:hover {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+}
+
+.cmdp__mode-toggle.is-active {
+    background: rgba(210, 159, 34, 0.12);
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+}
+
+.cmdp__esc {
+    font-family: var(--font-body);
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 0.5rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.55);
+    text-transform: uppercase;
+}
+
+/* ── Body ── */
+.cmdp__body {
+    padding: 0.55rem 0.6rem 0.7rem;
+    max-height: 58vh;
+    overflow-y: auto;
+}
+
+.cmdp__label {
+    font-family: var(--font-body);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(210, 159, 34, 0.4);
+    padding: 0.6rem 0.6rem 0.4rem;
+}
+
+.cmdp__label--secondary { margin-top: 0.4rem; }
+
+.cmdp__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cmdp__row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.82);
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+.cmdp__row.is-active,
+.cmdp__row:hover {
+    background: rgba(210, 159, 34, 0.07);
+    border-color: rgba(210, 159, 34, 0.25);
+    color: var(--accent-gold);
+}
+
+.cmdp__row-icon {
+    width: 18px;
+    height: 18px;
+    color: currentColor;
+    flex-shrink: 0;
+    opacity: 0.85;
+}
+
+.cmdp__row-name {
+    flex: 1;
+    color: inherit;
+}
+
+.cmdp__row-tag {
+    font-size: 0.62rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.15rem 0.5rem;
+    background: rgba(210, 159, 34, 0.1);
+    border: 1px solid rgba(210, 159, 34, 0.18);
+    border-radius: 4px;
+    color: var(--accent-gold);
+}
+
+.cmdp__row-arrow {
+    font-size: 0.85rem;
+    color: rgba(210, 159, 34, 0.5);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.cmdp__row.is-active .cmdp__row-arrow,
+.cmdp__row:hover .cmdp__row-arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.cmdp__row mark {
+    background: transparent;
+    color: var(--accent-gold);
+    font-weight: 600;
+}
+
+.cmdp__empty {
+    text-align: center;
+    padding: 1.4rem 1rem 1.8rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+/* ── Ask mode ── */
+.cmdp__body--ask {
+    padding: 1rem;
+    max-height: 58vh;
+    overflow-y: auto;
+}
+
+.cmdp__ask-intro p {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0 0 0.85rem;
+}
+
+.cmdp__ask-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.cmdp__ask-chip {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(210, 159, 34, 0.18);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.cmdp__ask-chip:hover {
+    background: rgba(210, 159, 34, 0.08);
+    color: var(--accent-gold);
+}
+
+.cmdp__ask-turn { margin-top: 0.8rem; }
+
+.cmdp__ask-q {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 0.35rem;
+}
+
+.cmdp__ask-a {
+    font-size: 0.92rem;
+    color: var(--text-primary);
+    line-height: 1.55;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 7px;
+    padding: 0.7rem 0.85rem;
+}
+
+.cmdp__ask-a.is-error {
+    border-color: rgba(255, 80, 80, 0.3);
+    color: #ffb4b4;
+}
+
+.cmdp__ask-jump {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--accent-gold);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.cmdp__ask-thinking {
+    display: inline-flex;
+    gap: 5px;
+    align-items: center;
+    padding: 0.45rem 0;
+}
+
+.cmdp__ask-thinking span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    animation: cmdp-bounce 1s ease-in-out infinite;
+}
+
+.cmdp__ask-thinking span:nth-child(2) { animation-delay: 0.15s; }
+.cmdp__ask-thinking span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes cmdp-bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+    40%           { transform: translateY(-4px); opacity: 1; }
+}
+
+/* ── Footer ── */
+.cmdp__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.cmdp__brand {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.14em;
+    color: var(--accent-gold);
+}
+
+.cmdp__hints {
+    display: flex;
+    gap: 1.1rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.cmdp__hints span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.04em;
+}
+
+.cmdp__hints kbd {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    padding: 0.1rem 0.32rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .cmdp-overlay {
+        padding: 1rem;
+        padding-top: 6vh;
+    }
+
+    .cmdp__top { padding: 0.75rem 0.85rem; }
+    .cmdp__mode-toggle { display: none; }
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* ─────────────────────────────────────────────────────────────
+   Gallery-daylight re-skin: the smoked-glass panel becomes bright
+   frost over the ivory page, white chrome flips to ink, and every
+   gold literal darkens to ochre so borders/text keep contrast.
+   Blur + layout untouched — only paint changes below.
+   ───────────────────────────────────────────────────────────── */
+
+/* Ivory scrim instead of near-black — the page dims into daylight fog
+   rather than night, so the frosted panel still has something to refract. */
+html[data-theme='light'] .cmdp-overlay {
+    background: rgba(255, 255, 255, 0.55);
+}
+
+/* Frosted white panel: bright tint, ink hairline, warm shadow. The inset
+   rim brightens to near-solid white — that's the frost highlight now. */
+html[data-theme='light'] .cmdp {
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(154, 116, 20, 0.30);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 25px 60px -12px rgba(30, 30, 50, 0.28),
+        0 0 0 1px rgba(154, 116, 20, 0.06);
+}
+
+html[data-theme='light'] .cmdp__top {
+    border-bottom: 1px solid rgba(20, 20, 30, 0.10);
+}
+
+html[data-theme='light'] .cmdp__search-icon {
+    color: rgba(154, 116, 20, 0.8);
+}
+
+html[data-theme='light'] .cmdp__input::placeholder {
+    color: rgba(20, 20, 30, 0.45);
+}
+
+html[data-theme='light'] .cmdp__mode-toggle {
+    background: rgba(20, 20, 30, 0.05);
+    border: 1px solid rgba(154, 116, 20, 0.28);
+}
+
+html[data-theme='light'] .cmdp__mode-toggle.is-active {
+    background: rgba(154, 116, 20, 0.12);
+}
+
+html[data-theme='light'] .cmdp__esc {
+    background: rgba(20, 20, 30, 0.05);
+    border: 1px solid rgba(20, 20, 30, 0.15);
+    color: rgba(20, 20, 30, 0.60);
+}
+
+html[data-theme='light'] .cmdp__label {
+    color: rgba(154, 116, 20, 0.55);
+}
+
+html[data-theme='light'] .cmdp__row {
+    color: rgba(20, 20, 30, 0.87);
+}
+
+html[data-theme='light'] .cmdp__row.is-active,
+html[data-theme='light'] .cmdp__row:hover {
+    background: rgba(154, 116, 20, 0.08);
+    border-color: rgba(154, 116, 20, 0.30);
+}
+
+html[data-theme='light'] .cmdp__row-tag {
+    background: rgba(154, 116, 20, 0.10);
+    border: 1px solid rgba(154, 116, 20, 0.28);
+}
+
+html[data-theme='light'] .cmdp__row-arrow {
+    color: rgba(154, 116, 20, 0.60);
+}
+
+html[data-theme='light'] .cmdp__empty {
+    color: rgba(20, 20, 30, 0.50);
+}
+
+html[data-theme='light'] .cmdp__ask-intro p {
+    color: rgba(20, 20, 30, 0.70);
+}
+
+html[data-theme='light'] .cmdp__ask-chip {
+    background: rgba(20, 20, 30, 0.05);
+    border: 1px solid rgba(154, 116, 20, 0.28);
+}
+
+html[data-theme='light'] .cmdp__ask-chip:hover {
+    background: rgba(154, 116, 20, 0.10);
+}
+
+html[data-theme='light'] .cmdp__ask-a {
+    background: rgba(20, 20, 30, 0.04);
+    border: 1px solid rgba(20, 20, 30, 0.10);
+}
+
+/* Error tone darkens so it reads on ivory instead of glowing pink. */
+html[data-theme='light'] .cmdp__ask-a.is-error {
+    border-color: rgba(176, 32, 32, 0.4);
+    color: #b02020;
+}
+
+/* Footer sinks a touch below the body with an ink wash, not a black one. */
+html[data-theme='light'] .cmdp__footer {
+    border-top: 1px solid rgba(20, 20, 30, 0.10);
+    background: rgba(20, 20, 30, 0.04);
+}
+
+html[data-theme='light'] .cmdp__hints span {
+    color: rgba(20, 20, 30, 0.45);
+}
+
+html[data-theme='light'] .cmdp__hints kbd {
+    background: rgba(20, 20, 30, 0.06);
+    border: 1px solid rgba(20, 20, 30, 0.15);
+    color: rgba(20, 20, 30, 0.75);
+}

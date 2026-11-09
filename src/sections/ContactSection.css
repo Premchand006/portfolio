@@ -1,0 +1,721 @@
+/* ──────────────────────────────────────────────────────────────
+   CONTACT FORM
+   Premium dark+gold form — preserves the original visual identity
+   while adding inquiry chips, attachment uploads, honeypot, Turnstile,
+   and live status states. All colours come from design tokens so the
+   form follows the active theme automatically.
+   ────────────────────────────────────────────────────────────── */
+
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    width: 100%;
+    max-width: 640px;
+    /* Was 64px / 128px which split the section into two screens.
+       The .section__content already supplies vertical rhythm via gap. */
+    margin: 0.5rem auto 1rem;
+    text-align: left;
+}
+
+.contact-form__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+}
+
+@media (max-width: 640px) {
+    .contact-form__row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.contact-form__group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.contact-form__label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+}
+
+.contact-form__optional {
+    color: var(--text-muted);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.7rem;
+    opacity: 0.7;
+}
+
+.contact-form__input,
+.contact-form__textarea {
+    width: 100%;
+    padding: 0.65rem 0.95rem;
+    /* Frosted glass over the contact.png backdrop — the form floats on the
+       photo, so the fields blur it through instead of sitting on flat grey. */
+    background-color: var(--glass-surface);
+    -webkit-backdrop-filter: blur(var(--glass-blur-md));
+    backdrop-filter: blur(var(--glass-blur-md));
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    transition:
+        border-color var(--transition-fast),
+        background-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.contact-form__input::placeholder,
+.contact-form__textarea::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.contact-form__input:hover,
+.contact-form__textarea:hover {
+    border-color: rgba(210, 159, 34, 0.32);
+}
+
+.contact-form__input:focus,
+.contact-form__textarea:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 0 3px rgba(210, 159, 34, 0.10);
+}
+
+.contact-form__textarea {
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.6;
+}
+
+.contact-form__counter {
+    position: absolute;
+    bottom: 12px;
+    right: 14px;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    background: var(--bg-tertiary);
+    padding: 2px 8px;
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+/* ── Inquiry-type chips ──────────────────────────────────── */
+.contact-form__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+}
+
+.contact-chip {
+    appearance: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.35rem 0.8rem;
+    background: var(--glass-surface);
+    -webkit-backdrop-filter: blur(var(--glass-blur-md));
+    backdrop-filter: blur(var(--glass-blur-md));
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.contact-chip__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    transition:
+        background-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.contact-chip:hover {
+    color: var(--text-primary);
+    border-color: rgba(210, 159, 34, 0.45);
+}
+
+.contact-chip:hover .contact-chip__dot {
+    background: var(--accent-gold);
+}
+
+.contact-chip.is-active {
+    color: var(--text-primary);
+    border-color: var(--accent-gold);
+    background: rgba(210, 159, 34, 0.10);
+}
+
+.contact-chip.is-active .contact-chip__dot {
+    background: var(--accent-gold);
+    box-shadow: 0 0 8px rgba(210, 159, 34, 0.6);
+}
+
+.contact-chip:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(210, 159, 34, 0.30);
+}
+
+/* ── Attachment uploader ─────────────────────────────────── */
+.contact-attach {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.65rem 0.95rem;
+    background: var(--glass-surface);
+    -webkit-backdrop-filter: blur(var(--glass-blur-md));
+    backdrop-filter: blur(var(--glass-blur-md));
+    border: 1px dashed var(--border-subtle);
+    border-radius: 10px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition:
+        border-color var(--transition-fast),
+        color var(--transition-fast),
+        background-color var(--transition-fast);
+    font-size: 0.92rem;
+}
+
+.contact-attach:hover {
+    border-color: rgba(210, 159, 34, 0.55);
+    color: var(--text-primary);
+}
+
+.contact-attach__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.contact-attach__list {
+    list-style: none;
+    margin: 0.6rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.contact-attach__item {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 12px;
+    padding: 0.55rem 0.85rem;
+    background: var(--glass-surface);
+    -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+    backdrop-filter: blur(var(--glass-blur-sm));
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.contact-attach__name {
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.contact-attach__size {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.contact-attach__remove {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 0 4px;
+    transition: color var(--transition-fast);
+}
+
+.contact-attach__remove:hover {
+    color: var(--accent-gold);
+}
+
+/* ── Honeypot (hidden from humans + assistive tech) ──── */
+.contact-form__honeypot {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* ── Cloudflare Turnstile mount ─────────────────────── */
+.contact-form__turnstile {
+    min-height: 24px;
+}
+
+/* ── Submit + states ────────────────────────────────── */
+.contact-form__actions {
+    margin-top: var(--space-sm);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+@media (max-width: 640px) {
+    .contact-form__actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+.contact-form__submit {
+    width: 100%;
+}
+
+/* Primary conversion CTA — solid muted gold + glow + near-black label.
+   Higher specificity (element + class) to override the base .button styles. */
+button.contact-form__submit {
+    background: var(--accent-gold);
+    border-color: var(--accent-gold);
+    color: #0a0a0a;
+    font-weight: 700;
+    border-radius: 10px;
+    box-shadow: 0 0 22px var(--gold-glow);
+    transition:
+        background-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+button.contact-form__submit:hover:not(:disabled) {
+    color: #0a0a0a;
+    background: var(--accent-gold-soft);
+    border-color: var(--accent-gold-soft);
+    box-shadow: 0 0 30px var(--gold-glow);
+    transform: translateY(-1px);
+}
+
+.contact-form__resume {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.2rem;
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition:
+        border-color var(--transition-fast),
+        color var(--transition-fast),
+        background-color var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.contact-form__resume:hover {
+    border-color: var(--accent-gold);
+    color: var(--text-primary);
+    background: rgba(210, 159, 34, 0.06);
+}
+
+.contact-form__resume:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(210, 159, 34, 0.30);
+}
+
+.contact-form__submit[aria-busy="true"] {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.contact-state {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    line-height: 1.5;
+}
+
+.contact-state strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.contact-state span {
+    color: var(--text-secondary);
+}
+
+.contact-state__icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.contact-state--ok {
+    background: rgba(34, 197, 94, 0.06);
+    border: 1px solid rgba(34, 197, 94, 0.30);
+}
+
+.contact-state--ok .contact-state__icon {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+}
+
+.contact-state--ok .contact-state__icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.contact-state--err {
+    background: rgba(255, 51, 51, 0.05);
+    border: 1px solid rgba(255, 51, 51, 0.30);
+}
+
+.contact-state--err .contact-state__icon {
+    background: rgba(255, 51, 51, 0.15);
+    color: var(--accent-red);
+}
+
+.contact-state--info {
+    background: var(--glass-surface);
+    -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+    backdrop-filter: blur(var(--glass-blur-sm));
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.contact-state__link {
+    color: var(--accent-gold);
+    text-decoration: none;
+    margin-left: 4px;
+}
+
+.contact-state__link:hover {
+    text-decoration: underline;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   SOCIAL BAND  ─  horizontal row of round icon-only buttons.
+   Each dot reveals its platform name as a floating tooltip on
+   hover. Click opens the link (external opens new tab; mailto
+   and tel: stay in-page). Replaces the older expanding-pill list.
+   ────────────────────────────────────────────────────────────── */
+
+.contact__social-band {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.4rem, 1.4vw, 1.1rem);
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0.4rem 0;
+}
+
+.contact__social-dot {
+    /* Equal share of the row so every dot is the same size and the whole
+       set stays on one line; max-width caps them on wide screens, while
+       min-width: 0 lets them shrink together on narrow ones. */
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 52px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    border: 1px solid var(--accent-gold);
+    color: var(--bg-primary);
+    box-shadow:
+        0 8px 18px -8px rgba(0, 0, 0, 0.6),
+        0 0 18px -2px rgba(210, 159, 34, 0.55);
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background-color 280ms ease,
+        border-color 280ms ease,
+        color 280ms ease,
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 280ms ease;
+}
+
+/* Hover / keyboard-focus — slightly elevate and intensify glow, invert colors. */
+.contact__social-dot:hover,
+.contact__social-dot:focus-visible {
+    background: var(--bg-primary);
+    color: var(--accent-gold);
+    transform: translateY(-2px);
+    box-shadow:
+        0 12px 24px -8px rgba(0, 0, 0, 0.7),
+        0 0 24px -2px rgba(210, 159, 34, 0.75);
+}
+
+.contact__social-dot:focus-visible {
+    outline: none;
+    box-shadow:
+        0 0 0 3px rgba(210, 159, 34, 0.40),
+        0 0 18px -2px rgba(210, 159, 34, 0.55);
+}
+
+.contact__social-dot-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* Sized relative to the dot so it stays proportional as the dots
+       shrink to keep the whole row on a single line. */
+    width: 44%;
+    height: 44%;
+}
+
+/* SVGs carry fixed 20px width/height attributes — let them fill the
+   (now size-varying) icon wrapper instead. */
+.contact__social-dot-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Floating label tooltip above the dot — appears on hover/focus only. */
+.contact__social-dot-tip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translate(-50%, 4px);
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.contact__social-dot:hover .contact__social-dot-tip,
+.contact__social-dot:focus-visible .contact__social-dot-tip {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .contact__social-dot,
+    .contact__social-dot-tip {
+        transition: opacity 180ms ease, background-color 180ms ease, color 180ms ease;
+    }
+    .contact__social-dot:hover {
+        transform: none;
+    }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   2-COLUMN GRID  ─  left column reserved for a future block,
+   right column holds the contact form. Collapses to a single
+   column on narrower viewports.
+   ────────────────────────────────────────────────────────────── */
+
+.contact__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: stretch;
+}
+
+.contact__grid .contact-form {
+    /* Form is now constrained by its grid cell — no extra centring margin. */
+    margin: 0;
+    max-width: 100%;
+}
+
+/* Reserved placeholder for the user's upcoming idea. Visually present
+   but intentionally quiet — a dashed boundary + a one-line label. */
+.contact__reserved {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 320px;
+    padding: var(--space-lg);
+    border: 1px dashed rgba(210, 159, 34, 0.25);
+    border-radius: 14px;
+    background:
+        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(210, 159, 34, 0.04) 0%, transparent 70%),
+        rgba(255, 255, 255, 0.015);
+    text-align: left;
+}
+
+.contact__reserved-tag {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--accent-gold);
+    padding: 4px 10px;
+    border: 1px solid rgba(210, 159, 34, 0.35);
+    border-radius: 999px;
+}
+
+.contact__reserved-note {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    max-width: 28ch;
+}
+
+/* Stack on narrower viewports so the form gets full width. */
+@media (max-width: 900px) {
+    .contact__grid {
+        grid-template-columns: 1fr;
+        max-width: 640px;
+    }
+    .contact__reserved {
+        min-height: 140px;
+        order: 2;
+    }
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* The form is almost entirely token-driven, so ivory/ink/ochre arrive on
+   their own. What's left are the dark-backdrop literals: the white
+   focus film (invisible on ivory), raw-gold borders and rings that lose
+   authority on a light page, black drop-shadows under the social dots,
+   and the reserved panel's white film. Status greens/reds are semantic
+   and untouched; the submit button's ink-on-gold label already works on
+   the ochre fill. */
+
+/* Focus film: a white wash wakes up a dark glass field, but on ivory it
+   vanishes — an equally quiet ink wash gives the same cue. */
+html[data-theme='light'] .contact-form__input:focus,
+html[data-theme='light'] .contact-form__textarea:focus {
+    background-color: rgba(20, 20, 30, 0.04);
+}
+
+/* Gold hover borders / focus rings: #d29f22 at low alpha melts into
+   ivory — restate them in ochre so the affordance survives. */
+html[data-theme='light'] .contact-form__input:hover,
+html[data-theme='light'] .contact-form__textarea:hover {
+    border-color: rgba(154, 116, 20, 0.35);
+}
+
+html[data-theme='light'] .contact-chip:hover {
+    border-color: rgba(154, 116, 20, 0.45);
+}
+
+html[data-theme='light'] .contact-chip.is-active {
+    background: rgba(154, 116, 20, 0.10);
+}
+
+html[data-theme='light'] .contact-chip:focus-visible,
+html[data-theme='light'] .contact-form__resume:focus-visible {
+    box-shadow: 0 0 0 3px rgba(154, 116, 20, 0.30);
+}
+
+html[data-theme='light'] .contact-attach:hover {
+    border-color: rgba(154, 116, 20, 0.55);
+}
+
+html[data-theme='light'] .contact-form__resume:hover {
+    background: rgba(154, 116, 20, 0.06);
+}
+
+/* Social dots: the black elevation shadows go warm and much softer —
+   hard black under a light page reads as a hole, not a lift. The gold
+   halo restates in ochre so it still ties to the dot colour. */
+html[data-theme='light'] .contact__social-dot {
+    box-shadow:
+        0 8px 18px -8px rgba(30, 30, 50, 0.21),
+        0 0 18px -2px rgba(154, 116, 20, 0.40);
+}
+
+html[data-theme='light'] .contact__social-dot:hover,
+html[data-theme='light'] .contact__social-dot:focus-visible {
+    background: var(--bg-primary);
+    color: var(--accent-gold);
+    box-shadow:
+        0 12px 24px -8px rgba(30, 30, 50, 0.25),
+        0 0 24px -2px rgba(154, 116, 20, 0.50);
+}
+
+html[data-theme='light'] .contact__social-dot:focus-visible {
+    box-shadow:
+        0 0 0 3px rgba(154, 116, 20, 0.40),
+        0 0 18px -2px rgba(154, 116, 20, 0.40);
+}
+
+/* Tooltip keeps its dark plate (standard light-UI convention), but its
+   text and hairline ride tokens that flip to ink — pin them light so
+   the label stays readable on black, and give it a warm soft shadow. */
+html[data-theme='light'] .contact__social-dot-tip {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 6px 16px rgba(30, 30, 50, 0.25);
+}
+
+/* Reserved panel: the faint white film brightens dark glass; on ivory
+   the same whisper is done with ink, and the gold aura turns ochre. */
+html[data-theme='light'] .contact__reserved {
+    border-color: rgba(154, 116, 20, 0.30);
+    background:
+        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(154, 116, 20, 0.05) 0%, transparent 70%),
+        rgba(20, 20, 30, 0.02);
+}
+
+html[data-theme='light'] .contact__reserved-tag {
+    border-color: rgba(154, 116, 20, 0.40);
+}

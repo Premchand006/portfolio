@@ -1,0 +1,84 @@
+.progress-bar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100vh;
+    width: 40px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 12px;
+}
+
+.progress-bar__fill {
+    position: absolute;
+    right: 12px;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    background: var(--accent-gold);
+    transform-origin: top;
+}
+
+.progress-bar::before {
+    content: '';
+    position: absolute;
+    right: 12px;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    background: var(--border-subtle);
+}
+
+.progress-bar__sections {
+    position: absolute;
+    right: 12px;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+}
+
+.progress-bar__marker {
+    position: absolute;
+    right: 4px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.progress-bar__marker::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--border-subtle);
+    transition: background var(--transition-fast);
+}
+
+.progress-bar__label {
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    opacity: 0;
+    transform: translateX(4px);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.progress-bar__marker:hover .progress-bar__label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.progress-bar__marker:hover::before {
+    background: var(--accent-gold);
+}
+
+@media (max-width: 768px) {
+    .progress-bar {
+        display: none;
+    }
+}

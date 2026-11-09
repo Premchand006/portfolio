@@ -1,0 +1,16 @@
+.animated-text {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.animated-text__word {
+    display: inline-flex;
+}
+
+.animated-text__char {
+    display: inline-block;
+}
+
+.animated-text__space {
+    white-space: pre;
+}

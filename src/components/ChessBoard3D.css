@@ -1,0 +1,41 @@
+/* ── ChessBoard3D ────────────────────────────────────────────────
+   Fills the Education section's right-column slot (the old book/cap
+   portal). Near-square so the rotating board reads well. Decorative. */
+.edu-chess {
+    position: relative;
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
+    /* The board renders inside the canvas with breathing room; nothing
+       here clips it. */
+    overflow: visible;
+    /* Whole board links to Chess.com. */
+    cursor: pointer;
+}
+
+.edu-chess:focus-visible {
+    outline: none;
+    border-radius: 10px;
+    box-shadow: 0 0 0 2px rgba(210, 159, 34, 0.6);
+}
+
+.edu-chess canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+@media (min-width: 980px) {
+    .edu-chess {
+        position: absolute;
+        right: 0;
+        top: 20px;
+        width: 380px;
+        flex: none;
+        max-width: none;
+        margin: 0;
+        z-index: 1;
+    }
+}

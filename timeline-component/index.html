@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timeline Component</title>
+  <meta name="description" content="Standalone Timeline component — Snake Path + Image Slider + Scroll Fill. Drop this folder into any project." />
+
+  <!-- Google Fonts (fallback for Clash Display / General Sans / JetBrains Mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,500&display=swap" rel="stylesheet" />
+
+  <!-- Component CSS (load order matters) -->
+  <link rel="stylesheet" href="css/design-system.css" />
+  <link rel="stylesheet" href="css/timeline-skin.css" />
+  <link rel="stylesheet" href="css/timeline.css" />
+
+  <style>
+    /* ── Bundled font faces (subset of Clash Display + General Sans via CDN) ── */
+    @import url('https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=general-sans@400,500,600&display=swap');
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       LOADER (pit-lane wheel burst)
+       Remove this block if your project has its own loader.
+       ═══════════════════════════════════════════════ -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader-road"></div>
+    <div class="loader-streaks" id="loaderStreaks"></div>
+
+    <div class="loader-wheel-wrap">
+      <svg class="loader-wheel loader-wheel-ghost" viewBox="0 0 400 400">
+        <use href="#lwWheel"></use>
+      </svg>
+
+      <svg class="loader-wheel" viewBox="0 0 400 400">
+        <defs>
+          <radialGradient id="lwRimGrad" cx="35%" cy="32%" r="80%">
+            <stop offset="0%" stop-color="#45454b" />
+            <stop offset="55%" stop-color="#26262a" />
+            <stop offset="100%" stop-color="#121214" />
+          </radialGradient>
+          <linearGradient id="lwSpokeGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4e4e54" />
+            <stop offset="100%" stop-color="#1b1b1e" />
+          </linearGradient>
+          <radialGradient id="lwDiscGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="50%" stop-color="#2c2c2f" />
+            <stop offset="82%" stop-color="#404045" />
+            <stop offset="100%" stop-color="#232326" />
+          </radialGradient>
+          <g id="lwSpoke">
+            <path d="M191 178 L177 78 Q186 70 195 73 L198 178 Z" fill="url(#lwSpokeGrad)" />
+            <path d="M209 178 L223 78 Q214 70 205 73 L202 178 Z" fill="url(#lwSpokeGrad)" />
+          </g>
+        </defs>
+
+        <g id="lwWheel">
+          <circle cx="200" cy="200" r="118" fill="url(#lwDiscGrad)" />
+          <circle cx="200" cy="200" r="106" fill="none" stroke="#1c1c1f" stroke-width="3" stroke-dasharray="2 11" />
+          <circle cx="200" cy="200" r="86"  fill="none" stroke="#1c1c1f" stroke-width="3" stroke-dasharray="2 9"  />
+          <path d="M319.6 144.2 A132 132 0 0 1 319.6 255.8 L290.6 242.3 A100 100 0 0 0 290.6 157.7 Z" fill="#F9B646" />
+
+          <g id="lwRotor">
+            <circle cx="200" cy="200" r="174" fill="none" stroke="#141414" stroke-width="46" />
+            <circle cx="200" cy="200" r="192" fill="none" stroke="#060606" stroke-width="8" stroke-dasharray="15 11" />
+            <circle cx="200" cy="200" r="160" fill="none" stroke="#0b0b0b" stroke-width="12" />
+            <circle cx="200" cy="42"  r="5"   fill="#F9B646" />
+            <circle cx="200" cy="200" r="152" fill="none" stroke="#4d4d53" stroke-width="2.5" />
+            <circle cx="200" cy="200" r="141" fill="none" stroke="url(#lwRimGrad)" stroke-width="21" />
+            <use href="#lwSpoke" />
+            <use href="#lwSpoke" transform="rotate(72 200 200)" />
+            <use href="#lwSpoke" transform="rotate(144 200 200)" />
+            <use href="#lwSpoke" transform="rotate(216 200 200)" />
+            <use href="#lwSpoke" transform="rotate(288 200 200)" />
+            <circle cx="200" cy="200" r="58" fill="#19191b" stroke="#2c2c30" stroke-width="2" />
+            <circle cx="200" cy="166"   r="6" fill="#8e8e96" />
+            <circle cx="232.3" cy="189.5" r="6" fill="#8e8e96" />
+            <circle cx="220" cy="227.5"  r="6" fill="#8e8e96" />
+            <circle cx="180" cy="227.5"  r="6" fill="#8e8e96" />
+            <circle cx="167.7" cy="189.5" r="6" fill="#8e8e96" />
+            <circle cx="200" cy="200" r="29" fill="#111110" stroke="#F9B646" stroke-width="2" />
+            <text x="200" y="212" text-anchor="middle" font-family="'Clash Display', sans-serif" font-size="34" font-weight="700" fill="#F9B646">V</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="loader-meta">
+      <span class="loader-brand">vee<span class="amber">.</span></span>
+      <span class="loader-tag">timeline component</span>
+    </div>
+
+    <div class="loader-line"><i></i></div>
+
+    <div class="loader-speedo">
+      <span class="loader-counter" id="loaderCounter">000</span>
+      <span class="loader-unit">ignition / km·h</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       CHROME: film grain + cursor + scroll-to-top wheel
+       Remove if your project has its own chrome layer.
+       ═══════════════════════════════════════════════ -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor-dot"  aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <button class="scroll-wheel" aria-label="Back to top">
+    <svg viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="44" fill="rgba(17,17,16,0.85)" />
+      <g class="sw-rotor">
+        <circle cx="50" cy="50" r="36" fill="none" stroke="#3a3a3e" stroke-width="5" />
+        <line x1="50" y1="50" x2="50"   y2="16"   stroke="#5a5a60" stroke-width="4" />
+        <line x1="50" y1="50" x2="82.3" y2="60.5" stroke="#5a5a60" stroke-width="4" />
+        <line x1="50" y1="50" x2="30"   y2="77.5" stroke="#5a5a60" stroke-width="4" />
+        <line x1="50" y1="50" x2="17.7" y2="39.5" stroke="#5a5a60" stroke-width="4" />
+        <line x1="50" y1="50" x2="70"   y2="22.5" stroke="#5a5a60" stroke-width="4" />
+        <circle cx="50" cy="50" r="9" fill="#F9B646" />
+      </g>
+      <circle class="sw-progress" cx="50" cy="50" r="44" />
+    </svg>
+  </button>
+
+  <!-- ═══════════════════════════════════════════════
+       PAGE SHELL
+       ═══════════════════════════════════════════════ -->
+  <div id="home" class="home">
+    <div class="homeContainer">
+
+      <!-- ── Site Header ── -->
+      <header class="site-header">
+        <a class="brand" href="#">
+          <!-- Replace with your logo img, or keep the text fallback -->
+          <span class="brand-text">vee.</span>
+        </a>
+        <nav>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#" class="active">Timeline</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Blogs</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <!-- ═══════════════════════════════════════════════
+           TIMELINE SECTION — copy from here into your page
+           ═══════════════════════════════════════════════ -->
+      <div class="timeline-container">
+
+        <!-- Title -->
+        <div class="timeline-title">
+          <div class="code-label">
+            <span class="code-fn">console</span><span class="code-dot">.</span><span class="code-method">log</span><span class="code-paren">(</span><span class="code-var">currentLife</span><span class="code-paren">)</span>
+          </div>
+          <h1>Glory<br />Logged.</h1>
+        </div>
+
+        <!-- Snake SVG progress line -->
+        <div class="timeline-progress-wrapper" id="timelineProgressWrapper">
+          <svg id="snakeSvg" class="snake-svg" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path id="snakePathBase" class="snake-path-base" fill="none" stroke="#d1d1d1" stroke-width="4" />
+            <path id="snakePathFill" class="snake-path-fill" fill="none" stroke="#F9B646" stroke-width="4" stroke-linecap="round" />
+          </svg>
+        </div>
+
+        <!-- Timeline items -->
+        <div class="timeline" id="timelineItems">
+
+          <!-- ITEM 1 — left -->
+          <div class="timeline-item left"
+               data-images='["https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/AI%20%26%20Inno%202026%20-%201st.webp","https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/AI%20%26%20Inno%20-%201.webp","https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/AI%20%26%20Inno%20-%202.webp"]'>
+            <div class="timeline-content">
+              <div class="tag-row">
+                <span class="tag">Winner</span>
+                <span class="date">26-28 Mar 2026</span>
+              </div>
+              <h2>AI &amp; Innovation at NEGC 2026, USTM</h2>
+              <p>AI &amp; Innovation — Awarded competition conducted during North East Graduate Congress-2026 held at University of Science &amp; Technology Meghalaya from 26th–28th March, 2026.</p>
+            </div>
+            <div class="timeline-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+              </svg>
+            </div>
+            <div class="timeline-image">
+              <div class="img-slider">
+                <img src="https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/AI%20%26%20Inno%202026%20-%201st.webp" alt="AI &amp; Innovation at NEGC 2026" class="slider-img active" />
+                <img src="https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/AI%20%26%20Inno%20-%201.webp"         alt="AI &amp; Innovation at NEGC 2026" class="slider-img" />
+                <img src="https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/AI%20%26%20Inno%20-%202.webp"         alt="AI &amp; Innovation at NEGC 2026" class="slider-img" />
+                <button class="slider-btn slider-prev" aria-label="Previous">&#8249;</button>
+                <button class="slider-btn slider-next" aria-label="Next">&#8250;</button>
+                <div class="slider-dots">
+                  <span class="dot active"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ITEM 2 — right -->
+          <div class="timeline-item right"
+               data-images='["https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/Prajukti%202026%20-%201st.webp","https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/Prajukti%20-%201.webp","https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/Prajukti%20-%202.webp"]'>
+            <div class="timeline-content">
+              <div class="tag-row">
+                <span class="tag">Winner</span>
+                <span class="date">11-14 Mar 2026</span>
+              </div>
+              <h2>Prajukti 2026 GCU Hackathon</h2>
+              <p>Prajukti 2026 GCU Hackathon held during GCU Varsity Week: EUPHUISM 2026 (Roots and Resilience) from 11th to 14th March, 2026.</p>
+            </div>
+            <div class="timeline-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+              </svg>
+            </div>
+            <div class="timeline-image">
+              <div class="img-slider">
+                <img src="https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/Prajukti%202026%20-%201st.webp" alt="Prajukti 2026" class="slider-img active" />
+                <img src="https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/Prajukti%20-%201.webp"         alt="Prajukti 2026" class="slider-img" />
+                <img src="https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/Prajukti%20-%202.webp"         alt="Prajukti 2026" class="slider-img" />
+                <button class="slider-btn slider-prev" aria-label="Previous">&#8249;</button>
+                <button class="slider-btn slider-next" aria-label="Next">&#8250;</button>
+                <div class="slider-dots">
+                  <span class="dot active"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ITEM 3 — left -->
+          <div class="timeline-item left"
+               data-images='["https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/CodeWar%202026%20-%202nd.webp","https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/CodeWar%20-%201.webp","https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/CodeWar%20-%202.webp"]'>
+            <div class="timeline-content">
+              <div class="tag-row">
+                <span class="tag">First Runner Up</span>
+                <span class="date">26 Feb 2026</span>
+              </div>
+              <h2>Codestellation, under CodeWar 7.0 at AEC</h2>
+              <p>This Hackathon was held by Assam Engineering College (AEC) under CodeWar 7.0 part of Pyrokinesis 2026 organised by Coding Club, AEC named as Codestellation on 26 Feb 2026.</p>
+            </div>
+            <div class="timeline-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+              </svg>
+            </div>
+            <div class="timeline-image">
+              <div class="img-slider">
+                <img src="https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/CodeWar%202026%20-%202nd.webp" alt="CodeWar 2026" class="slider-img active" />
+                <img src="https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/CodeWar%20-%201.webp"         alt="CodeWar 2026" class="slider-img" />
+                <img src="https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/CodeWar%20-%202.webp"         alt="CodeWar 2026" class="slider-img" />
+                <button class="slider-btn slider-prev" aria-label="Previous">&#8249;</button>
+                <button class="slider-btn slider-next" aria-label="Next">&#8250;</button>
+                <div class="slider-dots">
+                  <span class="dot active"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ITEM 4 — right (single image) -->
+          <div class="timeline-item right"
+               data-images='["https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/Idea%20Comp%202024%20-%201st.webp"]'>
+            <div class="timeline-content">
+              <div class="tag-row">
+                <span class="tag">Winner</span>
+                <span class="date">27 Nov 2024</span>
+              </div>
+              <h2>Ideathon — Where Ideas Compile</h2>
+              <p>First place at the Ideathon competition — a stage where raw ideas meet real execution. Pitched a solution that stood out from the crowd and brought home the win.</p>
+            </div>
+            <div class="timeline-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+              </svg>
+            </div>
+            <div class="timeline-image">
+              <div class="img-slider single">
+                <img src="https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/Idea%20Comp%202024%20-%201st.webp" alt="Ideathon 2024" class="slider-img active" />
+                <button class="slider-btn slider-prev" aria-label="Previous">&#8249;</button>
+                <button class="slider-btn slider-next" aria-label="Next">&#8250;</button>
+                <div class="slider-dots">
+                  <span class="dot active"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /.timeline -->
+      </div><!-- /.timeline-container -->
+
+      <!-- ═══ END OF TIMELINE SECTION ═══ -->
+
+    </div><!-- /.homeContainer -->
+
+    <!-- ── Site Footer ── -->
+    <footer class="site-footer">
+      <div class="footer-top">
+        <a class="brand" href="#"><span class="brand-text" style="color:var(--paper)">vee.</span></a>
+        <nav>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Timeline</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Blogs</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="footer-giant">
+        <span class="row"><span class="ghost">fall back<span class="amber">?</span></span></span>
+        <span class="row"><span>redesign<span class="amber">..!</span></span></span>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 timeline component</span>
+        <span>engineered with precision &mdash; crafted with passion</span>
+      </div>
+    </footer>
+  </div><!-- /#home -->
+
+  <!-- Fullscreen Image Modal -->
+  <div id="timelineModal" class="timeline-modal">
+    <div class="timeline-modal-content">
+      <span class="close-modal">&times;</span>
+      <button class="modal-arrow modal-prev" aria-label="Previous">&#8249;</button>
+      <img id="timelinePopupImg" alt="Fullscreen Certificate" />
+      <button class="modal-arrow modal-next" aria-label="Next">&#8250;</button>
+      <div class="modal-dots" id="modalDots"></div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       SCRIPTS
+       GSAP must load before loader.js, subpage.js, timeline.js
+       ═══════════════════════════════════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/loader.js"></script>
+  <script src="js/subpage.js"></script>
+  <script src="js/timeline.js"></script>
+
+</body>
+</html>

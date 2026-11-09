@@ -1,0 +1,97 @@
+/* MultilingualHeadline — cycling typewriter for the hero greeting. */
+
+.ml-headline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    text-align: center;
+    /* Reserve vertical space so the rest of the hero doesn't reflow as
+       short / long phrases swap in. */
+    min-height: clamp(7rem, 14vh, 11rem);
+    justify-content: center;
+}
+
+/* Off-screen probe used only to measure a phrase's natural one-line
+   width for the JS auto-fit. Kept at the base (unscaled) font size. */
+.ml-headline__measure {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    pointer-events: none;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
+
+.ml-headline__title {
+    font-family: var(--font-display);
+    color: var(--text-primary);
+    text-transform: none;
+    letter-spacing: -0.04em;
+    margin: 0;
+    user-select: none;
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+    /* Every greeting stays on a single line; the JS auto-fit scales the
+       font down so even the longest script fits the viewport width. */
+    max-width: 100%;
+    line-height: 1.05;
+    white-space: nowrap;
+}
+
+.ml-headline__text {
+    display: inline;
+}
+
+.ml-headline__caret {
+    display: inline-block;
+    width: 0.5ch;
+    height: 0.85em;
+    margin-left: 0.18em;
+    background: var(--accent-gold);
+    border-radius: 1px;
+    box-shadow: 0 0 12px rgba(210, 159, 34, 0.55);
+    animation: ml-caret-blink 0.7s ease-in-out infinite alternate;
+    transform: translateY(-0.04em);
+}
+
+@keyframes ml-caret-blink {
+    from { opacity: 1; }
+    to   { opacity: 0.18; }
+}
+
+.ml-headline__lang {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    color: var(--accent-gold);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    margin-top: 0.25rem;
+}
+
+.ml-headline__lang.is-visible {
+    opacity: 0.4;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ml-headline__caret { animation: none; }
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* Caret fill already tracks var(--accent-gold); only its hard-coded gold
+   glow needs to deepen to ochre for the ivory page. */
+html[data-theme='light'] .ml-headline__caret {
+    box-shadow: 0 0 12px rgba(154, 116, 20, 0.55);
+}

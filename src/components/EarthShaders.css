@@ -1,0 +1,84 @@
+.earth-shaders {
+    /* Constrained to a centered square (~85vmin) so the globe sits ~15%
+       smaller than the previous full-bleed canvas, while still scaling
+       with the viewport via vmin. */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 85vmin;
+    height: 85vmin;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    overflow: hidden;
+    background: transparent;
+}
+
+.earth-shaders canvas {
+    background: transparent !important;
+}
+
+.earth-loader {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 10;
+    background: #000;
+}
+
+.earth-loader__text {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    color: rgba(120, 180, 255, 0.8);
+    text-transform: uppercase;
+}
+
+.earth-loader__bar {
+    width: 200px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1px;
+    overflow: hidden;
+}
+
+.earth-loader__bar-fill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd);
+    animation: loadPulse 1.5s ease-in-out infinite;
+    transform-origin: left;
+}
+
+@keyframes loadPulse {
+
+    0%,
+    100% {
+        transform: scaleX(0.3);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
+/* ===== LIGHT THEME OVERRIDES =====
+   The hero is a daytime sky in light mode, so the loader sheds its black
+   plate — text and progress bar float on the sky while the day globe
+   streams in. */
+html[data-theme='light'] .earth-loader {
+    background: transparent;
+}
+
+html[data-theme='light'] .earth-loader__text {
+    color: rgba(20, 70, 140, 0.9);
+}
+
+html[data-theme='light'] .earth-loader__bar {
+    background: rgba(20, 20, 30, 0.15);
+}

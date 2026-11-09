@@ -1,0 +1,500 @@
+/* ─────────────────────────────────────────────────────────────
+   EducationSection — dark-mode academic timeline.
+   Mobile-first: vertical rail with circles on the left, labels
+   to the right.
+   ≥ 980px : a single centred horizontal timeline, nodes alternating
+   above/below the connecting line.
+   ───────────────────────────────────────────────────────────── */
+
+.section.section--education {
+    position: relative;
+    /* First layer melts the top & bottom edges to pure #000 so the section
+       blends with its black-edged neighbours (Code above, Journey below)
+       instead of showing education.png right up to the seam — same fix and
+       same stops as Projects / Tech Stack / Research. Middle stays clear so
+       the photo + radial still read behind the timeline. */
+    background:
+        linear-gradient(180deg,
+            #000000 0%,
+            rgba(0, 0, 0, 0) 18%,
+            rgba(0, 0, 0, 0) 82%,
+            #000000 100%),
+        radial-gradient(ellipse 60% 60% at 50% 50%,
+            rgba(0, 0, 0, 0.88) 0%,
+            rgba(0, 0, 0, 0.42) 100%),
+        url('/assets/backgrounds/education.jpg') center bottom / cover no-repeat;
+    padding: var(--space-2xl) 0;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* ── Stylized Heading ─────────────────────────────────────── */
+
+.edu-stylized-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    line-height: 1;
+    margin-bottom: 2rem;
+}
+
+.edu-stylized-script {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--text-primary);
+    transform: rotate(-4deg) translateY(25px);
+    z-index: 2;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);
+}
+
+.edu-stylized-bold {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(3rem, 7vw, 6rem);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    z-index: 1;
+}
+
+/* ── Stage: centred timeline ──────────────────────────────── */
+
+.edu-stage {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: stretch;
+    margin: clamp(2.5rem, 5vw, 4rem) auto 0;
+    width: 100%;
+    max-width: 1440px;
+}
+
+/* ── Timeline shell ───────────────────────────────────────── */
+
+.edu-timeline {
+    position: relative;
+    width: 100%;
+    flex: 1 1 auto;
+}
+
+/* Vertical rail (mobile) — replaced by the SVG path on desktop. */
+.edu-timeline::before {
+    content: '';
+    position: absolute;
+    left: 25px;
+    top: 16px;
+    bottom: 16px;
+    width: 2px;
+    background: linear-gradient(180deg,
+            transparent 0%,
+            rgba(210, 159, 34, 0.5) 6%,
+            rgba(210, 159, 34, 0.5) 94%,
+            transparent 100%);
+    z-index: 0;
+}
+
+/* ── Connecting SVG path (desktop only) ───────────────────── */
+.edu-timeline__path {
+    display: none;
+}
+
+/* ── Node list (mobile column / desktop row) ──────────────── */
+
+.edu-timeline__nodes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.edu-node {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.25rem;
+}
+
+/* Full-coverage clickable link layer (only rendered when url exists). */
+.edu-node__cover-link {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    text-decoration: none;
+    color: transparent;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+}
+
+.edu-node:has(.edu-node__cover-link:hover) .edu-node__circle {
+    border-color: rgba(210, 159, 34, 0.85);
+    box-shadow:
+        0 0 0 1px rgba(210, 159, 34, 0.2) inset,
+        0 0 26px rgba(210, 159, 34, 0.35);
+}
+
+.edu-node:has(.edu-node__cover-link:hover) .edu-node__title {
+    color: var(--accent-gold);
+}
+
+/* ── Live Website Preview Tooltip ─────────────────────────── */
+
+.edu-node__preview-tooltip {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    width: 320px;
+    height: 200px;
+    background: #000;
+    border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.1));
+    border-radius: 12px;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 100;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+/* On hover, fade in and scale up the tooltip */
+.edu-node__circle:has(.edu-node__cover-link:hover) .edu-node__preview-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) scale(1);
+}
+
+.edu-node__preview-content {
+    width: 1280px; /* Base resolution to scale down */
+    height: 800px;
+    transform: scale(0.25);
+    transform-origin: top left;
+}
+
+/* If node text label is top, tooltip goes bottom */
+.edu-node--top .edu-node__preview-tooltip {
+    top: calc(100% + 15px);
+    bottom: auto;
+}
+
+/* If node text label is bottom, tooltip goes top */
+.edu-node--bottom .edu-node__preview-tooltip {
+    bottom: calc(100% + 15px);
+    top: auto;
+}
+
+.edu-node__preview-content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    pointer-events: none;
+    background: #fff;
+}
+
+/* ── Circle node ──────────────────────────────────────────── */
+
+.edu-node__circle {
+    position: relative;
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 30% 30%,
+            rgba(2, 2, 3, 0.85) 0%,
+            rgba(20, 20, 22, 0.92) 70%);
+    border: 1.5px solid rgba(210, 159, 34, 0.45);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+        0 8px 22px -8px rgba(0, 0, 0, 0.7),
+        0 0 18px rgba(210, 159, 34, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+    z-index: 1;
+}
+
+.edu-node__circle .logo {
+    width: 52px !important;
+    height: 52px !important;
+    border: 0 !important;
+    background: transparent !important;
+    border-radius: 50% !important;
+    overflow: hidden;
+}
+
+.edu-node__circle .logo img {
+    object-fit: contain;
+    background: #ffffff;
+    border-radius: 50%;
+    padding: 6%;
+}
+
+.edu-node__circle .logo__initials {
+    color: var(--accent-gold) !important;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+}
+
+/* ── Label block ──────────────────────────────────────────── */
+
+.edu-node__label {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding-top: 0.1rem;
+}
+
+.edu-node__year {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.edu-node__title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    letter-spacing: -0.005em;
+    line-height: 1.25;
+    transition: color var(--transition-base);
+}
+
+.edu-node__degree {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.edu-node__detail {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+}
+
+/* ── Desktop horizontal roadmap ───────────────────────────── */
+
+@media (min-width: 980px) {
+
+    /* Hide the mobile vertical rail; the SVG path takes over. */
+    .edu-timeline::before {
+        display: none;
+    }
+
+    .edu-stage {
+        position: relative;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+        height: clamp(340px, 34vw, 420px);
+        gap: 0;
+    }
+
+    .edu-timeline {
+        --desktop-line-display: block;
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 1100px;
+        height: clamp(320px, 32vw, 400px);
+        transform: translateY(-50px);
+        z-index: 2;
+    }
+
+    .edu-timeline__path {
+        display: block;
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .edu-timeline__nodes {
+        flex-direction: row;
+        gap: 0;
+        height: 100%;
+        align-items: stretch;
+    }
+
+    /* Each node spans the full timeline height; circle is centred
+       vertically (on the wave line), label sits above OR below. */
+    .edu-node {
+        flex: 1;
+        min-width: 0;
+        height: 100%;
+        display: block;
+        /* override mobile flex so absolute kids work */
+        padding: 0;
+    }
+
+    .edu-node__cover-link {
+        inset: 0;
+    }
+
+    /* Circle locked to the centre line (50% of timeline height). */
+    .edu-node__circle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+    }
+
+    .edu-node:has(.edu-node__cover-link:hover) .edu-node__circle {
+        transform: translate(-50%, -50%) scale(1.06);
+    }
+
+    /* Label is a separately-anchored block above (top) or below (bottom). */
+    .edu-node__label {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: clamp(170px, 18vw, 220px);
+        gap: 0.18rem;
+        padding: 0;
+        text-align: center;
+    }
+
+    .edu-node--top .edu-node__label {
+        bottom: calc(50% + 58px);
+        /* clear the circle's top edge */
+        text-align: center;
+    }
+
+    .edu-node--bottom .edu-node__label {
+        top: calc(50% + 58px);
+        /* clear the circle's bottom edge */
+    }
+
+    /* Tiny connector tick from label to the wave path. */
+    .edu-node__label::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 1px;
+        height: 14px;
+    }
+
+    .edu-node--top .edu-node__label::after {
+        bottom: -18px;
+        background: linear-gradient(180deg, rgba(210, 159, 34, 0), rgba(210, 159, 34, 0.5));
+    }
+
+    .edu-node--bottom .edu-node__label::after {
+        top: -18px;
+        background: linear-gradient(180deg, rgba(210, 159, 34, 0.5), rgba(210, 159, 34, 0));
+    }
+}
+
+/* ── Reduced motion ───────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .edu-node__circle,
+    .edu-node__title {
+        transition: none;
+        animation: none;
+    }
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* The education.png photo stays; only the treatment flips. Black
+   edge-melts and the dark radial become ivory veils so the photo reads
+   as a sunlit backdrop instead of a night scene, the dark orbs become
+   porcelain, and every raw-gold rail/connector restates in ochre so it
+   holds its line against the light page. */
+
+/* Same edge-melt + veil structure as dark, keyed to ivory: the top and
+   bottom seams dissolve into the page colour so the section still blends
+   with its neighbours, and the centre veil keeps the timeline legible
+   over the photo without hiding it. */
+html[data-theme='light'] .section.section--education {
+    background:
+        linear-gradient(180deg,
+            #ffffff 0%,
+            rgba(255, 255, 255, 0) 18%,
+            rgba(255, 255, 255, 0) 82%,
+            #ffffff 100%),
+        radial-gradient(ellipse 60% 60% at 50% 50%,
+            rgba(255, 255, 255, 0.45) 0%,
+            rgba(255, 255, 255, 0.15) 100%),
+        url('/assets/backgrounds/education_white.png') center bottom / cover no-repeat;
+}
+
+/* Script heading: the heavy black throw becomes a warm soft one. */
+html[data-theme='light'] .edu-stylized-script {
+    text-shadow: 0 4px 15px rgba(30, 30, 50, 0.35);
+}
+
+/* Vertical rail (mobile): gold → ochre so the line keeps contrast. */
+html[data-theme='light'] .edu-timeline::before {
+    background: linear-gradient(180deg,
+            transparent 0%,
+            rgba(154, 116, 20, 0.5) 6%,
+            rgba(154, 116, 20, 0.5) 94%,
+            transparent 100%);
+}
+
+/* Live-preview tooltip stays a dark plate (standard light-UI); just
+   trade the black throw for a warm shadow and keep a light hairline so
+   the plate doesn't lose its edge against the page. */
+html[data-theme='light'] .edu-node__preview-tooltip {
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow:
+        0 10px 30px rgba(30, 30, 50, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+/* Circle nodes: the near-black orb becomes porcelain — a white-to-bone
+   radial with an ochre ring, a bright inner rim instead of the faint
+   white one, and a warm lift instead of the black drop. */
+html[data-theme='light'] .edu-node__circle {
+    background:
+        radial-gradient(circle at 30% 30%,
+            #ffffff 0%,
+            #f2f2f2 70%);
+    border-color: rgba(154, 116, 20, 0.5);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.7) inset,
+        0 8px 22px -8px rgba(30, 30, 50, 0.22),
+        0 0 18px rgba(154, 116, 20, 0.12);
+}
+
+/* Hover ring + glow restated in ochre. */
+html[data-theme='light'] .edu-node:has(.edu-node__cover-link:hover) .edu-node__circle {
+    border-color: rgba(154, 116, 20, 0.85);
+    box-shadow:
+        0 0 0 1px rgba(154, 116, 20, 0.2) inset,
+        0 0 26px rgba(154, 116, 20, 0.3);
+}
+
+/* Label-to-path connector ticks (desktop): gold → ochre. */
+html[data-theme='light'] .edu-node--top .edu-node__label::after {
+    background: linear-gradient(180deg, rgba(154, 116, 20, 0), rgba(154, 116, 20, 0.5));
+}
+
+html[data-theme='light'] .edu-node--bottom .edu-node__label::after {
+    background: linear-gradient(180deg, rgba(154, 116, 20, 0.5), rgba(154, 116, 20, 0));
+}

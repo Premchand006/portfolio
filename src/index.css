@@ -1,0 +1,773 @@
+/* Web fonts — Clash Display (display) + Satoshi (body), one Fontshare link.
+   Loaded here so dev HMR picks it up instantly; the config typography tokens
+   mirror these names for the pre-paint inline vars. */
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700,900&display=swap');
+
+/* RESPONSIVE SYSTEM: All fluid sizing tokens live in responsive.css and are
+   loaded before this file. Never hardcode px for font-size, width, height,
+   margin, or padding — use clamp(), %, vw, or the --space-* / --fluid-* /
+   --font-* token variables instead. Cosmetic px (borders, radii, shadow blur,
+   small icons) are fine. See RESPONSIVE_RULES.md. */
+
+/* ========================================
+   DESIGN SYSTEM - CSS VARIABLES
+   ======================================== */
+
+:root {
+  /* === Cinematic palette — black / muted-gold / dark-gray / burgundy / white ===
+     Five colours only. Every section sits on a black canvas (and shades of
+     black) carrying a subtle burgundy atmospheric wash, so the whole site
+     reads as one darkened theatre. Neutrals below #fff are white-at-opacity,
+     never new hues; burgundy is dark, so it is fill/glow/border, never text. */
+  --bg-globe: #000000;
+  --bg-primary: #000000;
+  --bg-secondary: #252628;
+  --bg-tertiary: #1a1a1c;
+  --bg-glass: rgba(255, 255, 255, 0.03);
+
+  /* Surfaces (cards / panels / inputs) and a step-darker nested surface. */
+  --surface: #252628;
+  --surface-2: #1a1a1c;
+
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.62);
+  --text-muted: rgba(255, 255, 255, 0.40);
+
+  /* Muted gold — the single accent / CTA / highlight colour. */
+  --accent-gold: #d29f22;
+  --accent-gold-soft: #e0b23f;
+  --accent-gold-dim: rgba(210, 159, 34, 0.15);
+  --accent-gold-bright: rgba(210, 159, 34, 0.85);
+  --gold-glow: rgba(210, 159, 34, 0.40);
+
+  /* Deep burgundy — second accent: atmosphere, secondary button, borders. */
+  --accent-deep: #5d0018;
+  --accent-drama: #5d0018;
+  --accent-red: #C62828;
+  --accent-red-glow: rgba(198, 40, 40, 0.45);
+  --burgundy-glow: rgba(93, 0, 24, 0.55);
+
+  --border-color: #252628;
+  --border-subtle: rgba(255, 255, 255, 0.10);
+  --border-hover: rgba(210, 159, 34, 0.5);
+
+  /* Border shine — clockwise sweep gradient applied to .shine-border */
+  --border-shine-1: #d29f22;
+  --border-shine-2: #e0b23f;
+  --border-shine-3: #5d0018;
+
+  /* Section progress / navigator dots */
+  --nav-dot-active: #d29f22;
+  --nav-dot-inactive: #252628;
+
+  /* Astral layer */
+  --star-color: #d29f22;
+  --meteor-color: #e0b23f;
+
+  /* Loading spinner */
+  --spinner-bg: #3a3a3c;
+  --spinner-fill: #d29f22;
+
+  /* Arceus chat accents */
+  --arceus-accent: #5d0018;
+  --arceus-highlight: #d29f22;
+
+  /* Subtle mute toggle */
+  --mute-icon: rgba(255, 255, 255, 0.3);
+
+  /* Hero canvas backing — globe sits on pure black (globe itself untouched) */
+  --hero-canvas-bg: #000000;
+
+  /* Typography — Clash Display headings, Satoshi body, system monospace for
+     code/meta. Swapped off Times New Roman site-wide. */
+  --font-display: 'Clash Display', system-ui, sans-serif;
+  --font-body: 'Satoshi', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Segoe UI Mono', Menlo, Consolas, monospace;
+
+  /* Spacing (8-point grid) */
+  --space-xs: 0.25rem;
+  /* 4px */
+  --space-sm: 0.5rem;
+  /* 8px */
+  --space-md: 1rem;
+  /* 16px */
+  --space-lg: 2rem;
+  /* 32px */
+  --space-xl: 4rem;
+  /* 64px */
+  --space-2xl: 8rem;
+  /* 128px */
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 500ms ease;
+
+  /* Grid */
+  --grid-gap: 1.5rem;
+  --container-max: 1400px;
+  --container-padding: 2rem;
+
+  /* Elevation */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.5);
+  --shadow-gold: 0 0 24px rgba(210, 159, 34, 0.16);
+
+  /* === Glass system ===
+     Translucent dark surfaces that blur whatever sits behind them. Only use
+     on surfaces that overlap imagery / canvas / photo (e.g. the contact photo
+     backdrop, the experience desk banner) — on flat black they just read as
+     plain dark panels. Tiered blur keeps the look consistent across the site.
+     Stays dark-tinted, never bright frost, to preserve the cinematic palette. */
+  --glass-blur-sm: 8px;
+  /* small dots / scrims */
+  --glass-blur-md: 12px;
+  /* cards / inputs */
+  --glass-blur-lg: 16px;
+  /* always-on floating pills */
+  --glass-surface: rgba(20, 20, 22, 0.55);
+  --glass-surface-strong: rgba(20, 20, 22, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  /* Outline-glass headline stroke — bright white border for big headlines. */
+  --display-stroke: rgba(255, 255, 255, 0.82);
+
+  color-scheme: dark;
+}
+
+/* ========================================
+   LIGHT THEME — "gallery daylight"
+   The same five-colour cinematic system, re-lit: the black theatre becomes a
+   warm ivory gallery. Gold darkens to ochre so it keeps contrast as text/UI;
+   burgundy — unreadable on black — is promoted to a first-class accent here.
+   Toggled via data-theme on <html> (src/hooks/useTheme.js). Scoped WITHOUT
+   .m-active so it drives the desktop build; the mobile chunk keeps its own
+   scoped tokens in MobileApp.css which win where defined.
+   ======================================== */
+html[data-theme='light'] {
+  /* The hero flips to a daytime sky in light mode (Sections.css paints the
+     gradient; the globe canvas is transparent), so the globe backing simply
+     matches the page. */
+  --bg-globe: #ffffff;
+  --bg-primary: #ffffff;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f4f5f7;
+  --bg-glass: rgba(20, 20, 30, 0.03);
+
+  --surface: #ffffff;
+  --surface-2: #f4f5f7;
+
+  --text-primary: #1a1a2e;
+  --text-secondary: rgba(20, 20, 30, 0.68);
+  --text-muted: rgba(20, 20, 30, 0.46);
+
+  /* Gold darkens to ochre for contrast on white. */
+  --accent-gold: #9a7414;
+  --accent-gold-soft: #b08a1e;
+  --accent-gold-dim: rgba(154, 116, 20, 0.12);
+  --accent-gold-bright: rgba(139, 104, 16, 0.95);
+  --gold-glow: rgba(178, 134, 24, 0.28);
+
+  --accent-deep: #5d0018;
+  --accent-drama: #5d0018;
+  --accent-red: #b02020;
+  --accent-red-glow: rgba(176, 32, 32, 0.22);
+  --burgundy-glow: rgba(93, 0, 24, 0.18);
+
+  --border-color: #e4e5e8;
+  --border-subtle: rgba(20, 20, 30, 0.12);
+  --border-hover: rgba(154, 116, 20, 0.55);
+
+  --border-shine-1: #b08a1e;
+  --border-shine-2: #9a7414;
+  --border-shine-3: #5d0018;
+
+  --nav-dot-active: #9a7414;
+  --nav-dot-inactive: #d9d9d9;
+
+  --star-color: #a87b12;
+  --meteor-color: #8a6a10;
+
+  --spinner-bg: #e6e6e6;
+  --spinner-fill: #9a7414;
+
+  --arceus-accent: #5d0018;
+  --arceus-highlight: #9a7414;
+
+  --mute-icon: rgba(20, 20, 30, 0.35);
+
+  --hero-canvas-bg: #ffffff;
+
+  --shadow-sm: 0 2px 8px rgba(30, 30, 50, 0.08);
+  --shadow-md: 0 8px 28px rgba(30, 30, 50, 0.12);
+  --shadow-gold: 0 0 24px rgba(154, 116, 20, 0.15);
+
+  /* Glass flips from smoked to frosted — bright, softly bordered. */
+  --glass-surface: rgba(255, 255, 255, 0.62);
+  --glass-surface-strong: rgba(255, 255, 255, 0.80);
+  --glass-border: rgba(20, 20, 30, 0.10);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.70);
+
+  /* Outline-glass headlines stroke in ink instead of white. */
+  --display-stroke: rgba(20, 20, 30, 0.80);
+
+  color-scheme: light;
+}
+
+
+
+
+/* ========================================
+   CSS RESET
+   ======================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Fluid root: ~16px at 1024px, gently up to ~18px on ultrawide (2560px+),
+     so every rem-based value (including the clamp() type scales) breathes on
+     large screens without a hard jump. */
+  font-size: clamp(16px, calc(15px + 0.18vw), 18px);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+  overflow: hidden;
+  height: 100%;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+img,
+video {
+  height: auto;
+}
+
+/* Global interactive cursor */
+a,
+button,
+[role="button"],
+[tabindex="0"] {
+  cursor: pointer;
+}
+
+/* ========================================
+   TYPOGRAPHY
+   ======================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.display-xl {
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.display-lg {
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.heading-1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+
+.heading-2 {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.heading-3 {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+}
+
+.body-lg {
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+
+.body-sm {
+  font-size: 0.875rem;
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.label-sm {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+/* ========================================
+   LAYOUT UTILITIES
+   ======================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-content {
+  flex: 1;
+  padding: var(--space-xl) 0;
+}
+
+.grid {
+  display: grid;
+  gap: var(--grid-gap);
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-auto {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.gap-xs {
+  gap: var(--space-xs);
+}
+
+.gap-sm {
+  gap: var(--space-sm);
+}
+
+.gap-md {
+  gap: var(--space-md);
+}
+
+.gap-lg {
+  gap: var(--space-lg);
+}
+
+.gap-xl {
+  gap: var(--space-xl);
+}
+
+/* ========================================
+   COMPONENTS
+   ======================================== */
+
+/* Search Highlight */
+mark,
+.highlight {
+  background: transparent;
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Focus States */
+:focus-visible {
+  outline: 1px solid var(--accent-gold-bright);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Selection */
+::selection {
+  background: var(--accent-gold);
+  color: var(--bg-primary);
+}
+
+/* ========================================
+   SECTION HEADER PATTERN
+   ======================================== */
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent-gold);
+  margin-bottom: var(--space-md);
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--accent-gold);
+  opacity: 0.6;
+}
+
+/* ========================================
+   OUTLINE-GLASS DISPLAY TYPE
+   Bright stroked border + a faint translucent fill, so the section backdrop
+   shows through the letters (the "glassy middle"). For the LARGEST headlines
+   only — it trades legibility for impact at small sizes. Looks best on the
+   heavy Clash Display so the stroke carries weight. Add `display-glass` to any
+   big headline, or use the section-title treatment below.
+   ======================================== */
+.display-glass {
+  color: rgba(255, 255, 255, 0.06);
+  -webkit-text-stroke: 1.4px var(--display-stroke);
+  text-stroke: 1.4px var(--display-stroke);
+  paint-order: stroke fill;
+  text-shadow:
+    0 0 22px rgba(255, 255, 255, 0.12),
+    0 0 60px rgba(210, 159, 34, 0.10);
+}
+
+/* Light: the glass fill goes ink-tinted and the white halo would read as a
+   smudge on paper — swap it for a faint warm gold lift. */
+html[data-theme='light'] .display-glass,
+html[data-theme='light'] .section__title {
+  color: rgba(20, 20, 30, 0.05);
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.55),
+    0 0 44px rgba(154, 116, 20, 0.12);
+}
+
+/* The glyphs of nested-span headlines (the .text-accent word, AnimatedText
+   chars) live in child elements, and -webkit-text-stroke-width does NOT
+   inherit by default — force it so the outline shows on every letter, not
+   just the directly-typed ones. */
+.section__title *,
+.display-glass * {
+  -webkit-text-stroke: inherit;
+}
+
+/* ── Red accent word inside section titles ──
+   The accent span is filled with a vivid red and uses a solid opaque fill
+   so it pops against the outline-glass headings. A soft red glow behind
+   the letters adds depth without overwhelming the dark palette. */
+.text-accent {
+  color: var(--accent-red) !important;
+  -webkit-text-fill-color: var(--accent-red);
+  -webkit-text-stroke-color: var(--accent-red);
+  text-shadow:
+    0 0 18px var(--accent-red-glow),
+    0 0 40px rgba(198, 40, 40, 0.18);
+  filter: drop-shadow(0 0 6px var(--accent-red-glow));
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --container-padding: 1.25rem;
+    --grid-gap: 1rem;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --space-xl: 2.5rem;
+    --space-2xl: 5rem;
+  }
+}
+
+/* ========================================
+   MOBILE / TABLET SAFETY NET
+   Replaces the previous MobileGate (which blocked < 1024px entirely).
+   Goal: site is usable on touch devices without sacrificing the desktop
+   cinematic experience. Specifics:
+     - allow oversized inline content (VSCode mock, code lines, marquees)
+       to scroll horizontally instead of overflowing the viewport
+     - prevent iOS text-size auto-zoom which breaks the design grid
+   ======================================== */
+
+@media (max-width: 1023px) {
+  /* Box-sizing safety: prevents long words / fixed-width children from
+     forcing horizontal page scroll. */
+  html,
+  body,
+  #root,
+  .app {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  /* Allow horizontally-overflowing inline content (e.g. VS Code mock,
+     code blocks, wide tables) to scroll inside its own bounds instead
+     of bleeding into the page. */
+  pre,
+  code,
+  .vscode-editor,
+  .code-section__editor,
+  .marquee {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* iOS Safari: stop the auto-zoom on text fields by ensuring the rendered
+   font-size is ≥ 16px on inputs/textareas. */
+input,
+textarea,
+select {
+  font-size: max(1rem, 16px);
+}
+
+/* ========================================
+   SECTION BACKGROUND LAYER
+   A single fixed div behind everything, painted flat pure black (#000000)
+   for every section. ([data-active-section] is still set on <html> and drives
+   the home-only starfield/meteor visibility below.)
+   ======================================== */
+
+/* Single flat pure-black backdrop behind every section. Sections are
+   transparent, so this is the one continuous background for the whole flow.
+   Burgundy lives only as accents (buttons, card borders) — never here. */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--bg-primary, #000000);
+  pointer-events: none;
+  transition: background-color 0.45s ease;
+}
+
+/* Light theme: the hero paints its own daytime-sky gradient (Sections.css)
+   and every other section supplies its own light backdrop, so this layer is
+   simply the white page in light mode — no per-section exceptions. */
+
+/* Star + meteor layers fade out when not on the home section so they
+   never bleed into the rest of the portfolio. */
+html:not([data-active-section="home"]) .starfield,
+html:not([data-active-section="home"]) .meteor-container {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+html[data-active-section="home"] .starfield,
+html[data-active-section="home"] .meteor-container {
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+
+/* Light theme: the hero is broad daylight (real-sky gradient, day-lit
+   globe) — stars and meteors belong to the night sky, so the space layers
+   stay hidden everywhere. Placed after the home rules above so it wins the
+   specificity tie. */
+html[data-theme='light'] .starfield,
+html[data-theme='light'] .meteor-container {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ========================================
+   SHINE BORDER — global hover sweep
+   Apply `.shine-border` to any card/box. On hover a conic-gradient streak
+   rotates clockwise around the border continuously. Animation pauses when
+   the cursor leaves. Replaces all transform-based hover effects.
+   ======================================== */
+
+.shine-border {
+  position: relative;
+  z-index: 0;
+  border-radius: 8px;
+  isolation: isolate;
+}
+
+.shine-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  /* 2px ring (was 1px) so the clockwise sweep is clearly visible on every
+     bordered button — not just dark ones. */
+  padding: 2px;
+  background: conic-gradient(
+    from var(--shine-angle, 0deg),
+    transparent 0%,
+    var(--border-shine-1) 20%,
+    var(--border-shine-2) 40%,
+    var(--border-shine-3) 60%,
+    transparent 80%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  /* Soft glow so the ring reads against any background, incl. the solid
+     gold CTA where a gold-only ring would otherwise disappear. */
+  filter: drop-shadow(0 0 5px rgba(210, 159, 34, 0.45));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: -1;
+}
+
+@property --shine-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes shine-rotate {
+  to { --shine-angle: 360deg; }
+}
+
+.shine-border:hover::before,
+.shine-border:focus-visible::before {
+  opacity: 1;
+  animation: shine-rotate 1.8s linear infinite;
+}
+
+/* Fallback for browsers without @property — still get a visible glow,
+   just no rotation. */
+@supports not (background: conic-gradient(from var(--shine-angle), red, blue)) {
+  .shine-border:hover::before {
+    background: linear-gradient(
+      120deg,
+      transparent,
+      var(--border-shine-1),
+      var(--border-shine-2),
+      transparent
+    );
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+/* @media (prefers-reduced-motion: reduce) {
+
+  *:not(.meteor):not(.marquee__track):not(.marquee__track--reverse):not(.marquee__chip):not(.marquee__chip-icon):not(.marquee__chip-icon img):not(.marquee__chip-letter),
+  *:not(.meteor):not(.marquee__track):not(.marquee__track--reverse):not(.marquee__chip):not(.marquee__chip-icon):not(.marquee__chip-icon img):not(.marquee__chip-letter)::before,
+  *:not(.meteor):not(.marquee__track):not(.marquee__track--reverse):not(.marquee__chip):not(.marquee__chip-icon):not(.marquee__chip-icon img):not(.marquee__chip-letter)::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+} */

@@ -1,0 +1,236 @@
+/* ── DinoRunner ──────────────────────────────────────────────────
+   Chrome-dino strip at the bottom of a section. Three layers:
+     1. A near-black sky gradient that fades into whatever sits above.
+     2. A ground line + tick marks.
+     3. A row of cacti and a dino that translates across the strip
+        with a synchronised jump animation over each cactus.
+   All durations chain off a shared 8-second tempo so the dino's
+   jump apex lands exactly when its sprite crosses each cactus.  */
+
+.dino-runner {
+    position: relative;
+    width: 100%;
+    height: clamp(170px, 18vh, 215px);
+    flex-shrink: 0;
+    overflow: hidden;
+    background: transparent;
+    color: #e8e8e8;             /* default fill colour for the dino / cacti */
+    pointer-events: none;
+    z-index: 5;
+    margin-top: 10px;
+}
+
+.dino-runner__sky {
+    position: absolute;
+    inset: 0 0 30px 0;
+    background: linear-gradient(180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.45) 100%);
+}
+
+/* ── Ground line ─────────────────────────────────────────────── */
+.dino-runner__ground {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 28px;
+    height: 2px;
+    background:
+        linear-gradient(90deg,
+            rgba(232, 232, 232, 0.55),
+            rgba(232, 232, 232, 0.55));
+    /* Tick marks — small dashes scrolling right-to-left for a sense
+       of motion, identical to the Chrome dino game floor. */
+}
+
+.dino-runner__ground::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 4px;
+    height: 2px;
+    background-image:
+        repeating-linear-gradient(90deg,
+            rgba(232, 232, 232, 0.45) 0,
+            rgba(232, 232, 232, 0.45) 6px,
+            transparent 6px,
+            transparent 32px);
+    /* Road line stays still — only the dino runs. */
+}
+
+/* ── Cactus ──────────────────────────────────────────────────── */
+.dino-runner__cactus {
+    position: absolute;
+    bottom: 30px;
+    color: #d6d6d6;
+    line-height: 0;
+    transform: translateX(-50%);
+}
+
+.dino-runner__cactus--small .dino-runner__cactus-svg {
+    width: 20px;
+    height: 40px;
+}
+
+.dino-runner__cactus--large .dino-runner__cactus-svg {
+    width: 34px;
+    height: 56px;
+}
+
+/* ── Dino ───────────────────────────────────────────────────── */
+/* Two nested elements so the X and Y animations live on separate
+   transforms and never override each other:
+     .dino-runner__dino       — outer wrapper, animates `left` 0%→100% of
+                                the strip. A static translateX(-50%) keeps
+                                the sprite centered on its `left` value, so
+                                the dino's CENTER coincides exactly with the
+                                cactus centers (which also live at left:%).
+     .dino-runner__dino-jump  — inner wrapper, owns the parabolic Y jump. */
+.dino-runner__dino {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    width: 88px;
+    height: 96px;
+    color: #f3f3f3;
+    transform: translateX(-50%);
+    animation: dino-run-x 8s linear infinite;
+    will-change: left;
+}
+
+.dino-runner__dino-jump {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    animation: dino-jump 8s linear infinite;
+    will-change: transform;
+}
+
+/* Linear sweep across the full strip. Because the dino is centered on
+   its `left` value, `left: X%` puts its centerline exactly at X% — the
+   same coordinate the cacti use. */
+@keyframes dino-run-x {
+    from { left: 0%; }
+    to   { left: 100%; }
+}
+
+/* Cactus centers are at left: 22%, 48%, 74%. Each jump is a ~10% window
+   centered on the cactus so the apex coincides with the cactus center.
+   Per-keyframe `animation-timing-function` shapes a real gravity arc:
+     • launch (ground → apex)  cubic-bezier(0.33, 0, 0.4, 1)  — fast up, ease into apex
+     • fall   (apex → ground)  cubic-bezier(0.6, 0, 0.67, 1)  — slow drop, accelerate to ground
+   This mimics gravity instead of a symmetric sine wave. */
+@keyframes dino-jump {
+    0%   { transform: translateY(0); }
+
+    /* Jump 1 — over the small cactus at 22% */
+    16%  { transform: translateY(0);     animation-timing-function: cubic-bezier(0.33, 0, 0.4, 1); }
+    22%  { transform: translateY(-64px); animation-timing-function: cubic-bezier(0.6, 0, 0.67, 1); }
+    28%  { transform: translateY(0); }
+
+    /* Jump 2 — over the LARGE cactus at 48%; higher apex */
+    42%  { transform: translateY(0);     animation-timing-function: cubic-bezier(0.33, 0, 0.4, 1); }
+    48%  { transform: translateY(-84px); animation-timing-function: cubic-bezier(0.6, 0, 0.67, 1); }
+    54%  { transform: translateY(0); }
+
+    /* Jump 3 — over the small cactus at 74% */
+    68%  { transform: translateY(0);     animation-timing-function: cubic-bezier(0.33, 0, 0.4, 1); }
+    74%  { transform: translateY(-64px); animation-timing-function: cubic-bezier(0.6, 0, 0.67, 1); }
+    80%  { transform: translateY(0); }
+
+    100% { transform: translateY(0); }
+}
+
+.dino-runner__dino-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    /* Scaled down by 0.2× (to 0.8), anchored at the feet so the dino
+       still rests exactly on the ground line. */
+    transform: scale(1);
+    transform-origin: bottom center;
+    animation: dino-legs 0.18s steps(1) infinite;
+}
+
+.dino-runner__dino-svg--left  { animation-delay: 0s; }
+.dino-runner__dino-svg--right { animation-delay: 0.09s; }
+
+@keyframes dino-legs {
+    0%, 49.9%   { opacity: 1; }
+    50%, 100%   { opacity: 0; }
+}
+
+
+
+/* Tighter strip on small screens — same proportions, less vertical
+   noise. */
+@media (max-width: 640px) {
+    .dino-runner { height: 155px; }
+    .dino-runner__dino { width: 64px; height: 68px; }
+    .dino-runner__cactus--small .dino-runner__cactus-svg { width: 14px; height: 28px; }
+    .dino-runner__cactus--large .dino-runner__cactus-svg { width: 24px; height: 40px; }
+    @keyframes dino-jump {
+        0% { transform: translateY(0); }
+        
+        17% { transform: translateY(0); animation-timing-function: cubic-bezier(0.33, 0, 0.4, 1); }
+        22% { transform: translateY(-38px); animation-timing-function: cubic-bezier(0.6, 0, 0.67, 1); }
+        27% { transform: translateY(0); }
+        
+        43% { transform: translateY(0); animation-timing-function: cubic-bezier(0.33, 0, 0.4, 1); }
+        48% { transform: translateY(-50px); animation-timing-function: cubic-bezier(0.6, 0, 0.67, 1); }
+        53% { transform: translateY(0); }
+        
+        69% { transform: translateY(0); animation-timing-function: cubic-bezier(0.33, 0, 0.4, 1); }
+        74% { transform: translateY(-38px); animation-timing-function: cubic-bezier(0.6, 0, 0.67, 1); }
+        79% { transform: translateY(0); }
+
+        100% { transform: translateY(0); }
+    }
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* The whole strip inverts: the near-black sky becomes an ivory haze that
+   feathers into whatever light section sits above, and the light-grey
+   sprites become ink so the dino / cacti / ground keep the same contrast
+   they had on black. Animations are untouched — colours only. */
+
+html[data-theme='light'] .dino-runner {
+    background:
+        linear-gradient(180deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.55) 35%,
+            #ffffff 100%);
+    color: #3a362c;             /* default fill colour for the dino / cacti */
+}
+
+html[data-theme='light'] .dino-runner__sky {
+    background: linear-gradient(180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.45) 100%);
+}
+
+html[data-theme='light'] .dino-runner__ground {
+    background:
+        linear-gradient(90deg,
+            rgba(58, 54, 44, 0.55),
+            rgba(58, 54, 44, 0.55));
+}
+
+html[data-theme='light'] .dino-runner__ground::after {
+    background-image:
+        repeating-linear-gradient(90deg,
+            rgba(58, 54, 44, 0.45) 0,
+            rgba(58, 54, 44, 0.45) 6px,
+            transparent 6px,
+            transparent 32px);
+}
+
+html[data-theme='light'] .dino-runner__cactus {
+    color: #4a4538;
+}
+
+html[data-theme='light'] .dino-runner__dino {
+    color: #2e2a20;
+}

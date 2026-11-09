@@ -1,0 +1,155 @@
+/* ========================================
+   INFINITE MARQUEE — Techstack strip
+   ======================================== */
+
+.marquee {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: var(--space-xl);
+    /* Fade edges */
+    -webkit-mask-image: linear-gradient(to right,
+            transparent 0%,
+            black 8%,
+            black 92%,
+            transparent 100%);
+    mask-image: linear-gradient(to right,
+            transparent 0%,
+            black 8%,
+            black 92%,
+            transparent 100%);
+}
+
+/* Row wrapper — clips overflow */
+.marquee__track-wrapper {
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Moving strip — contains 2× items for seamless loop */
+.marquee__track {
+    display: flex;
+    gap: 0.875rem;
+    width: max-content;
+    animation: scrollLeft 36s linear infinite;
+    will-change: transform;
+}
+
+.marquee__track--reverse {
+    animation: scrollRight 40s linear infinite;
+}
+
+@keyframes scrollLeft {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes scrollRight {
+    0% {
+        transform: translateX(-50%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Pause on hover */
+.marquee:hover .marquee__track {
+    animation-play-state: paused;
+}
+
+/* ========================================
+   CHIP
+   ======================================== */
+
+.marquee__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.5rem 1rem 0.5rem 0.75rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    white-space: nowrap;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    transition:
+        border-color 250ms ease,
+        background 250ms ease,
+        transform 250ms ease;
+    flex-shrink: 0;
+}
+
+.marquee__chip:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(210, 159, 34, 0.30);
+}
+
+.marquee__chip:hover {
+    border-color: var(--chip-color, var(--accent-gold));
+    background: color-mix(in srgb, var(--chip-color, var(--accent-gold)) 8%, var(--bg-secondary));
+}
+
+/* Icon container */
+.marquee__chip-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+/* Simple Icons img — always in the official brand color from the
+   simpleicons CDN. Hover adds a small lift + brand-tinted glow. */
+.marquee__chip-icon img {
+    width: 20px;
+    height: 20px;
+    opacity: 1;
+    display: block;
+    transition: transform 250ms ease, filter 250ms ease;
+}
+
+.marquee__chip:hover .marquee__chip-icon img {
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--chip-color, var(--accent-gold)) 55%, transparent));
+}
+
+/* Text-initial fallback badge */
+.marquee__chip-letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--chip-color, var(--accent-gold));
+    color: #000;
+    font-size: 0.625rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    opacity: 0.8;
+    font-family: var(--font-display);
+}
+
+/* Chip name */
+.marquee__chip-name {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: 0.01em;
+    transition: color 250ms ease;
+}
+
+.marquee__chip:hover .marquee__chip-name {
+    color: var(--text-primary);
+}

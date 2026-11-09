@@ -1,0 +1,323 @@
+/* ──────────────────────────────────────────────────────────────
+   RESEARCH SECTION
+   Deck of paper cards. Stacked on the right at rest, spread across
+   the row when triggered. Each card opens its publication URL.
+   ────────────────────────────────────────────────────────────── */
+
+.section--research {
+    position: relative;
+    background: #000000;
+    /* Content-tall block in the long scroll: padding-block matches the central
+       section rhythm; overflow hidden contains the horizontally-spread cards
+       and the full-bleed background photo. */
+    padding-block: clamp(4rem, 9vh, 8rem);
+    padding-inline: 0;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Narrow desktops: size to content instead of being padded out to a screen. */
+@media (max-width: 900px) {
+    .section--research {
+        min-height: auto;
+    }
+}
+
+/* Lift everything above the canvas backdrop */
+.section--research .section__content {
+    position: relative;
+    z-index: 2;
+}
+
+/* ── Arsenal background photo ───────────────────────────────────
+   Full-bleed image behind the deck. The scrim fades the top/bottom
+   edges to black so the section blends with its neighbours, plus a
+   centre vignette keeps the heading and cards readable. */
+.research-bg-photo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.research-bg-photo__img {
+    position: absolute;
+    inset: 0;
+    background-color: #000000;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.research-bg-photo__scrim {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 75% 65% at 50% 50%,
+            rgba(0, 0, 0, 0.35) 0%,
+            rgba(0, 0, 0, 0.72) 100%),
+        linear-gradient(180deg,
+            #000000 0%,
+            rgba(0, 0, 0, 0.5) 16%,
+            rgba(0, 0, 0, 0.5) 84%,
+            #000000 100%);
+}
+
+.research__header {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.75rem, 2vh, 1.5rem);
+    align-items: center;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+/* Tamed title so the section fits one screen alongside the deck + ribbon. */
+.section--research .section__title {
+    font-size: clamp(1.9rem, 4.2vw, 3.2rem);
+}
+
+.research__heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+.research__lead {
+    max-width: 56ch;
+    line-height: 1.5;
+    margin: 0 auto;
+}
+
+.research__toggle {
+    margin-top: 0.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.55rem 1.1rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition:
+        border-color var(--transition-fast),
+        background-color var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.research__toggle:hover {
+    border-color: var(--accent-gold);
+    background: rgba(210, 159, 34, 0.08);
+}
+
+.research__toggle:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(210, 159, 34, 0.30);
+}
+
+.research__toggle-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    box-shadow: 0 0 8px rgba(210, 159, 34, 0.7);
+}
+
+/* ── Deck ───────────────────────────────────────────────────── */
+.research__deck {
+    position: relative;
+    width: 100%;
+    /* Height tracks the card height (card width is vw-based, aspect 3/4 →
+       height ≈ width × 4/3 ≈ 24vw), so cards always sit fully inside the
+       deck box and never overlap the ribbon below. */
+    height: clamp(240px, 24vw, 314px);
+    margin: 0 auto;
+    perspective: 1200px;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.research__deck.is-spread {
+    cursor: default;
+}
+
+.research__deck.is-stacked .research__card {
+    cursor: default;
+}
+
+/* Each card is absolutely positioned at the same anchor; Framer
+   Motion drives x/y/rotate to produce the stack ↔ spread transition. */
+.research__card {
+    position: absolute;
+    width: clamp(180px, 18vw, 235px);
+    aspect-ratio: 3 / 4;
+    background: linear-gradient(180deg, #0e0e0e 0%, #050505 100%);
+    border: 1px solid rgba(210, 159, 34, 0.25);
+    border-radius: 12px;
+    padding: 1.25rem 1.1rem 1rem;
+    box-shadow:
+        0 24px 40px -20px rgba(0, 0, 0, 0.65),
+        0 0 0 1px rgba(210, 159, 34, 0.04) inset;
+    color: var(--text-primary);
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--font-body);
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    overflow: hidden;
+    /* Position drives come from Framer Motion (x / y / rotate / scale)
+       so we don't set CSS transforms here. The card must NOT move on
+       hover — keep box-shadow constant and only change border colour. */
+    transform-origin: 50% 50%;
+    transition: border-color 220ms ease;
+}
+
+/* Stagnant hover: identical box-shadow to the resting state so the card
+   doesn't appear to lift; only the border colour brightens. The
+   rotating shine is supplied by the global `.shine-border::before`. */
+.research__card:hover {
+    border-color: var(--accent-gold);
+}
+
+.research__card:focus-visible {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow:
+        0 24px 40px -20px rgba(0, 0, 0, 0.65),
+        0 0 0 3px rgba(210, 159, 34, 0.45);
+}
+
+.research__card-rule {
+    position: absolute;
+    top: 0;
+    left: 16px;
+    right: 16px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-gold) 50%, transparent);
+    opacity: 0.85;
+}
+
+.research__card-venue {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.62rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--accent-gold);
+    margin-top: 0.5rem;
+}
+
+.research__card-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin: 0;
+    /* Clamp to 4 lines max for layout consistency */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.research__card-desc {
+    flex: 1;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.research__card-cta {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--accent-gold);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-subtle);
+}
+
+/* Smaller screens — narrower deck, slight x-stack adjustment */
+@media (max-width: 900px) {
+    .research__deck {
+        height: 340px;
+    }
+    .research__card {
+        width: clamp(170px, 44vw, 240px);
+    }
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* Paper cards over a photo, but the room's lights are on: the black
+   stage becomes page ivory, the scrim's dark vignette + edge-melt turn
+   into ivory veils (photo stays), and the near-black card stock becomes
+   warm paper with ochre rules and rings. */
+
+html[data-theme='light'] .section--research {
+    background: #ffffff;
+}
+
+/* Photo underlay + scrim: same radial-vignette-plus-edge-melt shape,
+   keyed to ivory so the section still fuses with its neighbours and the
+   heading/cards stay readable over the image. */
+html[data-theme='light'] .research-bg-photo__img {
+    background-color: #ffffff;
+}
+
+html[data-theme='light'] .research-bg-photo__scrim {
+    background:
+        radial-gradient(ellipse 75% 65% at 50% 50%,
+            rgba(255, 255, 255, 0.35) 0%,
+            rgba(255, 255, 255, 0.72) 100%),
+        linear-gradient(180deg,
+            #ffffff 0%,
+            rgba(255, 255, 255, 0.5) 16%,
+            rgba(255, 255, 255, 0.5) 84%,
+            #ffffff 100%);
+}
+
+/* Toggle: gold tints restate in ochre so hover/focus keep contrast. */
+html[data-theme='light'] .research__toggle:hover {
+    background: rgba(154, 116, 20, 0.08);
+}
+
+html[data-theme='light'] .research__toggle:focus-visible {
+    box-shadow: 0 0 0 3px rgba(154, 116, 20, 0.30);
+}
+
+/* Cards: near-black stock → warm paper. Ochre border and inset replace
+   the raw gold, and the black drop becomes a warm lift — same resting
+   shadow on hover (the cards must never appear to move). */
+html[data-theme='light'] .research__card {
+    background: linear-gradient(180deg, #ffffff 0%, #f3f3f3 100%);
+    border-color: rgba(154, 116, 20, 0.35);
+    box-shadow:
+        0 24px 40px -20px rgba(30, 30, 50, 0.18),
+        0 0 0 1px rgba(154, 116, 20, 0.05) inset;
+}
+
+html[data-theme='light'] .research__card:focus-visible {
+    box-shadow:
+        0 24px 40px -20px rgba(30, 30, 50, 0.18),
+        0 0 0 3px rgba(154, 116, 20, 0.45);
+}

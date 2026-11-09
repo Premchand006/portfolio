@@ -1,0 +1,48 @@
+/* ============================================================================
+   RESPONSIVE SYSTEM — SINGLE SOURCE OF TRUTH
+   ----------------------------------------------------------------------------
+   This file extends the :root design tokens in index.css with FLUID values.
+   The whole site targets laptops → ultrawide (1024px → 2560px+).
+
+   RULES (see RESPONSIVE_RULES.md in project root for the full guide):
+   • Never hardcode px for font-size, width, height, margin, or padding.
+     Use clamp(), %, vw/vh, or the --fluid-* / --space-* tokens below.
+   • clamp() formula: clamp(MIN, PREFERRED_vw, MAX)
+       - MIN  = value at the smallest target (≈1024px)
+       - MAX  = value at the largest target (≈2560px)
+       - PREFERRED = the vw value that lines them up (≈ MAXpx / 25.6 ≈ vw)
+   • The content cap stays at --container-max (1400px) by design. Everything
+     scales fluidly UP TO that cap; wide-monitor gutters are intentional.
+   • Cosmetic px (1–2px borders, radii, shadow blur, small icons) are fine.
+   ========================================================================== */
+
+:root {
+  /* ── Fluid spacing scale ──────────────────────────────────────────────
+     Extends the 8-pt scale in index.css. xs–2xl are kept rem (fixed steps);
+     these large steps scale with the viewport so section rhythm breathes on
+     big screens instead of looking cramped.
+     NOTE: --space-3xl / --space-4xl were referenced by section CSS but never
+     defined — defining them here also fixes that latent bug. */
+  --space-3xl: clamp(6rem, 10vw, 11rem);   /* large section gap   */
+  --space-4xl: clamp(8rem, 13vw, 15rem);   /* hero / between-section breathing */
+
+  /* Optional fluid aliases for the existing steps (use where you want a step
+     to grow on wide screens; the fixed --space-* tokens still exist). */
+  --space-fluid-md: clamp(0.75rem, 1.2vw, 1.25rem);
+  --space-fluid-lg: clamp(1.5rem, 2.5vw, 2.5rem);
+  --space-fluid-xl: clamp(2.5rem, 4vw, 4.5rem);
+
+  /* ── Fluid sizing helpers ─────────────────────────────────────────────
+     Reusable widths so cards/columns scale instead of using fixed px. */
+  --card-width: clamp(280px, 30vw, 420px);
+  --reading-width: clamp(40ch, 60vw, 72ch);
+
+  /* Fluid section padding (inline). Falls back to --container-padding. */
+  --section-padding-x: clamp(1.25rem, 4vw, 4rem);
+  --section-padding-y: clamp(3rem, 8vw, 8rem);
+
+  /* ── Fluid type ramp (in addition to the .display and .heading classes) */
+  --font-hero: clamp(2.5rem, 8vw, 6rem);
+  --font-title: clamp(2rem, 5vw, 4rem);
+  --font-body-fluid: clamp(1rem, 1.1vw, 1.2rem);
+}

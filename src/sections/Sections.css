@@ -1,0 +1,2625 @@
+/* RESPONSIVE SYSTEM: All sizing uses the CSS custom properties from
+   responsive.css / index.css. Never hardcode px for font-size, width, height,
+   margin, or padding — use clamp(), %, vw, or the --space-* / --fluid-* token
+   variables. Cosmetic px (borders, radii, shadow blur, small icons) are fine.
+   See RESPONSIVE_RULES.md. */
+
+/* ========================
+   BASE SECTION
+   ======================== */
+
+.section {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    /* Long-scroll: sections flow at their natural content height as one
+       continuous page — no scroll-snap, no forced 100vh. A min-height floor
+       keeps short sections feeling substantial, and padding-block gives every
+       section consistent breathing room. Only .section--home re-pins a full
+       100vh hero (below). */
+    min-height: 60vh;
+    padding-block: clamp(4rem, 9vh, 8rem);
+    /* Transparent so the fixed pure-black .bg-layer shows through uniformly. */
+    background: transparent;
+}
+
+.section__content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+}
+
+.section__content--center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-lg);
+}
+
+.section__header {
+    margin-bottom: var(--space-xl);
+}
+
+.section__title {
+    text-align: center;
+    margin-bottom: var(--space-sm);
+    /* Outline-glass headline — white stroke + translucent fill so each
+       section's backdrop shows through the letters (matches the look you
+       liked). Only color sits here; per-section rules keep their font-size. */
+    color: rgba(255, 255, 255, 0.06);
+    -webkit-text-stroke: 1.4px var(--display-stroke);
+    paint-order: stroke fill;
+    text-shadow:
+        0 0 22px rgba(255, 255, 255, 0.12),
+        0 0 60px rgba(210, 159, 34, 0.10);
+}
+
+.section__subtitle {
+    text-align: center;
+    max-width: 520px;
+    margin: 0 auto var(--space-xl);
+    line-height: 1.7;
+}
+
+/* ========================
+   HOME SECTION
+   ======================== */
+
+.section--home {
+    /* Stars-galaxy landing backdrop. The earth canvas is transparent, so the
+       galaxy shows around the globe. A radial vignette keeps the centre dark
+       (the globe's night-lights + atmospheric rim still need a dark backing)
+       while letting the galaxy read toward the edges. */
+    background:
+        radial-gradient(circle at 50% 50%,
+            rgba(0, 0, 0, 0.82) 0%,
+            rgba(0, 0, 0, 0.55) 38%,
+            rgba(0, 0, 0, 0.25) 100%);
+    color: #F5F5F5;
+    /* The landing alone stays a full-viewport hero — overrides the long-scroll
+       base so the globe + overlay fill exactly one screen with no padding. */
+    height: 100vh;
+    min-height: 100vh;
+    padding-block: 0;
+}
+
+.home__overlay {
+    position: relative;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.home__overlay>* {
+    pointer-events: auto;
+}
+
+.home__eyebrow {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--accent-gold);
+    margin-bottom: var(--space-sm);
+    opacity: 0.9;
+    transition: color 0.2s ease, letter-spacing 0.2s ease;
+}
+
+
+.home__title {
+    font-family: var(--font-display);
+    color: var(--text-primary);
+    text-transform: none;
+    letter-spacing: -0.04em;
+    margin-bottom: var(--space-md);
+    user-select: none;
+    position: relative;
+    transition: color 0.15s ease, text-shadow 0.15s ease;
+}
+
+.home__title--shadow {
+    text-shadow:
+        0 0 40px rgba(5, 5, 5, 1),
+        0 0 80px rgba(5, 5, 5, 0.9),
+        0 4px 20px rgba(5, 5, 5, 0.8),
+        0 0 120px rgba(5, 5, 5, 0.6);
+    filter: drop-shadow(0 0 30px rgba(5, 5, 5, 0.8));
+}
+
+
+
+.home__subtitle {
+    font-size: 1.0625rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-xl);
+    font-weight: 300;
+    max-width: 420px;
+    line-height: 1.7;
+}
+
+.home__subtitle--accent {
+    color: var(--accent-gold);
+    font-weight: 500;
+}
+
+.home__shortcut {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0.75rem;
+    padding: 0.125rem 0.5rem;
+    font-size: 0.6875rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    color: var(--text-muted);
+}
+
+/* ── Command palette trigger (replaces Quick Nav button) ─── */
+.home__cmd-trigger {
+    margin-top: var(--space-md);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: clamp(260px, 30vw, 360px);
+    padding: 0.65rem 0.7rem 0.65rem 1rem;
+    background: rgba(20, 20, 22, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(210, 159, 34, 0.18);
+    border-radius: 10px;
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: 0.86rem;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.home__cmd-trigger:hover,
+.home__cmd-trigger:focus-visible {
+    border-color: rgba(210, 159, 34, 0.5);
+    background: rgba(20, 20, 22, 0.92);
+    box-shadow: 0 0 24px rgba(210, 159, 34, 0.08);
+}
+
+.home__cmd-icon {
+    color: rgba(210, 159, 34, 0.7);
+    flex-shrink: 0;
+}
+
+.home__cmd-placeholder {
+    flex: 1;
+    text-align: left;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.02em;
+}
+
+.home__cmd-kbd {
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 0.22rem 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 5px;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+}
+
+
+/* Scroll indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: calc(var(--space-xl) + 3.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--text-muted);
+}
+
+.scroll-indicator__label {
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+}
+
+.scroll-indicator__arrow {
+    animation: scrollBounce 2s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translateY(6px);
+        opacity: 1;
+    }
+}
+
+
+/* ========================
+   ABOUT SECTION
+   ======================== */
+
+.section--about {
+    background: transparent;
+    min-height: 100vh;
+}
+
+.section--about .section__content {
+    /* Vertical rhythm comes from the base .section padding-block now; keep the
+       horizontal container padding only. */
+    padding: 0 var(--container-padding);
+    max-width: var(--container-max);
+    margin: 0 auto;
+}
+
+/* Stat row */
+.about__stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: var(--space-lg) 0;
+}
+
+.about__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.about__stat-value {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--accent-gold);
+    line-height: 1;
+}
+
+.about__stat-label {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* About grid */
+.about__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--space-xl);
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.about__main {
+    grid-column: 1 / -1;
+}
+
+.about__quote-label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent-gold, #d29f22);
+    margin-bottom: 0.75rem;
+    opacity: 0.8;
+}
+
+.about__text {
+    line-height: 1.85;
+}
+
+/* Gold left-border quote blocks */
+.about__quote-block {
+    padding-left: var(--space-md);
+    border-left: 2px solid var(--accent-gold);
+    opacity: 0.9;
+    transition: opacity var(--transition-base);
+}
+
+.about__quote-block:hover {
+    opacity: 1;
+}
+
+/* Availability badge */
+.about__availability {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: var(--space-lg);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+}
+
+.about__availability-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+    animation: availabilityPulse 2.4s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+@keyframes availabilityPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+    }
+
+    50% {
+        opacity: 0.6;
+        box-shadow: 0 0 16px rgba(34, 197, 94, 0.9);
+    }
+}
+
+
+/* ========================
+   TECHSTACK / EXPERIENCE / PROJECTS
+   ======================== */
+
+.section--certifications {
+    background: transparent;
+    /* Long-scroll block sized to the editor rather than locked to a viewport.
+       min(100vh, 900px) keeps it a substantial, deliberate block without
+       forcing an oversized screen on very tall viewports. */
+    position: relative;
+    min-height: min(100vh, 900px);
+    overflow: hidden;
+}
+
+.section--certifications .section__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Base .section padding-block supplies vertical rhythm; keep horizontal only. */
+    padding: 0 clamp(1rem, 3vw, 2rem);
+    max-width: min(1680px, 96vw);
+    margin: 0 auto;
+    gap: 0;
+}
+
+/* Compact header so the editor below can take the rest of the viewport. */
+.section--certifications .section__header {
+    margin-bottom: 0;
+    flex-shrink: 0;
+}
+
+/* Editor fills the full content width. */
+.code-section__layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.code-section__editor {
+    width: 85%;
+    max-width: 1200px;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+
+    /* Narrower screens keep 16:9 ratio */
+    .code-section__editor {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+    }
+}
+
+/* Each section deepens through the dark-to-dark flow */
+.section--tech-stack {
+    background: url('/assets/backgrounds/tech.png') center center / cover no-repeat;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Edge melt removed as per request */
+.section--tech-stack::after {
+    display: none;
+}
+
+.section--experience {
+    background: transparent;
+}
+
+.section--projects {
+    /* Transparent — bg-layer carries the strongest burgundy wash here, so the
+       cards lift cleanly off a deep crimson-into-black backdrop. */
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+    /* Floor so the carousel reads as a full, deliberate block; grows if cards
+       get taller. Capped so it never forces an empty over-tall screen. */
+    min-height: min(100vh, 900px);
+}
+
+/* ── Projects background photo ──────────────────────────────────
+   Full-bleed photo behind the HUD (z-index 1) and content (z-index
+   10). The scrim darkens it toward black at the top/bottom edges so
+   the section still melts into the surrounding black palette, while
+   keeping enough of the image visible in the middle. */
+.section--projects .proj-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.section--projects .proj-bg__photo {
+    position: absolute;
+    inset: 0;
+    background-color: #050505;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.section--projects .proj-bg__scrim {
+    position: absolute;
+    inset: 0;
+    /* Vertical fade keeps the top/bottom edges black so the section
+       blends with neighbours; radial vignette + base dim keep the
+       centre cards legible over the photo. */
+    background:
+        radial-gradient(ellipse 80% 70% at 50% 50%,
+            rgba(5, 5, 5, 0.35) 0%,
+            rgba(5, 5, 5, 0.75) 100%),
+        linear-gradient(180deg,
+            #000000 0%,
+            rgba(0, 0, 0, 0.55) 18%,
+            rgba(0, 0, 0, 0.55) 82%,
+            #000000 100%);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Projects HUD — futuristic border frame layered between the
+   section background and the carousel content (z-index 1, content
+   is z-index 10). Pure decoration; pointer-events: none. */
+.section--projects .proj-hud {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Faint tech grid — masked to fade away in the centre so the cards
+   sit on clean black, with the grid only visible near the edges. */
+.proj-hud__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 72px 72px;
+    -webkit-mask-image:
+        radial-gradient(ellipse 65% 55% at 50% 50%, transparent 35%, black 90%);
+    mask-image:
+        radial-gradient(ellipse 65% 55% at 50% 50%, transparent 35%, black 90%);
+}
+
+/* ── Circuit-trace corner decorations ─────────────────────────
+   Sit behind the cards (z-index 1 inherited from .proj-hud). The
+   top-left panel renders the SVG as authored; the bottom-right
+   instance flips it diagonally so the two corners mirror each
+   other and the diagonal "speed cuts" trail toward the centre. */
+.proj-hud__circuit {
+    position: absolute;
+    width: clamp(420px, 38vw, 640px);
+    height: clamp(260px, 28vw, 400px);
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.95;
+    -webkit-mask-image: linear-gradient(135deg, black 0%, black 55%, transparent 90%);
+    mask-image: linear-gradient(135deg, black 0%, black 55%, transparent 90%);
+}
+
+.proj-hud__circuit--tl {
+    top: 0;
+    left: 0;
+}
+
+.proj-hud__circuit--br {
+    bottom: 0;
+    right: 0;
+    transform: scale(-1, -1);
+    /* mirror diagonally */
+}
+
+.proj-hud__circuit-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Static skeleton — quiet white lines. */
+.proj-hud__circuit-bg path {
+    stroke: rgba(255, 255, 255, 0.22);
+    stroke-width: 1.25;
+    fill: none;
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+}
+
+/* Parallel diagonal cuts — slightly brighter, evoke speed lines. */
+.proj-hud__circuit-slash path {
+    stroke: rgba(255, 255, 255, 0.32);
+    stroke-width: 1.5;
+    fill: none;
+}
+
+/* Travelling current pulses. Each path has its full geometry, but a
+   short dash is the only thing visible — animating stroke-dashoffset
+   moves that dash along the entire trace at constant speed. */
+.proj-hud__circuit-pulse {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.95);
+    stroke-width: 2;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 4px rgba(210, 159, 34, 0.65));
+    stroke-dasharray: 44 1400;
+    will-change: stroke-dashoffset;
+}
+
+.proj-hud__circuit-pulse--a {
+    animation: proj-circuit-flow-a 5.4s linear infinite;
+}
+
+.proj-hud__circuit-pulse--b {
+    animation: proj-circuit-flow-b 6.8s linear infinite;
+    animation-delay: -2.2s;
+    stroke: rgba(210, 159, 34, 0.95);
+    filter: drop-shadow(0 0 5px rgba(210, 159, 34, 0.85));
+}
+
+.proj-hud__circuit-pulse--c {
+    animation: proj-circuit-flow-c 7.6s linear infinite;
+    animation-delay: -4s;
+}
+
+@keyframes proj-circuit-flow-a {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: -1300;
+    }
+}
+
+@keyframes proj-circuit-flow-b {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: -900;
+    }
+}
+
+@keyframes proj-circuit-flow-c {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: -750;
+    }
+}
+
+/* Solder-pad nodes — slow heartbeat in gold. */
+.proj-hud__circuit-nodes rect {
+    fill: var(--accent-gold);
+    animation: proj-circuit-node 3.2s ease-in-out infinite;
+    transform-origin: center;
+    transform-box: fill-box;
+}
+
+.proj-hud__circuit-nodes rect:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.proj-hud__circuit-nodes rect:nth-child(3) {
+    animation-delay: 0.8s;
+}
+
+.proj-hud__circuit-nodes rect:nth-child(4) {
+    animation-delay: 1.2s;
+}
+
+.proj-hud__circuit-nodes rect:nth-child(5) {
+    animation-delay: 1.6s;
+}
+
+.proj-hud__circuit-nodes rect:nth-child(6) {
+    animation-delay: 2.0s;
+}
+
+@keyframes proj-circuit-node {
+
+    0%,
+    100% {
+        opacity: 0.45;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.35);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .proj-hud__circuit-pulse,
+    .proj-hud__circuit-nodes rect {
+        animation: none;
+    }
+
+    .proj-hud__circuit-pulse {
+        stroke-dasharray: none;
+        opacity: 0.4;
+    }
+}
+
+@media (max-width: 720px) {
+    .proj-hud__circuit {
+        width: clamp(280px, 70vw, 420px);
+        height: clamp(180px, 44vw, 280px);
+        opacity: 0.7;
+    }
+}
+
+/* ── Horizontal scan lines (top / bottom edges) ────────────── */
+.proj-hud__scan {
+    position: absolute;
+    left: -20%;
+    width: 28%;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.8) 50%,
+            transparent 100%);
+    box-shadow:
+        0 0 8px rgba(255, 255, 255, 0.45),
+        0 0 14px rgba(210, 159, 34, 0.18);
+    will-change: transform;
+}
+
+.proj-hud__scan--top {
+    top: 28px;
+    animation: proj-hud-scan-h 7s linear infinite;
+}
+
+.proj-hud__scan--bottom {
+    bottom: 28px;
+    animation: proj-hud-scan-h 7s linear infinite 3.5s reverse;
+}
+
+@keyframes proj-hud-scan-h {
+    0% {
+        transform: translateX(0);
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(450%);
+        opacity: 0;
+    }
+}
+
+/* ── Vertical data streams (left / right edges) ────────────── */
+.proj-hud__stream {
+    position: absolute;
+    top: 110px;
+    bottom: 110px;
+    width: 1px;
+    background: linear-gradient(180deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.32) 18%,
+            rgba(255, 255, 255, 0.32) 82%,
+            transparent 100%);
+}
+
+.proj-hud__stream--left {
+    left: 22px;
+}
+
+.proj-hud__stream--right {
+    right: 22px;
+}
+
+/* Travelling data packet — wrapped in a 100%-height pseudo so we can
+   animate transform (composite only) instead of `top` (layout). */
+.proj-hud__stream::before {
+    content: '';
+    position: absolute;
+    left: -3px;
+    top: 0;
+    bottom: 0;
+    width: 7px;
+    pointer-events: none;
+}
+
+.proj-hud__stream::after {
+    content: '';
+    position: absolute;
+    left: -3px;
+    top: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    box-shadow: 0 0 10px rgba(210, 159, 34, 0.75);
+    animation: proj-hud-stream-dot 5.5s linear infinite;
+    will-change: transform, opacity;
+}
+
+.proj-hud__stream--right::after {
+    animation: proj-hud-stream-dot 5.5s linear infinite 2.75s reverse;
+}
+
+@keyframes proj-hud-stream-dot {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(calc(100vh - 248px));
+        opacity: 0;
+    }
+}
+
+/* ── Corner clusters: bracket + dot + label ────────────────── */
+.proj-hud__corner {
+    position: absolute;
+    width: 110px;
+    height: 110px;
+}
+
+.proj-hud__corner--tl {
+    top: 28px;
+    left: 28px;
+}
+
+.proj-hud__corner--tr {
+    top: 28px;
+    right: 28px;
+}
+
+.proj-hud__corner--bl {
+    bottom: 28px;
+    left: 28px;
+}
+
+.proj-hud__corner--br {
+    bottom: 28px;
+    right: 28px;
+}
+
+.proj-hud__bracket {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-color: rgba(255, 255, 255, 0.55);
+    border-style: solid;
+    border-width: 0;
+}
+
+.proj-hud__corner--tl .proj-hud__bracket {
+    top: 0;
+    left: 0;
+    border-top-width: 1.5px;
+    border-left-width: 1.5px;
+}
+
+.proj-hud__corner--tr .proj-hud__bracket {
+    top: 0;
+    right: 0;
+    border-top-width: 1.5px;
+    border-right-width: 1.5px;
+}
+
+.proj-hud__corner--bl .proj-hud__bracket {
+    bottom: 0;
+    left: 0;
+    border-bottom-width: 1.5px;
+    border-left-width: 1.5px;
+}
+
+.proj-hud__corner--br .proj-hud__bracket {
+    bottom: 0;
+    right: 0;
+    border-bottom-width: 1.5px;
+    border-right-width: 1.5px;
+}
+
+/* Pulsing gold marker — sits exactly at each bracket's elbow. */
+.proj-hud__dot {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    box-shadow:
+        0 0 6px rgba(210, 159, 34, 0.85),
+        0 0 14px rgba(210, 159, 34, 0.45);
+    animation: proj-hud-dot 2.4s ease-in-out infinite;
+}
+
+.proj-hud__corner--tl .proj-hud__dot {
+    top: -3.5px;
+    left: -3.5px;
+}
+
+.proj-hud__corner--tr .proj-hud__dot {
+    top: -3.5px;
+    right: -3.5px;
+}
+
+.proj-hud__corner--bl .proj-hud__dot {
+    bottom: -3.5px;
+    left: -3.5px;
+}
+
+.proj-hud__corner--br .proj-hud__dot {
+    bottom: -3.5px;
+    right: -3.5px;
+}
+
+@keyframes proj-hud-dot {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.45);
+        opacity: 0.55;
+    }
+}
+
+/* ── UAV graduated tick scales along each edge ─────────────── */
+.proj-hud__ticks {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.proj-hud__ticks--top,
+.proj-hud__ticks--bottom {
+    left: 160px;
+    right: 160px;
+    height: 6px;
+    background-image: repeating-linear-gradient(90deg,
+            rgba(255, 255, 255, 0.45) 0,
+            rgba(255, 255, 255, 0.45) 1px,
+            transparent 1px,
+            transparent 14px);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 44%, transparent 48%, transparent 52%, black 56%, black 90%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 44%, transparent 48%, transparent 52%, black 56%, black 90%, transparent 100%);
+}
+
+.proj-hud__ticks--top {
+    top: 42px;
+}
+
+.proj-hud__ticks--bottom {
+    bottom: 42px;
+}
+
+.proj-hud__ticks--left,
+.proj-hud__ticks--right {
+    top: 160px;
+    bottom: 160px;
+    width: 6px;
+    background-image: repeating-linear-gradient(180deg,
+            rgba(255, 255, 255, 0.45) 0,
+            rgba(255, 255, 255, 0.45) 1px,
+            transparent 1px,
+            transparent 14px);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, black 10%, black 44%, transparent 48%, transparent 52%, black 56%, black 90%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, black 10%, black 44%, transparent 48%, transparent 52%, black 56%, black 90%, transparent 100%);
+}
+
+.proj-hud__ticks--left {
+    left: 42px;
+}
+
+.proj-hud__ticks--right {
+    right: 42px;
+}
+
+/* ── Mid-edge crosshair reticles ───────────────────────────── */
+/* Each reticle is a small "+" mark sitting exactly where the tick
+   scale takes its central gap — they read as targeting anchors. */
+.proj-hud__reticle {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+}
+
+.proj-hud__reticle::before,
+.proj-hud__reticle::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 0 4px rgba(210, 159, 34, 0.35);
+}
+
+.proj-hud__reticle::before {
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-0.5px);
+}
+
+.proj-hud__reticle::after {
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform: translateY(-0.5px);
+}
+
+.proj-hud__reticle--top {
+    top: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.proj-hud__reticle--bottom {
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.proj-hud__reticle--left {
+    left: 36px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.proj-hud__reticle--right {
+    right: 36px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* ── UAV radar sweep ──────────────────────────────────────── */
+.proj-hud__radar {
+    position: absolute;
+    bottom: 100px;
+    right: 100px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.proj-hud__radar-ring {
+    position: absolute;
+    inset: 28%;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.proj-hud__radar-cross {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, transparent calc(50% - 0.5px), rgba(255, 255, 255, 0.25) calc(50% - 0.5px), rgba(255, 255, 255, 0.25) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+        linear-gradient(180deg, transparent calc(50% - 0.5px), rgba(255, 255, 255, 0.25) calc(50% - 0.5px), rgba(255, 255, 255, 0.25) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+}
+
+/* Rotating spotlight sweep, drawn with a conic gradient — gold pulse. */
+.proj-hud__radar-sweep {
+    position: absolute;
+    inset: 0;
+    background: conic-gradient(from 0deg,
+            rgba(210, 159, 34, 0.55) 0deg,
+            rgba(210, 159, 34, 0.18) 30deg,
+            rgba(210, 159, 34, 0) 60deg,
+            transparent 60deg 360deg);
+    animation: proj-hud-radar-sweep 4.2s linear infinite;
+    will-change: transform;
+}
+
+@keyframes proj-hud-radar-sweep {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 720px) {
+
+    .proj-hud__ticks--top,
+    .proj-hud__ticks--bottom {
+        left: 90px;
+        right: 90px;
+    }
+
+    .proj-hud__ticks--left,
+    .proj-hud__ticks--right {
+        top: 110px;
+        bottom: 110px;
+    }
+
+    .proj-hud__ticks--top {
+        top: 28px;
+    }
+
+    .proj-hud__ticks--bottom {
+        bottom: 28px;
+    }
+
+    .proj-hud__ticks--left {
+        left: 28px;
+    }
+
+    .proj-hud__ticks--right {
+        right: 28px;
+    }
+
+    .proj-hud__reticle--top {
+        top: 22px;
+    }
+
+    .proj-hud__reticle--bottom {
+        bottom: 22px;
+    }
+
+    .proj-hud__reticle--left {
+        left: 22px;
+    }
+
+    .proj-hud__reticle--right {
+        right: 22px;
+    }
+
+    .proj-hud__radar {
+        width: 44px;
+        height: 44px;
+        bottom: 64px;
+        right: 64px;
+    }
+}
+
+/* Tuck the HUD in tighter on small screens so it doesn't crowd content. */
+@media (max-width: 720px) {
+    .proj-hud__corner {
+        width: 80px;
+        height: 80px;
+    }
+
+    .proj-hud__corner--tl,
+    .proj-hud__corner--tr {
+        top: 16px;
+    }
+
+    .proj-hud__corner--bl,
+    .proj-hud__corner--br {
+        bottom: 16px;
+    }
+
+    .proj-hud__corner--tl,
+    .proj-hud__corner--bl {
+        left: 16px;
+    }
+
+    .proj-hud__corner--tr,
+    .proj-hud__corner--br {
+        right: 16px;
+    }
+
+    .proj-hud__bracket {
+        width: 40px;
+        height: 40px;
+    }
+
+    .proj-hud__label {
+        font-size: 8.5px;
+        letter-spacing: 0.16em;
+    }
+
+    .proj-hud__corner--tl .proj-hud__label,
+    .proj-hud__corner--bl .proj-hud__label {
+        left: 50px;
+    }
+
+    .proj-hud__corner--tr .proj-hud__label,
+    .proj-hud__corner--br .proj-hud__label {
+        right: 50px;
+    }
+
+    .proj-hud__stream--left {
+        left: 12px;
+    }
+
+    .proj-hud__stream--right {
+        right: 12px;
+    }
+
+    .proj-hud__scan--top {
+        top: 18px;
+    }
+
+    .proj-hud__scan--bottom {
+        bottom: 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .proj-hud__scan,
+    .proj-hud__stream::before,
+    .proj-hud__dot,
+    .proj-hud__corner--tr .proj-hud__label {
+        animation: none;
+    }
+}
+
+.section--contact {
+    /* Transparent — the photo backdrop lives on ::before. Contact grows past
+       100vh (long form + socials + footer), so it stays auto-height. overflow
+       hidden keeps the inset:0 photo scrim bounded to the section so its
+       darkening effect doesn't bleed. */
+    background: transparent;
+    overflow: hidden;
+    padding-block: 2rem 1rem;
+}
+
+/* Contact backdrop — full-section photo with a dark scrim so the form,
+   socials, and footer stay legible and the top/bottom edges melt into the
+   black palette. Sits at z-index 0, beneath .section__content (z-index 10). */
+.section--contact::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg,
+            #000000 0%,
+            rgba(0, 0, 0, 0.55) 16%,
+            rgba(0, 0, 0, 0.55) 84%,
+            #000000 100%),
+        radial-gradient(ellipse 85% 75% at 50% 50%,
+            rgba(0, 0, 0, 0.30) 0%,
+            rgba(0, 0, 0, 0.70) 100%),
+        url('/assets/backgrounds/contact.png') center / cover no-repeat;
+}
+
+
+.section--tech-stack .section__content {
+    /* Base .section padding-block supplies vertical rhythm; keep horizontal only. */
+    padding: 0 var(--container-padding);
+    max-width: var(--container-max);
+    margin: 0 auto;
+}
+
+/* Projects section uses full-bleed for the carousel */
+.section--projects {
+    padding-block: 1rem 3rem;
+    /* Reduced top/bottom padding so it fits in viewport */
+}
+
+.section--projects .section__content {
+    width: 100%;
+    max-width: 100%;
+    /* Base .section padding-block supplies vertical rhythm; carousel is full-bleed. */
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* ========================
+   PROJECTS — 3-up sliding viewport
+   ======================== */
+
+.proj-header {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.proj-stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.proj-viewport {
+    flex: 1;
+    overflow: hidden;
+    padding: 10px 10px 16px;
+    /* room for focus ring, shadow lift, and the cursor-follow glide */
+}
+
+/* The track lays all cards out in a single row that is wider than
+   the viewport; the inline --start variable shifts it one card at
+   a time. Each "cell" is exactly 1/VISIBLE of the viewport so the
+   row never reveals fractional cards. */
+.proj-track {
+    --gap: 24px;
+    --start: 0;
+    --visible: 3;
+    display: flex;
+    gap: var(--gap);
+    transform: translateX(calc(var(--start) * (-1 * ((100% + var(--gap)) / var(--visible)))));
+    transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+}
+
+.proj-cell {
+    flex: 0 0 calc((100% - (var(--visible) - 1) * var(--gap)) / var(--visible));
+    min-width: 0;
+}
+
+/* Wrapper carries the scroll-in entrance + 3D perspective so the inner
+   card is free to glide / lean toward the cursor on hover. */
+.proj-card-wrap {
+    height: 100%;
+    perspective: 900px;
+}
+
+/* ── Card — HUD chassis ─────────────────────────────────── */
+.proj-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Frosted-glass chassis: translucent graphite + blur so the content
+       panel frosts the section's workspace photo behind it instead of
+       sitting on flat solid graphite. The media image keeps its own opaque
+       box above, so only the content section reads as glass. */
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 45%),
+        rgba(37, 38, 40, 0.5);
+    -webkit-backdrop-filter: blur(var(--glass-blur-md)) saturate(1.15);
+    backdrop-filter: blur(var(--glass-blur-md)) saturate(1.15);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-top: 2px solid rgba(93, 0, 24, 0.6);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    outline: none;
+    box-shadow: var(--glass-highlight);
+    /* `transform` is intentionally omitted — framer-motion drives the
+       cursor-follow glide directly, so a CSS transition would fight it. */
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.35s ease,
+        background 0.3s ease;
+}
+
+/* faint scanline texture across the whole card surface */
+.proj-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg,
+            rgba(255, 255, 255, 0.018) 0px,
+            rgba(255, 255, 255, 0.018) 1px,
+            transparent 1px,
+            transparent 3px);
+    mix-blend-mode: overlay;
+    opacity: 0.6;
+}
+
+.proj-card:hover,
+.proj-card:focus-visible {
+    border-color: rgba(210, 159, 34, 0.55);
+    background:
+        linear-gradient(180deg, rgba(210, 159, 34, 0.07) 0%, transparent 45%),
+        rgba(26, 27, 34, 0.62);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.1) inset,
+        0 28px 50px -28px rgba(0, 0, 0, 0.95),
+        0 0 0 1px rgba(210, 159, 34, 0.18),
+        0 0 24px -8px rgba(210, 159, 34, 0.3);
+}
+
+/* ── Corner brackets — HUD targeting marks on each card ── */
+.proj-card__bracket {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 0 solid rgba(255, 255, 255, 0.85);
+    pointer-events: none;
+    z-index: 4;
+    transition: border-color 0.3s ease, width 0.3s ease, height 0.3s ease;
+}
+
+.proj-card__bracket--tl {
+    top: 6px;
+    left: 6px;
+    border-top-width: 1.5px;
+    border-left-width: 1.5px;
+}
+
+.proj-card__bracket--tr {
+    top: 6px;
+    right: 6px;
+    border-top-width: 1.5px;
+    border-right-width: 1.5px;
+}
+
+.proj-card__bracket--bl {
+    bottom: 6px;
+    left: 6px;
+    border-bottom-width: 1.5px;
+    border-left-width: 1.5px;
+}
+
+.proj-card__bracket--br {
+    bottom: 6px;
+    right: 6px;
+    border-bottom-width: 1.5px;
+    border-right-width: 1.5px;
+}
+
+.proj-card:hover .proj-card__bracket,
+.proj-card:focus-visible .proj-card__bracket {
+    border-color: var(--accent-gold);
+    width: 22px;
+    height: 22px;
+}
+
+/* ── Top chrome strip: SYS_ID label + tick scale ───────── */
+.proj-card__chrome {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    gap: 10px;
+    z-index: 3;
+    pointer-events: none;
+    background: linear-gradient(180deg,
+            rgba(0, 0, 0, 0.55) 0%,
+            rgba(0, 0, 0, 0.25) 60%,
+            transparent 100%);
+}
+
+.proj-card__sysid {
+    font-family: var(--font-display);
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: rgba(255, 255, 255, 0.82);
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 1px 6px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    background: rgba(0, 0, 0, 0.55);
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.proj-card__chrome-ticks {
+    flex: 1;
+    height: 6px;
+    background-image: repeating-linear-gradient(90deg,
+            rgba(255, 255, 255, 0.5) 0,
+            rgba(255, 255, 255, 0.5) 1px,
+            transparent 1px,
+            transparent 9px);
+    opacity: 0.7;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%);
+}
+
+.proj-card:hover .proj-card__sysid,
+.proj-card:focus-visible .proj-card__sysid {
+    color: var(--accent-gold);
+    border-color: var(--accent-gold);
+}
+
+.proj-card__media {
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    overflow: hidden;
+    background: #070707;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Sweep bar that travels across the media on hover — pure visual.
+   Animates transform only so it stays on the compositor. */
+.proj-card__media-scan {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(210, 159, 34, 0.08) 45%,
+            rgba(255, 255, 255, 0.18) 50%,
+            rgba(210, 159, 34, 0.08) 55%,
+            transparent 100%);
+    transform: translateX(-100%) skewX(-12deg);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    will-change: transform, opacity;
+    transition: opacity 0.3s ease;
+}
+
+.proj-card:hover .proj-card__media-scan,
+.proj-card:focus-visible .proj-card__media-scan {
+    opacity: 1;
+    animation: proj-card-scan 1.4s ease-in-out;
+}
+
+@keyframes proj-card-scan {
+    from {
+        transform: translateX(-100%) skewX(-12deg);
+    }
+
+    to {
+        transform: translateX(250%) skewX(-12deg);
+    }
+}
+
+.proj-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.proj-card:hover .proj-card__img {
+    /* Image holds still on hover — only the card's shine border animates. */
+}
+
+/* Image-less placeholder — a quiet gradient with the project's
+   leading glyph; no AI art, just typography on a tinted surface. */
+.proj-card__placeholder {
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(ellipse at 30% 25%, rgba(210, 159, 34, 0.07) 0%, transparent 55%),
+        linear-gradient(135deg, #060608 0%, #161618 60%, #060608 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.proj-card__placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(-45deg,
+            transparent, transparent 14px,
+            rgba(255, 255, 255, 0.02) 14px, rgba(255, 255, 255, 0.02) 28px);
+}
+
+.proj-card__placeholder-glyph {
+    font-family: var(--font-display);
+    font-size: 5rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.18);
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.proj-card__body {
+    padding: 1.25rem 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+    position: relative;
+    z-index: 2;
+    /* Frosted sheen on the content panel — light catching the top edge of
+       the glass, fading down. Sits over the card's blurred backdrop. */
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.05) 0%,
+            rgba(255, 255, 255, 0.015) 38%,
+            transparent 100%);
+}
+
+.proj-card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+    margin-bottom: 0.25rem;
+}
+
+.proj-card__kind {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+}
+
+.proj-card__index {
+    font-family: var(--font-display);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: rgba(255, 255, 255, 0.42);
+    text-transform: uppercase;
+    transition: color var(--transition-base);
+}
+
+.proj-card:hover .proj-card__index,
+.proj-card:focus-visible .proj-card__index {
+    color: var(--accent-gold);
+}
+
+.proj-card__title {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0.15rem 0 0.1rem;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    transition: color var(--transition-base);
+}
+
+.proj-card:hover .proj-card__title {
+    color: var(--accent-gold);
+}
+
+.proj-card__desc {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-clamp: 3;
+    overflow: hidden;
+}
+
+.proj-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding-top: 0.9rem;
+}
+
+.proj-card__tag {
+    font-size: 0.66rem;
+    font-weight: 500;
+    padding: 0.22rem 0.55rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.proj-card:hover .proj-card__tag,
+.proj-card:focus-visible .proj-card__tag {
+    color: var(--text-secondary);
+    border-color: rgba(210, 159, 34, 0.35);
+    background: rgba(210, 159, 34, 0.04);
+}
+
+.proj-card__tag--more {
+    color: var(--text-secondary);
+}
+
+/* ── Nav chevrons — squared HUD buttons ─────────────────── */
+.proj-nav {
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(10, 11, 18, 0.8);
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition:
+        border-color 0.25s ease,
+        color 0.25s ease,
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+/* Tiny inner corner ticks — make the chevron read as a HUD control */
+.proj-nav::before,
+.proj-nav::after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border: 0 solid rgba(255, 255, 255, 0.55);
+    pointer-events: none;
+}
+
+.proj-nav::before {
+    top: 3px;
+    left: 3px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+}
+
+.proj-nav::after {
+    bottom: 3px;
+    right: 3px;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+}
+
+.proj-nav:hover:not(:disabled) {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+    background: rgba(18, 16, 8, 0.85);
+    box-shadow: 0 0 0 1px rgba(210, 159, 34, 0.18), 0 0 18px -6px rgba(210, 159, 34, 0.35);
+}
+
+.proj-nav:hover:not(:disabled)::before,
+.proj-nav:hover:not(:disabled)::after {
+    border-color: var(--accent-gold);
+}
+
+.proj-nav:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+}
+
+/* ── Footer (dots + counter) ────────────────────────────── */
+.proj-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+}
+
+.proj-dots {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.proj-dot {
+    width: 9px;
+    height: 4px;
+    border-radius: 1px;
+    border: 0;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.22);
+    cursor: pointer;
+    transition:
+        background 0.25s ease,
+        width 0.3s ease,
+        box-shadow 0.25s ease;
+}
+
+.proj-dot:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.proj-dot--active {
+    background: var(--accent-gold);
+    width: 28px;
+    box-shadow: 0 0 10px rgba(210, 159, 34, 0.5);
+}
+
+.proj-counter {
+    font-family: var(--font-display);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+/* ── Responsive — JS drives --visible; only resize the chevrons ── */
+@media (max-width: 640px) {
+    .proj-nav {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+
+/* ========================
+   CONTACT
+   ======================== */
+
+.section--contact {
+    text-align: center;
+    padding-bottom: 1rem;
+}
+
+.section--contact .section__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    /* Base .section padding-block supplies the top/bottom band (matches every
+       other section); keep horizontal only so Contact stays in rhythm. */
+    padding: 0 var(--container-padding);
+    max-width: var(--container-max);
+    margin: 0 auto;
+}
+
+@media (min-width: 901px) {
+    .section--contact .section__content {
+        /* Long-scroll: flow the header / socials / form / footer top-to-bottom
+           with consistent spacing instead of justifying against a fixed 100vh.
+           Vertical band comes from the base .section padding-block. */
+        padding: 0 var(--container-padding);
+        gap: var(--space-lg);
+    }
+}
+
+/* Header (section-label + title + subtitle) lives in its own block so
+   the gap stack between header / form / socials / footer reads cleanly.
+   Title is intentionally one size-step below the global .heading-1 so
+   the section fits in roughly one viewport instead of two screens. */
+.section--contact .contact__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.6rem;
+    width: 100%;
+    max-width: 720px;
+}
+
+.section--contact .contact__header .section-label {
+    margin: 0;
+}
+
+.section--contact .section__title {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.1;
+}
+
+/* Wider so the subtitle reads as one line. */
+.section--contact .contact__subtitle {
+    max-width: 100%;
+    margin: 0 auto;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .section--contact .contact__subtitle {
+        white-space: normal;
+    }
+}
+
+.contact__hero {
+    margin-bottom: var(--space-sm);
+}
+
+.contact__subtitle {
+    margin-bottom: var(--space-md);
+    max-width: 100%;
+}
+
+.contact__links {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.contact__link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-lg);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    transition:
+        border-color var(--transition-base),
+        transform var(--transition-base),
+        box-shadow var(--transition-base);
+    min-width: 180px;
+    cursor: pointer;
+}
+
+.contact__link:hover {
+    border-color: var(--accent-gold);
+    box-shadow: var(--shadow-gold);
+}
+
+.contact__link-icon {
+    flex-shrink: 0;
+    color: var(--text-muted);
+    transition: color var(--transition-base);
+}
+
+.contact__link:hover .contact__link-icon {
+    color: var(--accent-gold);
+}
+
+.contact__link-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    text-align: left;
+}
+
+.contact__link-label {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+}
+
+.contact__link-value {
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+    transition: color var(--transition-fast);
+}
+
+.contact__link:hover .contact__link-value {
+    color: var(--accent-gold);
+}
+
+/* ========================
+   RESPONSIVE
+   ======================== */
+
+@media (max-width: 900px) {
+    .about__stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about__grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .about__main {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .section {
+        height: auto;
+        min-height: 100vh;
+        padding: var(--space-xl) 0;
+    }
+
+    .about__stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+
+    .contact__links {
+        flex-direction: column;
+        width: 100%;
+        padding: 0 var(--space-lg);
+    }
+
+    .contact__link {
+        min-width: auto;
+        width: 100%;
+    }
+
+    .home__subtitle {
+        font-size: 0.9375rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .about__stats {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-sm);
+    }
+}
+
+/* ========================
+   TECH STACK HEADING 
+   (Tears of the Heartbroken style)
+   ======================== */
+.tech-heading-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem 0 3rem;
+    text-align: center;
+}
+
+.tech-heading-bottom {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    /* For absolutely positioning the arrow */
+    cursor: default;
+}
+
+.tech-heading-arrow {
+    display: inline-block;
+    width: 3rem;
+    height: 2rem;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-left: none;
+    border-radius: 0 20px 20px 0;
+}
+
+.tech-heading-arrow-icon {
+    position: absolute;
+    left: 1.5rem;
+    color: var(--accent-gold);
+    font-size: 1.25rem;
+    line-height: 1;
+    z-index: 2;
+    transition: left 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tech-heading-wrapper:hover .tech-heading-arrow-icon {
+    left: calc(100% + 2rem);
+    /* Pushes it completely out past the K */
+    transform: translateX(0);
+    /* Remove the backward shift */
+}
+
+.tech-heading-accent {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-weight: 900;
+    font-style: italic;
+    color: var(--accent-red);
+    text-transform: uppercase;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-shadow:
+        0 0 18px var(--accent-red-glow),
+        0 0 40px rgba(198, 40, 40, 0.18);
+}
+
+.tech-heading-subtitle {
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: clamp(0.85rem, 2vw, 1.1rem);
+    font-weight: 400;
+    font-style: italic;
+    color: #fff;
+    line-height: 1.4;
+    margin-top: 1rem;
+    white-space: nowrap;
+}
+
+/* ========================
+   PROJECTS HEADING 
+   (Dawn of the Dead style 3D block text)
+   ======================== */
+.dawn-heading-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin: 0.5rem 0 2rem;
+    perspective: 1000px;
+}
+
+.dawn-heading-layer {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    color: #fff;
+    line-height: 0.85;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: -0.02em;
+    /* Deep 3D extrusion straight down */
+    text-shadow:
+        0 1px 0 #999,
+        0 2px 0 #959595,
+        0 3px 0 #909090,
+        0 4px 0 #8b8b8b,
+        0 5px 0 #858585,
+        0 6px 0 #808080,
+        0 7px 0 #7b7b7b,
+        0 8px 0 #757575,
+        0 9px 0 #707070,
+        0 10px 0 #6b6b6b,
+        0 11px 0 #656565,
+        0 12px 0 #606060,
+        0 13px 0 #5b5b5b,
+        0 14px 0 #555555,
+        0 15px 0 #505050,
+        0 16px 0 #4b4b4b,
+        0 17px 0 #454545,
+        0 18px 0 #404040,
+        0 19px 0 #3b3b3b,
+        0 20px 0 #353535,
+        0 21px 0 #303030,
+        0 22px 0 #2b2b2b,
+        0 23px 0 #252525,
+        0 24px 0 #202020,
+        0 25px 0 #1b1b1b,
+        0 26px 0 #151515,
+        0 27px 0 #101010,
+        0 28px 0 #0b0b0b,
+        0 29px 0 #050505,
+        0 30px 0 #000,
+        0 40px 30px rgba(0, 0, 0, 0.9);
+}
+
+.dawn-heading-line1,
+.dawn-heading-line2,
+.dawn-heading-line3 {
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    transform: none;
+}
+
+.dawn-heading-line3 {
+    color: var(--accent-red);
+    text-shadow:
+        0 1px 0 #8b1a1a,
+        0 2px 0 #851919,
+        0 3px 0 #7f1818,
+        0 4px 0 #791717,
+        0 5px 0 #731616,
+        0 6px 0 #6d1515,
+        0 7px 0 #671414,
+        0 8px 0 #611313,
+        0 9px 0 #5b1212,
+        0 10px 0 #551111,
+        0 11px 0 #4f1010,
+        0 12px 0 #490f0f,
+        0 13px 0 #430e0e,
+        0 14px 0 #3d0d0d,
+        0 15px 0 #370c0c,
+        0 16px 0 #310b0b,
+        0 17px 0 #2b0a0a,
+        0 18px 0 #250909,
+        0 19px 0 #1f0808,
+        0 20px 0 #190707,
+        0 21px 0 #130606,
+        0 22px 0 #0d0505,
+        0 23px 0 #070404,
+        0 24px 0 #050303,
+        0 25px 0 #030202,
+        0 26px 0 #020101,
+        0 27px 0 #010000,
+        0 28px 0 #000,
+        0 29px 0 #000,
+        0 30px 0 #000,
+        0 40px 30px rgba(0, 0, 0, 0.9);
+}
+
+/* ===== LIGHT THEME OVERRIDES =====
+   "Gallery daylight" re-lighting for everything above that hardcodes the
+   black-theatre palette. Only literals are overridden here — anything already
+   on var(--…) re-themes itself via index.css tokens. The translation rules:
+   dark scrims become warm ivory veils (rgba(255,255,255,…)) at the same
+   alphas, white hairlines become ink (rgba(23,21,15,…)), black shadows warm
+   and soften (rgba(62,48,12,…)), smoked glass frosts white, and bright gold
+   drops to ochre so it keeps contrast on paper. Section-title outline-glass
+   is already re-themed globally in index.css — nothing needed here. */
+
+/* ── Home hero: DAYTIME SKY ──
+   In light mode the night theatre becomes broad daylight: a real-sky
+   gradient (deep zenith blue overhead, paling toward the horizon) that
+   melts into the white page exactly where About begins — the sky itself
+   is the transition, no seam overlay. The globe crossfades to its sunlit
+   day texture (EarthShaders' uBlend, driven live in EarthShadersCanvas)
+   and the star/meteor space layers are hidden in index.css. This gradient
+   replaces the dark radial scrim wholesale, and it is the slot a real sky
+   PHOTO can drop into later — swap the gradient for the image and keep a
+   white melt at the bottom edge. */
+html[data-theme='light'] .section--home {
+    background: 
+        linear-gradient(180deg, rgba(255, 255, 255, 0) 70%, #ffffff 100%),
+        url('/assets/backgrounds/cloud_image.png') center bottom / cover no-repeat;
+}
+
+/* The heavy black halo that lifted the title off the night globe would
+   read as a smudge in daylight — swap it for a bright air-glow with just
+   enough warm shadow to separate the letters from the globe behind. */
+html[data-theme='light'] .home__title--shadow {
+    text-shadow:
+        0 0 30px rgba(255, 255, 255, 0.85),
+        0 2px 10px rgba(20, 20, 30, 0.18),
+        0 4px 24px rgba(20, 20, 30, 0.10);
+    filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.7));
+}
+
+/* Command trigger: smoked glass → frosted white, gold trim → ochre. */
+html[data-theme='light'] .home__cmd-trigger {
+    background: rgba(255, 255, 255, 0.72);
+    border-color: rgba(154, 116, 20, 0.30);
+}
+
+html[data-theme='light'] .home__cmd-trigger:hover,
+html[data-theme='light'] .home__cmd-trigger:focus-visible {
+    border-color: rgba(154, 116, 20, 0.55);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 0 24px rgba(154, 116, 20, 0.10);
+}
+
+html[data-theme='light'] .home__cmd-icon {
+    color: rgba(154, 116, 20, 0.85);
+}
+
+html[data-theme='light'] .home__cmd-placeholder {
+    color: rgba(20, 20, 30, 0.55);
+}
+
+html[data-theme='light'] .home__cmd-kbd {
+    background: rgba(20, 20, 30, 0.05);
+    border-color: rgba(20, 20, 30, 0.17);
+    color: rgba(20, 20, 30, 0.72);
+}
+
+/* ── Tech stack backdrop ──
+   Same photo, opposite treatment: instead of darkening toward the edges it
+   bleaches toward ivory, so the plexus canvas stays visible in the middle
+   while the section melts into the paper page. */
+html[data-theme='light'] .section--tech-stack {
+    background: none;
+}
+
+html[data-theme='light'] .section--tech-stack::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: 
+        linear-gradient(180deg,
+            #ffffff 0%,
+            rgba(255, 255, 255, 0) 15%,
+            rgba(255, 255, 255, 0) 85%,
+            #ffffff 100%),
+        url('/assets/backgrounds/tech-white.png') center center / cover no-repeat;
+    filter: saturate(2) contrast(1.3) brightness(0.98);
+    pointer-events: none;
+}
+
+/* Edge melt now fades to the ivory page instead of the black seam. */
+html[data-theme='light'] .section--tech-stack::after {
+    display: none;
+}
+
+/* ── Projects backdrop ── */
+html[data-theme='light'] .section--projects .proj-bg__photo {
+    background: url('/assets/backgrounds/projects_white.png') center / cover no-repeat !important;
+}
+
+/* Ivory veils replace the black scrim — same stops, so the section still
+   melts seamlessly into its neighbours, just into paper instead of night. */
+html[data-theme='light'] .section--projects .proj-bg__scrim {
+    background: linear-gradient(180deg,
+            #ffffff 0%,
+            rgba(255, 255, 255, 0) 15%,
+            rgba(255, 255, 255, 0) 85%,
+            #ffffff 100%);
+}
+
+/* ── Projects HUD chrome ──
+   The whole white-on-dark instrument layer redraws in ink at the same
+   alphas (+~0.05 where hairline-thin), so the HUD reads like fine drafting
+   linework on paper. Travelling highlights switch to burgundy — the one
+   accent that gains drama on a light ground. */
+html[data-theme='light'] .proj-hud__grid {
+    background-image:
+        linear-gradient(rgba(20, 20, 30, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 20, 30, 0.07) 1px, transparent 1px);
+}
+
+html[data-theme='light'] .proj-hud__circuit-bg path {
+    stroke: rgba(20, 20, 30, 0.22);
+}
+
+html[data-theme='light'] .proj-hud__circuit-slash path {
+    stroke: rgba(20, 20, 30, 0.32);
+}
+
+html[data-theme='light'] .proj-hud__circuit-pulse {
+    stroke: rgba(93, 0, 24, 0.95);
+    filter: drop-shadow(0 0 4px rgba(154, 116, 20, 0.45));
+}
+
+html[data-theme='light'] .proj-hud__circuit-pulse--b {
+    stroke: rgba(154, 116, 20, 0.95);
+    filter: drop-shadow(0 0 5px rgba(154, 116, 20, 0.55));
+}
+
+/* Scan line goes burgundy — a white-hot streak has nothing to glow against
+   on ivory, but a blood-dark one cuts. */
+html[data-theme='light'] .proj-hud__scan {
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(93, 0, 24, 0.8) 50%,
+            transparent 100%);
+    box-shadow:
+        0 0 8px rgba(93, 0, 24, 0.30),
+        0 0 14px rgba(154, 116, 20, 0.14);
+}
+
+html[data-theme='light'] .proj-hud__stream {
+    background: linear-gradient(180deg,
+            transparent 0%,
+            rgba(20, 20, 30, 0.32) 18%,
+            rgba(20, 20, 30, 0.32) 82%,
+            transparent 100%);
+}
+
+html[data-theme='light'] .proj-hud__bracket {
+    border-color: rgba(20, 20, 30, 0.55);
+}
+
+html[data-theme='light'] .proj-hud__ticks--top,
+html[data-theme='light'] .proj-hud__ticks--bottom {
+    background-image: repeating-linear-gradient(90deg,
+            rgba(20, 20, 30, 0.45) 0,
+            rgba(20, 20, 30, 0.45) 1px,
+            transparent 1px,
+            transparent 14px);
+}
+
+html[data-theme='light'] .proj-hud__ticks--left,
+html[data-theme='light'] .proj-hud__ticks--right {
+    background-image: repeating-linear-gradient(180deg,
+            rgba(20, 20, 30, 0.45) 0,
+            rgba(20, 20, 30, 0.45) 1px,
+            transparent 1px,
+            transparent 14px);
+}
+
+html[data-theme='light'] .proj-hud__reticle::before,
+html[data-theme='light'] .proj-hud__reticle::after {
+    background: rgba(20, 20, 30, 0.75);
+    box-shadow: 0 0 4px rgba(154, 116, 20, 0.30);
+}
+
+html[data-theme='light'] .proj-hud__radar {
+    border-color: rgba(20, 20, 30, 0.55);
+}
+
+html[data-theme='light'] .proj-hud__radar-ring {
+    border-color: rgba(20, 20, 30, 0.30);
+}
+
+html[data-theme='light'] .proj-hud__radar-cross {
+    background:
+        linear-gradient(90deg, transparent calc(50% - 0.5px), rgba(20, 20, 30, 0.25) calc(50% - 0.5px), rgba(20, 20, 30, 0.25) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+        linear-gradient(180deg, transparent calc(50% - 0.5px), rgba(20, 20, 30, 0.25) calc(50% - 0.5px), rgba(20, 20, 30, 0.25) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+}
+
+html[data-theme='light'] .proj-hud__radar-sweep {
+    background: conic-gradient(from 0deg,
+            rgba(154, 116, 20, 0.55) 0deg,
+            rgba(154, 116, 20, 0.18) 30deg,
+            rgba(154, 116, 20, 0) 60deg,
+            transparent 60deg 360deg);
+}
+
+/* ── Project cards ──
+   Graphite chassis → frosted white card. The burgundy top border stays: it
+   was the card's signature on black and it lands even harder on paper. */
+html[data-theme='light'] .proj-card {
+    background:
+        linear-gradient(180deg, rgba(20, 20, 30, 0.04) 0%, transparent 45%),
+        rgba(255, 255, 255, 0.7);
+    border-color: rgba(20, 20, 30, 0.14);
+    border-top-color: rgba(93, 0, 24, 0.6);
+}
+
+/* Scanline texture: `overlay` was tuned to brighten dark glass — on white it
+   blows out, so the lines flip to ink and multiply down at low opacity,
+   reading as faint print-raster rather than CRT glow. */
+html[data-theme='light'] .proj-card::after {
+    background: repeating-linear-gradient(0deg,
+            rgba(20, 20, 30, 0.03) 0px,
+            rgba(20, 20, 30, 0.03) 1px,
+            transparent 1px,
+            transparent 3px);
+    mix-blend-mode: multiply;
+    opacity: 0.35;
+}
+
+html[data-theme='light'] .proj-card:hover,
+html[data-theme='light'] .proj-card:focus-visible {
+    border-color: rgba(154, 116, 20, 0.55);
+    background:
+        linear-gradient(180deg, rgba(154, 116, 20, 0.07) 0%, transparent 45%),
+        rgba(255, 255, 255, 0.85);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.9) inset,
+        0 28px 50px -28px rgba(30, 30, 50, 0.35),
+        0 0 0 1px rgba(154, 116, 20, 0.18),
+        0 0 24px -8px rgba(154, 116, 20, 0.22);
+}
+
+html[data-theme='light'] .proj-card__bracket {
+    border-color: rgba(20, 20, 30, 0.85);
+}
+
+/* Chrome strip lightens to an ivory veil so it doesn't sit as a black band
+   over the (now light) media box… */
+html[data-theme='light'] .proj-card__chrome {
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.70) 0%,
+            rgba(255, 255, 255, 0.30) 60%,
+            transparent 100%);
+}
+
+/* …but the SYS_ID chip deliberately stays a dark plate — one piece of
+   night-mode instrumentation kept for HUD contrast against the paper. */
+html[data-theme='light'] .proj-card__sysid {
+    background: rgba(20, 20, 30, 0.78);
+    border-color: rgba(20, 20, 30, 0.45);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+html[data-theme='light'] .proj-card__chrome-ticks {
+    background-image: repeating-linear-gradient(90deg,
+            rgba(20, 20, 30, 0.5) 0,
+            rgba(20, 20, 30, 0.5) 1px,
+            transparent 1px,
+            transparent 9px);
+}
+
+html[data-theme='light'] .proj-card__media {
+    background: #e8e8e8;
+    border-bottom-color: rgba(20, 20, 30, 0.10);
+}
+
+/* Placeholder becomes quiet paper with the same faint gold breath. */
+html[data-theme='light'] .proj-card__placeholder {
+    background:
+        radial-gradient(ellipse at 30% 25%, rgba(154, 116, 20, 0.08) 0%, transparent 55%),
+        linear-gradient(135deg, #f0f0f0 0%, #fafafa 60%, #f0f0f0 100%);
+}
+
+html[data-theme='light'] .proj-card__placeholder::after {
+    background:
+        repeating-linear-gradient(-45deg,
+            transparent, transparent 14px,
+            rgba(20, 20, 30, 0.02) 14px, rgba(20, 20, 30, 0.02) 28px);
+}
+
+html[data-theme='light'] .proj-card__placeholder-glyph {
+    color: rgba(20, 20, 30, 0.15);
+}
+
+/* The top-edge light-catch on the body flips to an ink wash — on frosted
+   white the "light" is the surface itself; the sheen becomes shading. */
+html[data-theme='light'] .proj-card__body {
+    background: linear-gradient(180deg,
+            rgba(20, 20, 30, 0.03) 0%,
+            rgba(20, 20, 30, 0.01) 38%,
+            transparent 100%);
+}
+
+html[data-theme='light'] .proj-card__meta {
+    border-bottom-color: rgba(20, 20, 30, 0.13);
+}
+
+html[data-theme='light'] .proj-card__index {
+    color: rgba(20, 20, 30, 0.42);
+}
+
+html[data-theme='light'] .proj-card__tag {
+    background: rgba(20, 20, 30, 0.03);
+    border-color: rgba(20, 20, 30, 0.14);
+}
+
+html[data-theme='light'] .proj-card:hover .proj-card__tag,
+html[data-theme='light'] .proj-card:focus-visible .proj-card__tag {
+    border-color: rgba(154, 116, 20, 0.40);
+    background: rgba(154, 116, 20, 0.06);
+}
+
+/* ── Carousel nav ── */
+html[data-theme='light'] .proj-nav {
+    border-color: rgba(20, 20, 30, 0.25);
+    background: rgba(255, 255, 255, 0.75);
+    color: rgba(20, 20, 30, 0.7);
+}
+
+html[data-theme='light'] .proj-nav::before,
+html[data-theme='light'] .proj-nav::after {
+    border-color: rgba(20, 20, 30, 0.55);
+}
+
+html[data-theme='light'] .proj-nav:hover:not(:disabled) {
+    background: rgba(154, 116, 20, 0.10);
+    box-shadow: 0 0 0 1px rgba(154, 116, 20, 0.20), 0 0 18px -6px rgba(154, 116, 20, 0.25);
+}
+
+html[data-theme='light'] .proj-dot {
+    background: rgba(20, 20, 30, 0.25);
+}
+
+html[data-theme='light'] .proj-dot:hover {
+    background: rgba(20, 20, 30, 0.55);
+}
+
+html[data-theme='light'] .proj-dot--active {
+    background: var(--accent-gold);
+    box-shadow: 0 0 10px rgba(154, 116, 20, 0.35);
+}
+
+/* ── Contact backdrop ──
+   Same photo, ivory veils: edges melt to the paper page, centre stays clear
+   enough for the form to sit on. */
+html[data-theme='light'] .section--contact::before {
+    background:
+        linear-gradient(180deg,
+            #ffffff 0%,
+            rgba(255, 255, 255, 0) 16%,
+            rgba(255, 255, 255, 0) 84%,
+            #ffffff 100%),
+        radial-gradient(ellipse 85% 75% at 50% 50%,
+            rgba(255, 255, 255, 0.30) 0%,
+            rgba(255, 255, 255, 0.70) 100%),
+        url('/assets/backgrounds/contact_white.png') center / cover no-repeat;
+}
+
+/* ── Tech-stack heading trims ── */
+html[data-theme='light'] .tech-heading-arrow {
+    border-color: rgba(20, 20, 30, 0.6);
+}
+
+html[data-theme='light'] .tech-heading-subtitle {
+    color: #1a1a2e;
+}
+
+/* ── Dawn heading — 3D extrusion re-lit ──
+   The block letters stay ink-dark; the extruded side ramps through warm
+   greys instead of cold ones — like a plaster relief lit from above rather
+   than letters emerging from darkness. The drop-shadow warms and softens. */
+html[data-theme='light'] .dawn-heading-layer {
+    color: #1a1a2e;
+    text-shadow:
+        0 1px 0 #b9b3a5,
+        0 2px 0 #b6b0a1,
+        0 3px 0 #b2ac9e,
+        0 4px 0 #afa99a,
+        0 5px 0 #aba597,
+        0 6px 0 #a8a293,
+        0 7px 0 #a59f90,
+        0 8px 0 #a19b8c,
+        0 9px 0 #9e9889,
+        0 10px 0 #9b9485,
+        0 11px 0 #979182,
+        0 12px 0 #948d7e,
+        0 13px 0 #908a7b,
+        0 14px 0 #8d8777,
+        0 15px 0 #8a8374,
+        0 16px 0 #868070,
+        0 17px 0 #837c6d,
+        0 18px 0 #807969,
+        0 19px 0 #7c7666,
+        0 20px 0 #797262,
+        0 21px 0 #756f5f,
+        0 22px 0 #726b5b,
+        0 23px 0 #6f6858,
+        0 24px 0 #6b6554,
+        0 25px 0 #686151,
+        0 26px 0 #645e4d,
+        0 27px 0 #615a4a,
+        0 28px 0 #5e5746,
+        0 29px 0 #5a5343,
+        0 30px 0 #57503f,
+        0 40px 30px rgba(30, 30, 50, 0.35);
+}
+
+/* The red line keeps its blood ramp but bottoms out in deep maroon instead
+   of vanishing into black — the extrusion stays legibly red on paper. */
+html[data-theme='light'] .dawn-heading-line3 {
+    text-shadow:
+        0 1px 0 #8b1a1a,
+        0 2px 0 #881919,
+        0 3px 0 #861919,
+        0 4px 0 #831818,
+        0 5px 0 #811818,
+        0 6px 0 #7e1717,
+        0 7px 0 #7b1717,
+        0 8px 0 #791616,
+        0 9px 0 #761616,
+        0 10px 0 #731515,
+        0 11px 0 #711515,
+        0 12px 0 #6e1414,
+        0 13px 0 #6c1313,
+        0 14px 0 #691313,
+        0 15px 0 #661212,
+        0 16px 0 #641212,
+        0 17px 0 #611111,
+        0 18px 0 #5e1111,
+        0 19px 0 #5c1010,
+        0 20px 0 #591010,
+        0 21px 0 #570f0f,
+        0 22px 0 #540e0e,
+        0 23px 0 #510e0e,
+        0 24px 0 #4f0d0d,
+        0 25px 0 #4c0d0d,
+        0 26px 0 #490c0c,
+        0 27px 0 #470c0c,
+        0 28px 0 #440b0b,
+        0 29px 0 #420b0b,
+        0 30px 0 #3f0a0a,
+        0 40px 30px rgba(30, 30, 50, 0.35);
+}

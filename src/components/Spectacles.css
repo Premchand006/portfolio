@@ -1,0 +1,73 @@
+/* ── Spectacles ──────────────────────────────────────────────────
+   Black display panel holding the cursor-tracking gold glasses. Sits
+   in the left cell of the contact grid.                            */
+
+.specs-panel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+    height: 100%;
+    padding: var(--space-lg);
+    background: transparent;
+    overflow: hidden;
+}
+
+.specs-svg {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    display: block;
+    /* Soft gold bloom around the frame. */
+    filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.6));
+}
+
+/* Gold wire frame — uses the site accent so it stays on-theme. */
+.specs-frame {
+    stroke: var(--accent-gold, #d29f22);
+    color: var(--accent-gold, #d29f22);
+    filter: drop-shadow(0 0 6px rgba(210, 159, 34, 0.35));
+}
+
+/* The eyeball whites carry a faint inner shadow so the ball reads as
+   spherical rather than a flat disc. */
+.specs-eye circle:first-child {
+    /* sclera */
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.45));
+}
+
+@media (max-width: 900px) {
+    .specs-panel {
+        min-height: 200px;
+        order: 2;
+    }
+    .specs-svg {
+        max-width: 300px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .specs-frame {
+        filter: none;
+    }
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* The black stage becomes a porcelain panel — still a "stage" for the
+   glasses, but lit: soft ochre floor glow over a warm off-white base. */
+
+
+/* Black blooms turn to warm umber so the frame and eyes keep their
+   depth without smudging soot onto the porcelain. */
+html[data-theme='light'] .specs-svg {
+    filter: drop-shadow(0 4px 18px rgba(30, 30, 50, 0.3));
+}
+
+html[data-theme='light'] .specs-frame {
+    filter: drop-shadow(0 0 6px rgba(154, 116, 20, 0.35));
+}
+
+html[data-theme='light'] .specs-eye circle:first-child {
+    filter: drop-shadow(0 2px 5px rgba(30, 30, 50, 0.3));
+}

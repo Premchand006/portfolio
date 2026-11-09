@@ -1,0 +1,485 @@
+/* ============================================================
+   Timeline Styles — Snake Path + Image Slider + Scroll Fill
+   ============================================================ */
+
+/* ---- Page Container ---- */
+.timeline-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* ---- Title ---- */
+.timeline-title {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+/* Code-label: console.log(currentLife) */
+.code-label {
+    display: inline-block;
+    background: #1a1a1a;
+    color: #F9B646;
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 7px 18px;
+    border: 2px solid #F9B646;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    box-shadow: 4px 4px 0 #F9B646;
+    position: relative;
+}
+
+/* Colour coding for the label tokens */
+.code-fn     { color: #89d5f5; }
+.code-dot    { color: #fff; }
+.code-method { color: #dcdcaa; }
+.code-paren  { color: #ffd700; }
+.code-var    { color: #9cdcfe; }
+
+.timeline-title h1 {
+    font-size: 80px;
+    line-height: 0.9;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-style: italic;
+}
+
+/* ============================================================
+   SNAKE SVG PROGRESS LINE
+   ============================================================ */
+.timeline-progress-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.snake-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.snake-path-base {
+    stroke: #d1d1d1;
+    stroke-width: 4;
+    fill: none;
+}
+
+.snake-path-fill {
+    stroke: #F9B646;
+    stroke-width: 4;
+    fill: none;
+    stroke-linecap: round;
+    stroke-dasharray: 0;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.1s linear;
+}
+
+/* ============================================================
+   TIMELINE ITEMS — Full width, left/right via flex-direction
+   ============================================================ */
+.timeline {
+    position: relative;
+    width: 100%;
+    margin-bottom: 50px;
+    z-index: 1;
+}
+
+.timeline-item {
+    padding: 10px 0;
+    position: relative;
+    width: 96%;           /* almost full page width */
+    margin: 0 auto 80px auto;
+    left: 0;              /* reset — no longer offset by 50% */
+    display: flex;
+    align-items: stretch;
+    gap: 32px;
+    opacity: 0;           /* GSAP animates in */
+}
+
+/* Left item: text-card on left, image on right */
+.timeline-item.left  { flex-direction: row; }
+
+/* Right item: image on left, text-card on right */
+.timeline-item.right { flex-direction: row-reverse; }
+
+/* ---- Icon on the snake line — in-flow flex item so it never overlaps cards ---- */
+.timeline-icon {
+    /* NOT absolute — sits naturally between content and image in the flex row */
+    position: relative;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background-color: #F9B646;
+    border: 2px solid #000;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 4px 4px 0px #000;
+    align-self: center;   /* vertically centred in the flex row */
+}
+
+/* Left item: DOM order → content | icon | image  (row)
+   icon x ≈ 60% of item → left side of snake zigzag */
+.timeline-item.left .timeline-icon  { /* in-flow, no override needed */ }
+
+/* Right item: DOM order → content | icon | image  (row-reverse)
+   Visual order → image | icon | content
+   icon x ≈ 40% of item → right side of snake zigzag */
+.timeline-item.right .timeline-icon { /* in-flow, no override needed */ }
+
+.timeline-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ---- Content block ---- */
+.timeline-content {
+    flex: 1.4;
+    background: #fff;
+    padding: 40px;
+    border: 2px solid #000;
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.1);
+    position: relative;
+    cursor: default;
+}
+
+/* ============================================================
+   IMAGE SLIDER  — 4:3 ratio + slide-in-from-right animation
+   ============================================================ */
+.timeline-image {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+}
+
+/* Slider container holds all images via absolute positioning */
+.img-slider {
+    position: relative;
+    width: 100%;
+    /* 4:3 aspect ratio */
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 2px solid #000;
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.15);
+    cursor: pointer;
+    background: #111;
+    align-self: stretch;   /* stretch to fill .timeline-image height */
+}
+
+/* All images sit stacked on top of each other */
+.img-slider .slider-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Default: waiting off-screen to the RIGHT */
+    transform: translateX(100%);
+    transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+/* Active image is in view */
+.img-slider .slider-img.active {
+    transform: translateX(0);
+}
+
+/* Exiting image slides out to the LEFT */
+.img-slider .slider-img.slide-out {
+    transform: translateX(-100%);
+}
+
+/* When going prev: incoming enters from LEFT */
+.img-slider .slider-img.from-left {
+    transform: translateX(-100%);
+}
+
+/* Arrow buttons inside slider */
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: background 0.2s;
+    padding: 0;
+}
+
+.slider-btn:hover {
+    background: #F9B646;
+    color: #000;
+}
+
+.slider-prev { left: 6px; }
+.slider-next { right: 6px; }
+
+/* Dot indicators */
+.slider-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    z-index: 5;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.dot.active { background: #F9B646; }
+
+/* Single-image: hide arrows/dots */
+.img-slider.single .slider-btn,
+.img-slider.single .slider-dots {
+    display: none;
+}
+
+/* ---- Tag / Date ---- */
+.tag-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.tag {
+    background: #000;
+    color: #F9B646;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.date {
+    font-size: 14px;
+    font-weight: 700;
+    color: #666;
+    text-transform: uppercase;
+}
+
+.timeline-content h2 {
+    font-size: 34px;
+    font-weight: 900;
+    margin-bottom: 15px;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.timeline-content p {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.6;
+}
+
+/* ============================================================
+   FULLSCREEN MODAL (with image slider)
+   ============================================================ */
+.timeline-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.timeline-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.timeline-modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.timeline-modal-content img {
+    width: auto;
+    max-width: 80vw;
+    max-height: 85vh;
+    border: 4px solid #fff;
+    border-radius: 6px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    transition: opacity 0.3s;
+}
+
+.close-modal {
+    position: absolute;
+    top: -44px;
+    right: 0;
+    color: #fff;
+    font-size: 38px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+    line-height: 1;
+    z-index: 10;
+}
+
+.close-modal:hover { color: #F9B646; }
+
+/* Modal navigation arrows */
+.modal-arrow {
+    background: rgba(255,255,255,0.15);
+    border: 2px solid #fff;
+    color: #fff;
+    font-size: 36px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 0;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    padding: 0;
+    line-height: 1;
+}
+
+.modal-arrow:hover {
+    background: #F9B646;
+    color: #000;
+    border-color: #F9B646;
+}
+
+.modal-arrow.hidden { display: none; }
+
+/* Modal dots */
+.modal-dots {
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+.modal-dots .dot {
+    width: 9px;
+    height: 9px;
+    background: rgba(255,255,255,0.4);
+}
+
+.modal-dots .dot.active { background: #F9B646; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+    .timeline-item {
+        width: 98%;
+        flex-direction: column !important;
+        align-items: stretch;
+        margin-bottom: 60px;
+        gap: 0;
+    }
+
+    /* On mobile the icon stacks after the content card */
+    .timeline-icon {
+        align-self: flex-start;
+        margin: 12px 0 0 16px;
+    }
+
+    .img-slider {
+        aspect-ratio: 4 / 3;
+    }
+
+    .timeline-title h1 { font-size: 50px; }
+    .timeline-content h2 { font-size: 26px; }
+}
+
+@media (max-width: 768px) {
+    .timeline-container { padding: 0; }
+    .timeline-title h1 { font-size: 40px; }
+    .timeline-content { padding: 25px; }
+
+    .tag-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    /* Modal: arrows overlay the image so they don't need horizontal space */
+    .timeline-modal-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        max-width: 98vw;
+        position: relative;
+    }
+
+    .timeline-modal-content img {
+        max-width: 95vw;
+        max-height: 62vh;
+        width: 95vw;
+        height: auto;
+    }
+
+    .modal-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 20;
+        width: 38px;
+        height: 38px;
+        font-size: 26px;
+        background: rgba(0,0,0,0.65);
+    }
+
+    .modal-prev { left: 6px; right: auto; }
+    .modal-next { right: 6px; left: auto; }
+
+    .modal-dots {
+        bottom: -28px;
+    }
+
+    .close-modal {
+        top: -36px;
+        font-size: 30px;
+    }
+}

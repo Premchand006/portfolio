@@ -1,0 +1,944 @@
+/* ============================================================
+   VS Code Editor Simulation
+   ============================================================ */
+
+.vsc {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #1e1e1e;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #d4d4d4;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Title Bar ─────────────────────────────────────────── */
+
+.vsc-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0 0.75rem;
+    height: 32px;
+    background: #323233;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.vsc-titlebar__dots {
+    display: flex;
+    gap: 6px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.dot--red {
+    background: #ff5f57;
+}
+
+.dot--yellow {
+    background: #febc2e;
+}
+
+.dot--green {
+    background: #28c840;
+}
+
+.vsc-titlebar__name {
+    flex: 1;
+    font-size: 0.75rem;
+    color: #ffffffaa;
+    text-align: center;
+}
+
+.vsc-titlebar__actions {
+    display: flex;
+    gap: 4px;
+}
+
+.vsc-icon-btn {
+    background: none;
+    border: none;
+    color: #ffffffaa;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    transition: background 150ms;
+}
+
+.vsc-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.vsc-icon-btn.active {
+    color: #d29f22;
+}
+
+/* ─── Menu Bar ──────────────────────────────────────────── */
+
+.vsc-menubar {
+    display: flex;
+    gap: 0;
+    padding: 0 0.5rem;
+    height: 26px;
+    background: #3c3c3c;
+    flex-shrink: 0;
+    align-items: center;
+}
+
+.vsc-menubar__item {
+    padding: 0 0.625rem;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: #cccccc;
+    cursor: default;
+    border-radius: 4px;
+    line-height: 26px;
+    transition: background 150ms;
+}
+
+.vsc-menubar__item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* ─── Body ──────────────────────────────────────────────── */
+
+.vsc-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* ─── Activity Bar ──────────────────────────────────────── */
+
+.vsc-activitybar {
+    width: 48px;
+    background: #333333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4px;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.vsc-actbtn {
+    width: 38px;
+    height: 38px;
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 150ms, background 150ms;
+}
+
+.vsc-actbtn:hover {
+    color: #d4d4d4;
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.vsc-actbtn--active {
+    color: #fff;
+    border-left: 2px solid #d29f22;
+}
+
+/* ─── File Explorer ─────────────────────────────────────── */
+
+.vsc-explorer {
+    width: 200px;
+    background: #252526;
+    border-right: 1px solid #1e1e1e;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+
+/* Drag-to-resize divider between the explorer and the editor. */
+.vsc-explorer-resizer {
+    width: 5px;
+    margin-left: -2px;          /* sit over the explorer's border line */
+    background: transparent;
+    cursor: col-resize;
+    flex-shrink: 0;
+    z-index: 5;
+    transition: background 150ms;
+}
+
+.vsc-explorer-resizer:hover,
+.vsc-explorer-resizer:active {
+    background: rgba(210, 159, 34, 0.45);
+}
+
+.vsc-explorer__header {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #bbb;
+    padding: 0.625rem 0.75rem 0.375rem;
+    font-family: var(--font-mono);
+}
+
+.vsc-explorer__section {
+    padding: 0 0 0.5rem;
+}
+
+.vsc-explorer__folder {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px 3px 0.75rem;
+    font-size: 0.8125rem;
+    color: #ccc;
+    cursor: default;
+    font-family: var(--font-mono);
+}
+
+.vsc-explorer__chevron {
+    font-size: 0.625rem;
+    opacity: 0.6;
+}
+
+.vsc-explorer__file {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 8px 3px 2rem;
+    font-size: 0.8125rem;
+    color: #ccc;
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: background 100ms;
+    font-family: var(--font-mono);
+}
+
+.vsc-explorer__file:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.vsc-explorer__file--active {
+    background: #094771;
+    color: #fff;
+    border-left-color: #d29f22;
+}
+
+.vsc-explorer__file-icon {
+    font-size: 0.875rem;
+}
+
+/* ─── Main Editor ───────────────────────────────────────── */
+
+.vsc-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+    min-width: 0;
+}
+
+/* ─── Tabs ──────────────────────────────────────────────── */
+
+.vsc-tabs {
+    display: flex;
+    align-items: center;
+    background: #2d2d2d;
+    border-bottom: 1px solid #1e1e1e;
+    min-height: 36px;
+    flex-shrink: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.vsc-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.vsc-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 0.75rem;
+    height: 36px;
+    min-width: max-content;
+    font-size: 0.8125rem;
+    font-family: var(--font-mono);
+    color: #888;
+    cursor: pointer;
+    border-right: 1px solid #1e1e1e;
+    transition: background 150ms, color 150ms;
+    white-space: nowrap;
+}
+
+.vsc-tab:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ccc;
+}
+
+.vsc-tab--active {
+    background: #1e1e1e;
+    color: #fff;
+    border-top: 1px solid #d29f22;
+}
+
+.vsc-tab__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #888;
+    flex-shrink: 0;
+}
+
+.vsc-tab--active .vsc-tab__dot {
+    background: #d29f22;
+}
+
+.vsc-tab__close {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 0.875rem;
+    line-height: 1;
+    padding: 2px 4px;
+    border-radius: 3px;
+    transition: background 150ms, color 150ms;
+}
+
+.vsc-tab__close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.vsc-run-btn {
+    margin-left: auto;
+    margin-right: 0.5rem;
+    padding: 4px 10px;
+    background: #388a34;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background 150ms;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.vsc-run-btn:hover:not(:disabled) {
+    background: #3ba335;
+}
+
+.vsc-run-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+/* ─── Breadcrumb ────────────────────────────────────────── */
+
+.vsc-breadcrumb {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: #888;
+    padding: 3px 1rem;
+    background: #1e1e1e;
+    border-bottom: 1px solid #2a2a2a;
+    flex-shrink: 0;
+}
+
+/* ─── Code Editor ───────────────────────────────────────── */
+
+.vsc-editor {
+    flex: 1;
+    overflow: auto;
+    background: #1e1e1e;
+    padding: 0.5rem 0;
+}
+
+.vsc-code {
+    display: table;
+    width: 100%;
+}
+
+.vsc-code__line {
+    display: table-row;
+}
+
+.vsc-code__line:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.vsc-code__ln {
+    display: table-cell;
+    width: 3.5rem;
+    text-align: right;
+    padding-right: 1.25rem;
+    color: #4a4a4a;
+    user-select: none;
+    font-size: 0.8125rem;
+    vertical-align: top;
+    padding-top: 1px;
+    flex-shrink: 0;
+}
+
+.vsc-code__text {
+    display: table-cell;
+    white-space: pre;
+    padding-right: 2rem;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    vertical-align: top;
+}
+
+/* Syntax tokens */
+.tok-keyword {
+    color: #569cd6;
+}
+
+.tok-preproc {
+    color: #c586c0;
+}
+
+.tok-string {
+    color: #ce9178;
+}
+
+.tok-comment {
+    color: #6a9955;
+    font-style: italic;
+}
+
+.tok-number {
+    color: #b5cea8;
+}
+
+.tok-decorator {
+    color: #dcdcaa;
+}
+
+.vsc-empty {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    gap: 0.5rem;
+}
+
+.vsc-empty__hint {
+    font-size: 0.75rem;
+    color: #444;
+}
+
+/* ─── Markdown Editor (README) ──────────────────────────── */
+
+.vsc-markdown {
+    padding: 3rem 4rem;
+    color: #cccccc;
+    font-family: var(--font-body), sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+}
+
+.vsc-markdown__title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+}
+
+.vsc-markdown__subtitle {
+    font-size: 0.95rem;
+    color: #a0a0a0;
+    margin-bottom: 2rem;
+}
+
+.vsc-markdown__list {
+    text-align: left;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.5rem 2rem 1.5rem 3rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: #cccccc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.vsc-markdown__list li::marker {
+    color: #d29f22;
+    font-weight: 500;
+}
+
+.vsc-markdown__list code {
+    font-family: var(--font-mono);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #e0b23f;
+    font-size: 0.85em;
+}
+
+/* ─── Terminal ──────────────────────────────────────────── */
+
+.vsc-terminal {
+    background: #1e1e1e;
+    border-top: 1px solid #3a3a3a;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    min-height: 80px;
+    max-height: 500px;
+}
+
+/* Drag-to-resize handle at the top of the terminal */
+.vsc-terminal__resizer {
+    height: 4px;
+    background: transparent;
+    cursor: row-resize;
+    flex-shrink: 0;
+    transition: background 150ms;
+}
+
+.vsc-terminal__resizer:hover,
+.vsc-terminal__resizer:active {
+    background: rgba(210, 159, 34, 0.45);
+}
+
+.vsc-terminal__header {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 0 0.5rem 0 0.75rem;
+    font-family: var(--font-mono);
+    background: #181818;
+    border-bottom: 1px solid #2a2a2a;
+    flex-shrink: 0;
+}
+
+.vsc-terminal__tabs {
+    display: flex;
+    align-items: stretch;
+    gap: 1.25rem;
+    overflow-x: auto;
+}
+
+.vsc-terminal__tab {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: #8a8a8a;
+    font-size: 0.6875rem;
+    font-family: inherit;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 8px 2px;
+    cursor: pointer;
+    position: relative;
+    transition: color 150ms;
+    white-space: nowrap;
+}
+
+.vsc-terminal__tab:hover {
+    color: #d4d4d4;
+}
+
+.vsc-terminal__tab--active {
+    color: #ffffff;
+}
+
+.vsc-terminal__tab--active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: #ffffff;
+}
+
+.vsc-terminal__body {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+}
+
+.vsc-terminal__output {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: #cccccc;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin: 0;
+}
+
+.vsc-terminal__empty {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    font-size: 0.78rem;
+    color: #6b6b6b;
+    font-family: inherit;
+}
+
+/* ─── Status Bar ────────────────────────────────────────── */
+
+.vsc-statusbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.75rem;
+    height: 24px;
+    background: #007acc;
+    flex-shrink: 0;
+    font-size: 0.6875rem;
+    font-family: var(--font-mono);
+    color: #fff;
+    user-select: none;
+}
+
+.vsc-statusbar__left,
+.vsc-statusbar__right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.vsc-statusbar__branch {
+    opacity: 0.9;
+}
+
+.vsc-statusbar__lang {
+    opacity: 0.85;
+}
+
+/* ─── Scrollbar Styling ─────────────────────────────────── */
+
+.vsc-editor::-webkit-scrollbar,
+.vsc-terminal__output::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.vsc-editor::-webkit-scrollbar-track,
+.vsc-terminal__output::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.vsc-editor::-webkit-scrollbar-thumb,
+.vsc-terminal__output::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 3px;
+}
+
+/* ─── Responsive ────────────────────────────────────────── */
+
+@media (max-width: 700px) {
+    .vsc-explorer,
+    .vsc-explorer-resizer {
+        display: none;
+    }
+}
+
+/* ===== LIGHT THEME (VS Code Light+) ===== */
+
+/* Window frame */
+html[data-theme='light'] .vsc {
+    background: #ffffff;
+    color: #3b3b3b;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Title bar */
+html[data-theme='light'] .vsc-titlebar {
+    background: #dddddd;
+}
+
+html[data-theme='light'] .vsc-titlebar__name {
+    color: #333333;
+}
+
+html[data-theme='light'] .vsc-icon-btn {
+    color: #616161;
+}
+
+html[data-theme='light'] .vsc-icon-btn:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+html[data-theme='light'] .vsc-icon-btn.active {
+    color: #9a7414;
+}
+
+/* Menu bar */
+html[data-theme='light'] .vsc-menubar {
+    background: #dddddd;
+}
+
+html[data-theme='light'] .vsc-menubar__item {
+    color: #333333;
+}
+
+html[data-theme='light'] .vsc-menubar__item:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+/* Activity bar */
+html[data-theme='light'] .vsc-activitybar {
+    background: #f8f8f8;
+}
+
+html[data-theme='light'] .vsc-actbtn {
+    color: #616161;
+}
+
+html[data-theme='light'] .vsc-actbtn:hover {
+    color: #3b3b3b;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+html[data-theme='light'] .vsc-actbtn--active {
+    color: #005fb8;
+    border-left-color: #005fb8;
+}
+
+/* File explorer */
+html[data-theme='light'] .vsc-explorer {
+    background: #f8f8f8;
+    border-right-color: #e5e5e5;
+}
+
+html[data-theme='light'] .vsc-explorer-resizer:hover,
+html[data-theme='light'] .vsc-explorer-resizer:active {
+    background: rgba(154, 116, 20, 0.45);
+}
+
+html[data-theme='light'] .vsc-explorer__header {
+    color: #616161;
+}
+
+html[data-theme='light'] .vsc-explorer__folder {
+    color: #3b3b3b;
+}
+
+html[data-theme='light'] .vsc-explorer__file {
+    color: #3b3b3b;
+}
+
+html[data-theme='light'] .vsc-explorer__file:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+html[data-theme='light'] .vsc-explorer__file--active {
+    background: #e4e6f1;
+    color: #000000;
+    border-left-color: #9a7414;
+}
+
+/* Tabs */
+html[data-theme='light'] .vsc-tabs {
+    background: #f8f8f8;
+    border-bottom-color: #e5e5e5;
+}
+
+html[data-theme='light'] .vsc-tab {
+    background: #ececec;
+    color: #6f6f6f;
+    border-right-color: #e5e5e5;
+}
+
+html[data-theme='light'] .vsc-tab:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #3b3b3b;
+}
+
+html[data-theme='light'] .vsc-tab--active {
+    background: #ffffff;
+    color: #333333;
+    border-top-color: #005fb8;
+}
+
+html[data-theme='light'] .vsc-tab__dot {
+    background: #6f6f6f;
+}
+
+html[data-theme='light'] .vsc-tab--active .vsc-tab__dot {
+    background: #9a7414;
+}
+
+html[data-theme='light'] .vsc-tab__close {
+    color: #6f6f6f;
+}
+
+html[data-theme='light'] .vsc-tab__close:hover {
+    background: rgba(0, 0, 0, 0.08);
+    color: #000000;
+}
+
+/* Run button */
+html[data-theme='light'] .vsc-run-btn {
+    background: #107c10;
+    color: #ffffff;
+}
+
+html[data-theme='light'] .vsc-run-btn:hover:not(:disabled) {
+    background: #0f6e0f;
+}
+
+/* Breadcrumb */
+html[data-theme='light'] .vsc-breadcrumb {
+    color: #616161;
+    background: #ffffff;
+    border-bottom-color: #e5e5e5;
+}
+
+/* Code editor */
+html[data-theme='light'] .vsc-editor {
+    background: #ffffff;
+}
+
+html[data-theme='light'] .vsc-code__line:hover {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+html[data-theme='light'] .vsc-code__ln {
+    color: #6e7681;
+}
+
+html[data-theme='light'] .vsc-editor ::selection {
+    background: #add6ff;
+}
+
+/* Syntax tokens (Light+) */
+html[data-theme='light'] .tok-keyword {
+    color: #0000ff;
+}
+
+html[data-theme='light'] .tok-preproc {
+    color: #af00db;
+}
+
+html[data-theme='light'] .tok-string {
+    color: #a31515;
+}
+
+html[data-theme='light'] .tok-comment {
+    color: #008000;
+}
+
+html[data-theme='light'] .vsc-markdown {
+    color: #333333;
+}
+
+html[data-theme='light'] .vsc-markdown__title {
+    color: #111111;
+}
+
+html[data-theme='light'] .vsc-markdown__subtitle {
+    color: #666666;
+}
+
+html[data-theme='light'] .vsc-markdown__list {
+    background: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    color: #333333;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+html[data-theme='light'] .vsc-markdown__list li::marker {
+    color: #005fb8;
+}
+
+html[data-theme='light'] .vsc-markdown__list code {
+    background: #eaeaea;
+    color: #005fb8;
+}
+
+html[data-theme='light'] .tok-number {
+    color: #098658;
+}
+
+html[data-theme='light'] .tok-decorator {
+    color: #795e26;
+}
+
+/* Empty state */
+html[data-theme='light'] .vsc-empty {
+    color: #616161;
+}
+
+html[data-theme='light'] .vsc-empty__hint {
+    color: #8a8a8a;
+}
+
+/* Terminal */
+html[data-theme='light'] .vsc-terminal {
+    background: #ffffff;
+    border-top-color: #e5e5e5;
+}
+
+html[data-theme='light'] .vsc-terminal__resizer:hover,
+html[data-theme='light'] .vsc-terminal__resizer:active {
+    background: rgba(154, 116, 20, 0.45);
+}
+
+html[data-theme='light'] .vsc-terminal__header {
+    background: #f8f8f8;
+    border-bottom-color: #e5e5e5;
+}
+
+html[data-theme='light'] .vsc-terminal__tab {
+    color: #616161;
+}
+
+html[data-theme='light'] .vsc-terminal__tab:hover {
+    color: #3b3b3b;
+}
+
+html[data-theme='light'] .vsc-terminal__tab--active {
+    color: #333333;
+}
+
+html[data-theme='light'] .vsc-terminal__tab--active::after {
+    background: #333333;
+}
+
+html[data-theme='light'] .vsc-terminal__output {
+    color: #3b3b3b;
+}
+
+html[data-theme='light'] .vsc-terminal__empty {
+    color: #616161;
+}
+
+/* Scrollbars */
+html[data-theme='light'] .vsc-editor::-webkit-scrollbar-thumb,
+html[data-theme='light'] .vsc-terminal__output::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+}

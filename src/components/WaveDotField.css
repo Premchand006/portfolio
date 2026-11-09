@@ -1,0 +1,55 @@
+/* ── WaveDotField ───────────────────────────────────────────────
+   Section backdrop. Sits behind .section__content (which is bumped
+   above z-index 0 by the section's local styles). Canvas paints a
+   solid-black wipe each frame so the layer is fully opaque; the
+   vignette overlay re-darkens the edges so the wave reads centered. */
+
+.wave-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: #000;
+}
+
+.wave-bg__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.wave-bg__vignette {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 75% 65% at 50% 70%,
+            transparent 0%,
+            transparent 55%,
+            rgba(0, 0, 0, 0.55) 85%,
+            rgba(0, 0, 0, 0.92) 100%),
+        linear-gradient(180deg,
+            rgba(0, 0, 0, 0.65) 0%,
+            rgba(0, 0, 0, 0) 28%);
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* Base flips to the ivory page colour; the vignette re-lightens the
+   edges with the same alphas so the wave still reads centered. */
+html[data-theme='light'] .wave-bg {
+    background: #ffffff;
+}
+
+html[data-theme='light'] .wave-bg__vignette {
+    background:
+        radial-gradient(ellipse 75% 65% at 50% 70%,
+            transparent 0%,
+            transparent 55%,
+            rgba(255, 255, 255, 0.55) 85%,
+            rgba(255, 255, 255, 0.92) 100%),
+        linear-gradient(180deg,
+            rgba(255, 255, 255, 0.65) 0%,
+            rgba(255, 255, 255, 0) 28%);
+}

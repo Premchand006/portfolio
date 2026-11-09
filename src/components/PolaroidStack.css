@@ -1,0 +1,242 @@
+/* ── PolaroidStack — pinned-deck photo carousel ──────────────────
+   Visual reference: a stack of polaroid prints hung from a single
+   pin at the top of the column. The active card sits centered;
+   upcoming cards peek out from below-right, past cards drift up-left.
+   Wheel/arrow-driven within the column so it works inside the
+   snap-scroll container.                                          */
+
+.polaroid-stack {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 3 / 4.2;
+    margin: 0 auto;
+    -webkit-user-select: none;
+    user-select: none;
+    outline: none;
+    isolation: isolate;
+    /* Trap wheel events so they don't bubble to the scroll-snap container
+       when we still have cards to flip through. */
+    overscroll-behavior: contain;
+}
+
+.polaroid-stack:focus-visible {
+    box-shadow: 0 0 0 1px var(--accent-gold, #d29f22) inset;
+    border-radius: 8px;
+}
+
+/* ── The pin (matches the dashed-ring + black-dot motif in the ref) ── */
+.polaroid-stack__pin {
+    position: absolute;
+    top: 6%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 34px;
+    height: 34px;
+    z-index: 200;
+    pointer-events: none;
+}
+
+.polaroid-stack__pin-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(245, 245, 245, 0.45);
+}
+
+.polaroid-stack__pin-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #0a0a0a;
+    transform: translate(-50%, -50%);
+    box-shadow:
+        0 0 0 1px rgba(245, 245, 245, 0.18),
+        0 6px 12px rgba(0, 0, 0, 0.55),
+        inset 0 1px 2px rgba(255, 255, 255, 0.25);
+}
+
+/* ── The deck of cards ────────────────────────────────────────── */
+.polaroid-stack__deck {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    width: 78%;
+    /* Matches the card's real content ratio: a square photo plus the
+       proportional (%) frame below — so the photo always fills cleanly with
+       no drifting slack as the deck scales. */
+    aspect-ratio: 1 / 1.1;
+    transform: translateX(-50%);
+    perspective: 1200px;
+}
+
+.polaroid {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    background: #f3eee4;
+    /* Frame as a % of the card width (not fixed px) so the polaroid border
+       keeps the same proportions at every size — thin top/sides, thick
+       classic bottom border. Fixed px here made the border look oversized on
+       small cards and too thin on large ones. */
+    padding: 3.4% 3.4% 12.8%;
+    border-radius: 2px;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.55) inset,
+        0 18px 40px -16px rgba(0, 0, 0, 0.7),
+        0 4px 14px -6px rgba(0, 0, 0, 0.55);
+    transform-origin: 50% 0%;
+    will-change: transform, opacity, filter;
+    /* Subtle paper grain via a layered gradient */
+    background-image:
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.4), transparent 60%),
+        linear-gradient(180deg, #f6f1e8 0%, #ece5d6 100%);
+}
+
+.polaroid--active {
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.55) inset,
+        0 28px 60px -20px rgba(0, 0, 0, 0.85),
+        0 8px 22px -8px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.polaroid__photo {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #181818;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1px;
+    position: relative;
+}
+
+.polaroid__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.92) contrast(1.02);
+}
+
+.polaroid__placeholder {
+    color: rgba(245, 245, 245, 0.55);
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.polaroid__caption {
+    margin-top: 12px;
+    text-align: center;
+    font-family: var(--font-mono, ui-monospace, "Courier New", monospace);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: #2a241c;
+    text-transform: uppercase;
+}
+
+/* ── Footer: dots + hint ─────────────────────────────────────── */
+.polaroid-stack__footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.polaroid-stack__dots {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.polaroid-stack__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    border: 0;
+    padding: 0;
+    background: rgba(245, 245, 245, 0.22);
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.polaroid-stack__dot:hover {
+    background: rgba(245, 245, 245, 0.5);
+}
+
+.polaroid-stack__dot.is-active {
+    background: var(--accent-gold, #d29f22);
+    transform: scale(1.35);
+}
+
+/* ── Mobile: smaller column, looser tilts handled via JS already ── */
+@media (max-width: 768px) {
+    .polaroid-stack {
+        margin: 0 auto;
+        max-width: 280px;
+    }
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* The cream prints already belong on ivory — only the "chalk on black"
+   accents flip to ink, and the heavy black drop shadows soften to warm
+   paper shadows so the stack doesn't punch a hole in the page. */
+
+/* Pin: dashed chalk ring becomes an ink ring; the dot stays dark but
+   its white halo swaps for a faint ink outline. */
+html[data-theme='light'] .polaroid-stack__pin-ring {
+    border-color: rgba(20, 20, 30, 0.4);
+}
+
+html[data-theme='light'] .polaroid-stack__pin-dot {
+    box-shadow:
+        0 0 0 1px rgba(20, 20, 30, 0.2),
+        0 6px 12px rgba(30, 30, 50, 0.3),
+        inset 0 1px 2px rgba(255, 255, 255, 0.25);
+}
+
+/* Paper shadows: same geometry, warm umber instead of pitch black,
+   keeping the white top-edge inset that sells the paper lip. */
+html[data-theme='light'] .polaroid {
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.55) inset,
+        0 18px 40px -16px rgba(30, 30, 50, 0.3),
+        0 4px 14px -6px rgba(30, 30, 50, 0.22);
+}
+
+html[data-theme='light'] .polaroid--active {
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.55) inset,
+        0 28px 60px -20px rgba(30, 30, 50, 0.38),
+        0 8px 22px -8px rgba(30, 30, 50, 0.26),
+        0 0 0 1px rgba(20, 20, 30, 0.08);
+}
+
+/* Empty photo well: undeveloped-film black turns to a warm blank card
+   with ink placeholder type. */
+html[data-theme='light'] .polaroid__photo {
+    background: #e8e8e8;
+}
+
+html[data-theme='light'] .polaroid__placeholder {
+    color: rgba(20, 20, 30, 0.5);
+}
+
+/* Footer dots: chalk → ink. */
+html[data-theme='light'] .polaroid-stack__dot {
+    background: rgba(20, 20, 30, 0.25);
+}
+
+html[data-theme='light'] .polaroid-stack__dot:hover {
+    background: rgba(20, 20, 30, 0.55);
+}

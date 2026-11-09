@@ -1,0 +1,149 @@
+/* ───────────────────────────────────────────────────────────────
+   STICKY CTA
+   Bottom-right cluster of two pill buttons appearing after hero.
+   Primary = gold-bordered, secondary = subtle. Magnetic-cursor aware.
+   ─────────────────────────────────────────────────────────────── */
+
+.sticky-cta {
+    position: fixed;
+    bottom: 1.5rem;
+    /* Sits to the LEFT of the Arceus trigger (44px button + 1.5rem gutter
+       + 0.75rem breathing room) so the pill never overlaps the AI icon. */
+    right: calc(1.5rem + 44px + 0.75rem);
+    z-index: 90;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px;
+    background: rgba(13, 13, 13, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    box-shadow: var(--shadow-md);
+}
+
+.sticky-cta__btn {
+    appearance: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.86rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 0.6rem 1.05rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    color: var(--text-primary);
+    background: transparent;
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast),
+        transform var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Secondary — quiet burgundy outline at rest, solid burgundy fill on hover.
+   Subordinate to the gold primary so it never competes for the click. */
+.sticky-cta__btn--secondary {
+    color: rgba(255, 255, 255, 0.85);
+    border-color: rgba(93, 0, 24, 0.6);
+    background: rgba(93, 0, 24, 0.18);
+}
+
+.sticky-cta__btn--secondary:hover {
+    color: #ffffff;
+    background: var(--accent-deep);
+    border-color: var(--accent-deep);
+}
+
+/* Primary — solid muted gold + soft glow + near-black label. The one
+   converting button; highest contrast on black. */
+.sticky-cta__btn--primary {
+    background: var(--accent-gold);
+    border-color: var(--accent-gold);
+    color: #0a0a0a;
+    box-shadow: 0 0 22px var(--gold-glow);
+}
+
+.sticky-cta__btn--primary:hover {
+    background: var(--accent-gold-soft);
+    border-color: var(--accent-gold-soft);
+    transform: translateY(-1px);
+    box-shadow: 0 0 28px var(--gold-glow);
+}
+
+.sticky-cta__btn--primary .sticky-cta__dot {
+    background: #0a0a0a;
+    box-shadow: none;
+}
+
+.sticky-cta__btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(210, 159, 34, 0.30);
+}
+
+.sticky-cta__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    box-shadow: 0 0 8px rgba(210, 159, 34, 0.7);
+    animation: sticky-cta-pulse 2.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@keyframes sticky-cta-pulse {
+    0%, 100% { opacity: 0.85; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sticky-cta__dot { animation: none; }
+}
+
+@media (max-width: 1023px) {
+    .sticky-cta {
+        bottom: 1rem;
+        right: calc(1rem + 44px + 0.6rem);
+    }
+    .sticky-cta__btn {
+        font-size: 0.78rem;
+        padding: 0.55rem 0.9rem;
+    }
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* ───────────────────────────────────────────────────────────────
+   Daylight cluster: smoked pill → bright frost; secondary button
+   swaps its white label for burgundy (outline + tint carry the
+   colour now); primary gold stays — the token already darkens it
+   to ochre so the ink label keeps its contrast.
+   ─────────────────────────────────────────────────────────────── */
+
+html[data-theme='light'] .sticky-cta {
+    background: rgba(255, 255, 255, 0.72);
+}
+
+/* Secondary — burgundy is text-safe on ivory, so the label wears it
+   directly over a whisper of burgundy fill. */
+html[data-theme='light'] .sticky-cta__btn--secondary {
+    color: #5d0018;
+    background: rgba(93, 0, 24, 0.10);
+}
+
+html[data-theme='light'] .sticky-cta__btn--secondary:hover {
+    color: #3f0010;
+    background: rgba(93, 0, 24, 0.16);
+    border-color: #5d0018;
+}
+
+/* Focus ring + pulse dot glow shift from gold to ochre. */
+html[data-theme='light'] .sticky-cta__btn:focus-visible {
+    box-shadow: 0 0 0 3px rgba(154, 116, 20, 0.30);
+}
+
+html[data-theme='light'] .sticky-cta__dot {
+    box-shadow: 0 0 8px rgba(154, 116, 20, 0.55);
+}

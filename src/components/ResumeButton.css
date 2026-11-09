@@ -1,0 +1,87 @@
+/* Fixed top-right résumé pill with a 3D Y-axis flip on hover. */
+
+.resume-btn {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 95;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    perspective: 600px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.resume-btn__inner {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.resume-btn:hover .resume-btn__inner,
+.resume-btn:focus-visible .resume-btn__inner {
+    transform: rotateY(180deg);
+}
+
+.resume-btn__face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    border: 1px solid var(--border-subtle);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    background: var(--bg-secondary);
+    color: var(--accent-gold);
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.resume-btn__face--back {
+    transform: rotateY(180deg);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border-color: var(--accent-gold);
+}
+
+.resume-btn:hover .resume-btn__face {
+    box-shadow: 0 0 18px rgba(210, 159, 34, 0.25);
+    border-color: var(--accent-gold);
+}
+
+@media (max-width: 768px) {
+    .resume-btn {
+        top: 1rem;
+        right: 1rem;
+        width: 48px;
+        height: 48px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .resume-btn__inner {
+        transition: none;
+    }
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* Face shadow softens from black to a light warm umber, and the hover
+   glow deepens to ochre so it still registers on the ivory page. */
+html[data-theme='light'] .resume-btn__face {
+    box-shadow: 0 6px 24px rgba(30, 30, 50, 0.18);
+}
+
+html[data-theme='light'] .resume-btn:hover .resume-btn__face {
+    box-shadow: 0 0 18px rgba(154, 116, 20, 0.25);
+}

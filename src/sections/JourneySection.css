@@ -1,0 +1,508 @@
+/* ============================================================
+   JOURNEY SECTION - TIMELINE COMPONENT (EXACT PORTABLE STYLES)
+   ============================================================ */
+
+.section--journey {
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+    overflow: hidden;
+    background: #000000;
+    padding: clamp(3rem, 7vh, 6rem) 1.5rem clamp(3rem, 6vh, 5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ---- Page Container ---- */
+.timeline-container {
+    width: 100%;
+    max-width: 1350px;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* ---- Title ---- */
+.timeline-title {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+/* Code-label: console.log(currentLife) */
+.code-label {
+    display: inline-block;
+    background: #1a1a1a;
+    color: #F9B646;
+    font-family: var(--font-mono, 'Courier New', 'Consolas', monospace);
+    font-size: 15px;
+    font-weight: 700;
+    padding: 7px 18px;
+    border: 2px solid #F9B646;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    box-shadow: 4px 4px 0 #F9B646;
+    position: relative;
+}
+
+/* Colour coding for the label tokens */
+.code-fn {
+    color: #89d5f5;
+}
+
+.code-dot {
+    color: #ffffff;
+}
+
+.code-method {
+    color: #dcdcaa;
+}
+
+.code-paren {
+    color: #ffd700;
+}
+
+.code-var {
+    color: #9cdcfe;
+}
+
+.timeline-title h1 {
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 0.95;
+    font-weight: 700;
+    text-transform: capitalize;
+    font-family: var(--font-display, sans-serif);
+    color: #ffffff;
+    margin-top: 10px;
+}
+
+/* ============================================================
+   SNAKE SVG PROGRESS LINE
+   ============================================================ */
+.timeline-progress-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.snake-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.snake-path-base {
+    stroke: rgba(255, 255, 255, 0.15);
+    stroke-width: 4;
+    fill: none;
+}
+
+.snake-path-fill {
+    stroke: #F9B646;
+    stroke-width: 4;
+    fill: none;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.1s linear;
+}
+
+/* ============================================================
+   TIMELINE ITEMS — Full width, left/right via flex-direction
+   ============================================================ */
+.timeline {
+    position: relative;
+    width: 100%;
+    margin-bottom: 50px;
+    z-index: 1;
+}
+
+.timeline-item {
+    padding: 10px 0;
+    position: relative;
+    width: 96%;
+    margin: 0 auto 80px auto;
+    left: 0;
+    display: flex;
+    align-items: stretch;
+    gap: 32px;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Left item: text-card on left, image on right */
+.timeline-item.left {
+    flex-direction: row;
+}
+
+/* Right item: image on left, text-card on right */
+.timeline-item.right {
+    flex-direction: row-reverse;
+}
+
+/* Icon on the snake line */
+.timeline-icon {
+    position: relative;
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    background-color: #F9B646;
+    border: 2px solid #000;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 4px 4px 0px #000;
+    align-self: center;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.timeline-item:hover .timeline-icon {
+    transform: scale(1.15);
+}
+
+.timeline-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* Content block */
+.timeline-content {
+    flex: 1.4;
+    background: #18181b;
+    padding: 35px 40px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    box-shadow: none;
+    position: relative;
+    cursor: default;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.timeline-item:hover .timeline-content {
+    transform: translateY(-4px);
+    border-color: rgba(249, 182, 70, 0.6);
+    box-shadow: 10px 10px 0 -3px #F9B646;
+}
+
+.timeline-content h2 {
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-family: var(--font-display, sans-serif);
+    font-weight: 600;
+    margin-bottom: 12px;
+    line-height: 1.25;
+    color: #ffffff;
+}
+
+.timeline-content p {
+    font-size: 0.96rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+}
+
+/* Tag / Date */
+.tag-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.timeline-content .tag {
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: #F9B646;
+    color: #111110;
+    border-radius: 99px;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 14px;
+    font-weight: 700;
+}
+
+.date {
+    font-family: var(--font-mono, monospace);
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+}
+
+/* ============================================================
+   IMAGE SLIDER
+   ============================================================ */
+.timeline-image {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+}
+
+.img-slider {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 18px;
+    cursor: pointer;
+    background: #111;
+    align-self: stretch;
+}
+
+.img-slider .slider-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.img-slider .slider-img.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.img-slider:hover .slider-img.active {
+    transform: scale(1.04);
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 26px;
+    line-height: 1;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    padding: 0;
+}
+
+.slider-btn:hover {
+    background: #F9B646;
+    color: #000;
+    border-color: #F9B646;
+}
+
+.slider-prev {
+    left: 10px;
+}
+
+.slider-next {
+    right: 10px;
+}
+
+.slider-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 5;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transition: background 0.2s, transform 0.2s;
+    cursor: pointer;
+}
+
+.dot.active {
+    background: #F9B646;
+    transform: scale(1.25);
+}
+
+.img-slider.single .slider-btn,
+.img-slider.single .slider-dots {
+    display: none;
+}
+
+/* ============================================================
+   FULLSCREEN MODAL
+   ============================================================ */
+.timeline-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.92);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.timeline-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.timeline-modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.timeline-modal-content img {
+    width: auto;
+    max-width: 82vw;
+    max-height: 84vh;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+.close-modal {
+    position: absolute;
+    top: -46px;
+    right: 0;
+    color: #fff;
+    font-size: 38px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+    line-height: 1;
+    z-index: 10;
+}
+
+.close-modal:hover {
+    color: #F9B646;
+}
+
+.modal-arrow {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 32px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    padding: 0;
+}
+
+.modal-arrow:hover {
+    background: #F9B646;
+    color: #000;
+    border-color: #F9B646;
+}
+
+.modal-dots {
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+.modal-dots .dot {
+    width: 9px;
+    height: 9px;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.modal-dots .dot.active {
+    background: #F9B646;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+    .timeline-item {
+        width: 100%;
+        flex-direction: column !important;
+        align-items: stretch;
+        margin-bottom: 60px;
+        gap: 20px;
+    }
+
+    .timeline-icon {
+        align-self: flex-start;
+        margin: 0 0 0 10px;
+    }
+
+    .img-slider {
+        aspect-ratio: 16 / 10;
+    }
+}
+
+@media (max-width: 768px) {
+    .timeline-content {
+        padding: 25px;
+    }
+
+    .tag-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .timeline-modal-content {
+        flex-direction: column;
+        gap: 12px;
+        max-width: 96vw;
+    }
+
+    .timeline-modal-content img {
+        max-width: 95vw;
+        max-height: 65vh;
+    }
+
+    .modal-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 20;
+        width: 40px;
+        height: 40px;
+        font-size: 26px;
+    }
+
+    .modal-prev {
+        left: 10px;
+    }
+
+    .modal-next {
+        right: 10px;
+    }
+}

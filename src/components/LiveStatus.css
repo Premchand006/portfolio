@@ -1,0 +1,169 @@
+/* ───────────────────────────────────────────────────────────────
+   LIVE STATUS PILL
+   Fixed top-left. Communicates current availability in a glance.
+   Tones: 'live' (green), 'warm' (gold), 'idle' (muted).
+   ─────────────────────────────────────────────────────────────── */
+
+.live-status {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    z-index: 90;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.45rem 0.95rem 0.45rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(13, 13, 13, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(210, 159, 34, 0.4);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    user-select: none;
+    cursor: pointer;
+    animation: ls-glow 3.2s ease-in-out infinite;
+    transition: transform 0.2s ease, border-color 0.3s ease;
+}
+
+.live-status:hover {
+    border-color: var(--accent-gold);
+}
+
+.live-status:active {
+    transform: scale(0.97);
+}
+
+.live-status__label {
+    position: relative;
+    display: inline-block;
+}
+
+.live-status__label::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background: var(--accent-gold);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.live-status:hover .live-status__label::after,
+.live-status:focus-visible .live-status__label::after {
+    transform: scaleX(1);
+}
+
+@keyframes ls-glow {
+    0%, 100% { box-shadow: 0 0 0 rgba(210, 159, 34, 0); }
+    50%      { box-shadow: 0 0 18px rgba(210, 159, 34, 0.35); }
+}
+
+.live-status__dot {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+.live-status__dot-core,
+.live-status__dot-pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+}
+
+.live-status__dot-core {
+    transform: scale(0.55);
+}
+
+.live-status__dot-pulse {
+    animation: ls-pulse 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    transform-origin: center;
+}
+
+/* ── Tone: live (green) ── */
+.live-status--live .live-status__dot-core {
+    background: #22c55e;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.7);
+}
+
+.live-status--live .live-status__dot-pulse {
+    background: rgba(34, 197, 94, 0.55);
+}
+
+/* ── Tone: warm (gold) ── */
+.live-status--warm .live-status__dot-core {
+    background: var(--accent-gold);
+    box-shadow: 0 0 8px rgba(210, 159, 34, 0.7);
+}
+
+.live-status--warm .live-status__dot-pulse {
+    background: rgba(210, 159, 34, 0.55);
+}
+
+/* ── Tone: idle ── */
+.live-status--idle .live-status__dot-core {
+    background: var(--text-muted);
+}
+
+.live-status--idle .live-status__dot-pulse {
+    display: none;
+}
+
+@keyframes ls-pulse {
+    0% { transform: scale(0.55); opacity: 0.85; }
+    70% { transform: scale(1.7); opacity: 0; }
+    100% { transform: scale(0.55); opacity: 0; }
+}
+
+/* Reduced motion: no pulse */
+@media (prefers-reduced-motion: reduce) {
+    .live-status__dot-pulse {
+        animation: none;
+        opacity: 0;
+    }
+}
+
+@media (max-width: 1023px) {
+    .live-status {
+        top: 1rem;
+        left: 1rem;
+        font-size: 0.72rem;
+    }
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* ───────────────────────────────────────────────────────────────
+   Daylight pill: smoked glass → bright frost with an ochre ring.
+   The breathing glow gets its own keyframes (keyframe contents
+   can't be theme-scoped) at a slightly lower alpha so it reads as
+   warmth, not haze, on ivory. Status-dot greens stay semantic.
+   ─────────────────────────────────────────────────────────────── */
+
+html[data-theme='light'] .live-status {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(154, 116, 20, 0.5);
+    animation: ls-glow-light 3.2s ease-in-out infinite;
+}
+
+@keyframes ls-glow-light {
+    0%, 100% { box-shadow: 0 0 0 rgba(154, 116, 20, 0); }
+    50%      { box-shadow: 0 0 18px rgba(154, 116, 20, 0.25); }
+}
+
+/* Warm-tone dot: glow + pulse follow the gold→ochre shift. */
+html[data-theme='light'] .live-status--warm .live-status__dot-core {
+    box-shadow: 0 0 8px rgba(154, 116, 20, 0.55);
+}
+
+html[data-theme='light'] .live-status--warm .live-status__dot-pulse {
+    background: rgba(154, 116, 20, 0.45);
+}

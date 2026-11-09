@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- ─────────────────────────────────────────────────────────────
+       Identity, SEO, OpenGraph/Twitter cards, JSON-LD, theme colours,
+       typography tokens and web fonts are all injected here at
+       build/dev time by vite-plugin-site-config, sourced from
+       src/config/site.config.json.
+
+       Edit src/config/site.config.json — NOT this file.
+       ───────────────────────────────────────────────────────────── -->
+  <!--SITE_CONFIG_HEAD-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=general-sans@400,500,600&display=swap" />
+
+  <!-- Pre-paint theme: stamp data-theme on <html> before any CSS paints so a
+       saved light preference never flashes the dark theme (and vice versa).
+       Mirrors the logic in src/hooks/useTheme.js — keep the two in sync. -->
+  <script>
+    (function () {
+      var t = new URLSearchParams(location.search).get('theme');
+      if (t !== 'light' && t !== 'dark') {
+        try { t = localStorage.getItem('pc-theme') || localStorage.getItem('pc-mobile-theme'); } catch (e) { /* blocked */ }
+      }
+      if (t !== 'light' && t !== 'dark') {
+        t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+
+<body>
+  <noscript>
+    <p style="font-family: system-ui, sans-serif; padding: 2rem; color: #F5F5F5; background: #050505;">
+      This portfolio uses JavaScript for its 3D and animation layer. Please enable JavaScript to view the full
+      experience, or read a static summary at
+      <a href="%CFG_NOSCRIPT_URL%" style="color:#D4AF37">%CFG_NOSCRIPT_LABEL%</a>.
+    </p>
+  </noscript>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>

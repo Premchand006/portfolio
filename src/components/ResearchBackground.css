@@ -1,0 +1,101 @@
+/* ── ResearchBackground ──────────────────────────────────────────
+   Behind-content backdrop for the Research section. Three stacked
+   layers: a black base, the animated "digital rain" canvas, and a
+   vignette that dims the centre so the deck and heading stay legible
+   over the streaming glyphs. The base stays in the same near-black
+   family as the rest of the site so the section blends with its
+   neighbours.                                                    */
+
+.research-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: #000000;
+}
+
+/* Pure monochrome base — black field with a barely-there centre
+   wash so the deck and surrounding science imagery have a quiet
+   stage to sit on. No blue, no tint of any kind. */
+.research-bg__gradient {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 70% 65% at 50% 50%,
+            rgba(28, 28, 28, 0.45) 0%,
+            rgba(12, 12, 12, 0.25) 50%,
+            rgba(0, 0, 0, 0) 85%),
+        linear-gradient(180deg, #000000 0%, #050505 50%, #000000 100%);
+}
+
+.research-bg__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    /* The rain is fully redrawn each frame (clearRect) over the black
+       base, so it composites normally — kept near-opaque so the glyphs
+       stay crisp and legible. */
+    opacity: 0.95;
+}
+
+/* Vignette dims the centre — where the deck and heading sit — so the
+   glyph rain reads as a backdrop without fighting the foreground text,
+   then fades out toward the edges where the stream stays at full
+   strength. A darker outer ring keeps the section grounded. */
+.research-bg__vignette {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 58% 52% at 50% 48%,
+            rgba(0, 0, 0, 0.66) 0%,
+            rgba(0, 0, 0, 0.40) 42%,
+            rgba(0, 0, 0, 0.10) 72%,
+            rgba(0, 0, 0, 0) 88%),
+        radial-gradient(ellipse 95% 90% at 50% 50%,
+            transparent 0%,
+            transparent 70%,
+            rgba(0, 0, 0, 0.5) 90%,
+            rgba(0, 0, 0, 0.92) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .research-bg__canvas { opacity: 0.65; }
+}
+
+/* ===== LIGHT THEME OVERRIDES ===== */
+/* The black stage flips to the ivory page family so the section still
+   blends seamlessly with its light-mode neighbours. */
+html[data-theme='light'] .research-bg {
+    background: #ffffff;
+}
+
+/* Warm light field in place of the near-black wash — a soft white
+   centre lift over a paper-toned linear base. Still no blue. */
+html[data-theme='light'] .research-bg__gradient {
+    background:
+        radial-gradient(ellipse 70% 65% at 50% 50%,
+            rgba(255, 255, 255, 0.5) 0%,
+            rgba(240, 235, 225, 0.3) 50%,
+            rgba(240, 235, 225, 0) 85%),
+        linear-gradient(180deg, #ffffff 0%, #f2f2f2 50%, #ffffff 100%);
+}
+
+/* Same centre-dimming job, but with ivory: the middle brightens toward
+   paper so the deck and heading stay legible over the glyph rain, and
+   the outer ring settles back into the page colour. */
+html[data-theme='light'] .research-bg__vignette {
+    background:
+        radial-gradient(ellipse 58% 52% at 50% 48%,
+            rgba(255, 255, 255, 0.66) 0%,
+            rgba(255, 255, 255, 0.40) 42%,
+            rgba(255, 255, 255, 0.10) 72%,
+            rgba(255, 255, 255, 0) 88%),
+        radial-gradient(ellipse 95% 90% at 50% 50%,
+            transparent 0%,
+            transparent 70%,
+            rgba(255, 255, 255, 0.5) 90%,
+            rgba(255, 255, 255, 0.92) 100%);
+}

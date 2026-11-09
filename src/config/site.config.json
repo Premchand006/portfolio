@@ -1,0 +1,1317 @@
+{
+    "meta": {
+        "title": "Prem Chand",
+        "description": "Korukonda L K M Prem Chand — ELC engineer at Amrita (CGPA 8.91) building systems that think, from silicon to satellites. Embedded AI on STM32/ARM, deep learning for computer vision, and WebGL storytelling. 3 IEEE/SSRN papers.",
+        "author": "Korukonda L K M Prem Chand",
+        "keywords": [
+            "Prem Chand",
+            "Korukonda",
+            "Embedded AI",
+            "STM32",
+            "ARM Cortex-M4",
+            "Deep Learning",
+            "U-Net",
+            "Computer Vision",
+            "Three.js",
+            "WebGL",
+            "IEEE",
+            "ELC",
+            "Amrita",
+            "portfolio"
+        ],
+        "canonical": "https://premchand.dev/",
+        "themeColorDark": "#050505",
+        "themeColorLight": "#F5F1E8",
+        "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+        "og": {
+            "type": "profile",
+            "siteName": "Prem Chand · Portfolio",
+            "title": "Prem Chand",
+            "description": "I build systems that think — from silicon to satellites. Portfolio of Korukonda L K M Prem Chand.",
+            "image": "https://premchand.dev/logo.png",
+            "imageType": "image/png",
+            "imageWidth": "460",
+            "imageHeight": "460",
+            "imageAlt": "Prem Chand · PC monogram logo",
+            "locale": "en_US",
+            "firstName": "Prem Chand",
+            "lastName": "Korukonda"
+        },
+        "twitter": {
+            "card": "summary_large_image",
+            "title": "Prem Chand",
+            "description": "I build systems that think — from silicon to satellites. Portfolio of Korukonda L K M Prem Chand.",
+            "image": "https://premchand.dev/logo.png",
+            "imageAlt": "Prem Chand · PC monogram logo"
+        },
+        "person": {
+            "alternateName": "Prem Chand",
+            "givenName": "Prem Chand",
+            "familyName": "Korukonda",
+            "jobTitle": "",
+            "description": "ELC engineer at Amrita (CGPA 8.91) building systems that think, from silicon to satellites. Embedded AI on STM32/ARM, deep learning for computer vision, and WebGL storytelling. Three IEEE/SSRN publications.",
+            "alumniOf": [
+                {
+                    "name": "Amrita School of Engineering",
+                    "department": "B.Tech Electrical & Computer Engineering"
+                },
+                {
+                    "name": "Amrita School of AI",
+                    "department": "B.Tech AI & Machine Learning (Minor)"
+                }
+            ],
+            "knowsAbout": [
+                "Embedded Systems",
+                "STM32",
+                "ARM Cortex-M4",
+                "Deep Learning",
+                "Computer Vision",
+                "U-Net",
+                "TensorFlow",
+                "PyTorch",
+                "Three.js",
+                "WebGL",
+                "FastAPI",
+                "Python",
+                "C",
+                "C++"
+            ],
+            "sameAs": [
+                "https://github.com/Premchand006",
+                "https://www.linkedin.com/in/l-k-m-prem-chand-korukonda-4a449a29a/",
+                "https://scholar.google.com/citations?user=har8Kl0AAAAJ"
+            ]
+        }
+    },
+    "identity": {
+        "name": "Korukonda L K M Prem Chand",
+        "shortName": "Prem Chand",
+        "initials": "KPC",
+        "tagline": "Welcome to my world",
+        "jobTitle": "Engineer",
+        "availabilityText": "Open to connect",
+        "email": "korukonda.lkmpremchand@gmail.com",
+        "phone": "",
+        "location": "",
+        "welcomeLanguages": [
+            {
+                "code": "TELUGU",
+                "text": "నా ప్రపంచానికి స్వాగతం"
+            },
+            {
+                "code": "ENGLISH",
+                "text": "Welcome to my world"
+            },
+            {
+                "code": "HINDI",
+                "text": "मेरी दुनिया में आपका स्वागत है"
+            },
+            {
+                "code": "TAMIL",
+                "text": "என் உலகிற்கு வரவேற்கிறேன்"
+            },
+            {
+                "code": "KANNADA",
+                "text": "ನನ್ನ ಪ್ರಪಂಚಕ್ಕೆ ಸ್ವಾಗತ"
+            },
+            {
+                "code": "MALAYALAM",
+                "text": "എന്റെ ലോകത്തിലേക്ക് സ്വാഗതം"
+            }
+        ]
+    },
+    "resume": {
+        "url": "/assets/resume/prem-chand-cv.pdf",
+        "filename": "Prem-Chand-Korukonda-CV.pdf",
+        "label": "Download résumé · PDF"
+    },
+    "theme": {
+        "colors": {
+            "bgGlobe": "#000000",
+            "bgPrimary": "#000000",
+            "bgSecondary": "#252628",
+            "bgTertiary": "#1a1a1c",
+            "bgGlass": "rgba(255, 255, 255, 0.03)",
+            "surface": "#252628",
+            "surface2": "#1a1a1c",
+            "textPrimary": "#FFFFFF",
+            "textSecondary": "rgba(255, 255, 255, 0.62)",
+            "textMuted": "rgba(255, 255, 255, 0.40)",
+            "accentGold": "#d29f22",
+            "accentGoldSoft": "#e0b23f",
+            "accentGoldDim": "rgba(210, 159, 34, 0.15)",
+            "accentGoldBright": "rgba(210, 159, 34, 0.85)",
+            "goldGlow": "rgba(210, 159, 34, 0.40)",
+            "accentDeep": "#5d0018",
+            "accentDrama": "#5d0018",
+            "accentRed": "#C62828",
+            "burgundyGlow": "rgba(93, 0, 24, 0.55)",
+            "borderColor": "#252628",
+            "borderSubtle": "rgba(255, 255, 255, 0.10)",
+            "borderHover": "rgba(210, 159, 34, 0.5)",
+            "borderShine1": "#d29f22",
+            "borderShine2": "#e0b23f",
+            "borderShine3": "#C62828",
+            "navDotActive": "#d29f22",
+            "navDotInactive": "#252628",
+            "starColor": "#d29f22",
+            "meteorColor": "#e0b23f",
+            "spinnerBg": "#3a3a3c",
+            "spinnerFill": "#d29f22",
+            "arceusAccent": "#5d0018",
+            "arceusHighlight": "#d29f22",
+            "muteIcon": "rgba(255, 255, 255, 0.3)",
+            "heroCanvasBg": "#000000"
+        },
+        "typography": {
+            "display": "'Clash Display', system-ui, sans-serif",
+            "body": "'Satoshi', system-ui, -apple-system, 'Segoe UI', sans-serif",
+            "mono": "ui-monospace, 'SF Mono', 'Cascadia Code', 'Segoe UI Mono', Menlo, Consolas, monospace",
+            "webFontUrl": "https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700,900&display=swap"
+        }
+    },
+    "assets": {
+        "logo": "/logo.png",
+        "loadingLogo": "/logo.png",
+        "workDesk": "/assets/backgrounds/work-desk.png",
+        "workDeskLight": "/assets/backgrounds/work-desk_light.png",
+        "projectsBg": "/assets/backgrounds/project.png",
+        "researchBg": "/assets/backgrounds/arsenal.png",
+        "ogImage": "https://premchand.dev/logo.png",
+        "earthMap": "/earth/8081_earthmap10k.jpg",
+        "earthLights": "/earth/8081_earthlights10k.jpg",
+        "portraits": [
+            "/assets/portraits/pic1.JPG",
+            "/assets/portraits/pic2.jpg",
+            "/assets/portraits/pic3.png"
+        ]
+    },
+    "navigation": [
+        {
+            "id": "home",
+            "label": "Home",
+            "shortLabel": "Home",
+            "icon": "FiHome"
+        },
+        {
+            "id": "about",
+            "label": "About",
+            "shortLabel": "About",
+            "icon": "FiUser"
+        },
+        {
+            "id": "experience",
+            "label": "Experience",
+            "shortLabel": "Exp",
+            "icon": "FiBriefcase"
+        },
+        {
+            "id": "projects",
+            "label": "Projects",
+            "shortLabel": "Projects",
+            "icon": "FiFolder"
+        },
+        {
+            "id": "tech-stack",
+            "label": "Tech Stack",
+            "shortLabel": "Tech",
+            "icon": "FiCode"
+        },
+        {
+            "id": "research",
+            "label": "Research",
+            "shortLabel": "Publi",
+            "icon": "FiBookOpen"
+        },
+        {
+            "id": "certifications",
+            "label": "Certifications",
+            "shortLabel": "Certs",
+            "icon": "FiAward"
+        },
+        {
+            "id": "education",
+            "label": "Education",
+            "shortLabel": "Edu",
+            "icon": "FiBookOpen"
+        },
+        {
+            "id": "journey",
+            "label": "Journey",
+            "shortLabel": "Journey",
+            "icon": "FiCompass"
+        },
+        {
+            "id": "contact",
+            "label": "Connect",
+            "shortLabel": "Connect",
+            "icon": "FiMail"
+        },
+        {
+            "id": "blogs",
+            "label": "Blogs",
+            "shortLabel": "Blogs",
+            "icon": "FiEdit3"
+        }
+    ],
+    "sections": {
+        "home": {
+            "placeholder": "Type a command or search…",
+            "kbdHint": "Ctrl K"
+        },
+        "about": {
+            "label": "ABOUT",
+            "bio": "",
+            "interestsTitle": "Hobbies",
+            "interests": [
+                "Cricket",
+                "Badminton",
+                "Swimming",
+                "Chess",
+                "Art",
+                "Western Dance"
+            ],
+            "topicsTitle": "Talk to me about",
+            "topics": [
+                "Technology, Physical AI, Embedded systems"
+            ]
+        },
+        "experience": {
+            "label": "Career",
+            "heading": "The Professional",
+            "headingAccent": "arc"
+        },
+        "projects": {
+            "label": "Work",
+            "heading": "Things I built",
+            "subtitle": "Selected works and experiments",
+            "defaultKind": "Project"
+        },
+        "tech-stack": {
+            "label": "Skills",
+            "heading": "TECHSTACK",
+            "headingAccent": "",
+            "subtitle": "technologies and tools i work with"
+        },
+        "research": {
+            "label": "Publications",
+            "heading": "Research",
+            "headingAccent": "arsenal",
+            "descriptionTemplate": "{count} {paperWord} published. Fan out the deck & click any card to read.",
+            "paperWordSingular": "paper",
+            "paperWordPlural": "papers",
+            "spreadLabel": "Spread the deck",
+            "restackLabel": "Re-stack the deck",
+            "readLabel": "Read paper",
+            "roadmapLabel": "Research Mindset",
+            "roadmapNote": "Each stage is fully editable here. `icon` accepts a built-in name (lightbulb | book | hierarchy | chart | presentation) or a custom image path/URL (e.g. /assets/backgrounds/foo.png). Add, remove, or reorder stages freely — unknown icons fall back to a gold marker.",
+            "roadmap": [
+                {
+                    "id": "scoping",
+                    "icon": "lightbulb",
+                    "title": "Scoping",
+                    "desc": "Define problem, refine scope, ensure feasibility"
+                },
+                {
+                    "id": "review",
+                    "icon": "book",
+                    "title": "Review",
+                    "desc": "Survey literature, identify gaps, build context"
+                },
+                {
+                    "id": "design",
+                    "icon": "hierarchy",
+                    "title": "Design",
+                    "desc": "Formulate objectives, hypotheses, and methodological framework"
+                },
+                {
+                    "id": "analysis",
+                    "icon": "chart",
+                    "title": "Analysis",
+                    "desc": "Collect, process, and interpret experimental data"
+                },
+                {
+                    "id": "dissemination",
+                    "icon": "presentation",
+                    "title": "Dissemination",
+                    "desc": "Conclude findings, document insights, communicate results"
+                }
+            ]
+        },
+        "certifications": {
+            "label": "Credentials",
+            "heading": "My",
+            "headingAccent": "Certifications",
+            "editorFilename": "certifications.c",
+            "editorTitle": "Professional Credentials",
+            "editorAuthor": "Prem",
+            "bannerText": "PROFESSIONAL CERTIFICATIONS"
+        },
+        "education": {
+            "label": "Academic Journey",
+            "heading": "Places my brain got",
+            "headingAccent": "UPGRADES"
+        },
+        "journey": {
+            "label": "Milestones",
+            "heading": "My",
+            "headingAccent": "Journey",
+            "description": "Key events and milestones from my professional and academic path.",
+            "linkLabel": "View on LinkedIn",
+            "autoplayMs": 5000
+        },
+        "contact": {
+            "label": "Get in touch",
+            "heading": "Dont be a stranger",
+            "headingAccent": "say howdy",
+            "description": "Hiring, collaborating, researching, or just curious — pick a thread and send a note.",
+            "socialBandLabel": "Social accounts",
+            "maxFiles": 3,
+            "maxTotalBytes": 10485760,
+            "inquiryTypes": [
+                {
+                    "id": "general",
+                    "label": "Just saying hi"
+                },
+                {
+                    "id": "hire",
+                    "label": "Hire / collab"
+                },
+                {
+                    "id": "research",
+                    "label": "Research / academia"
+                }
+            ],
+            "form": {
+                "nameLabel": "Name",
+                "namePlaceholder": "Your name",
+                "emailLabel": "Email",
+                "emailPlaceholder": "you@domain.com",
+                "messageLabel": "Message",
+                "messagePlaceholder": "A few sentences about what you'd like to talk about.",
+                "messageMaxLength": 5000,
+                "linkLabel": "Link",
+                "optionalText": "(optional)",
+                "linkPlaceholder": "https:// — github, linkedin, brief, anything",
+                "attachmentsLabel": "Attachments",
+                "attachmentsHint": "(optional · max {maxFiles} files · 10 MB total)",
+                "attachmentsPlaceholder": "Add brief, deck, image…",
+                "submitIdle": "Send message",
+                "submitSending": "Sending…",
+                "submitSent": "Sent ✓"
+            },
+            "messages": {
+                "successTitle": "Message received.",
+                "successBody": "I'll reply within 48 hours.",
+                "errorTitle": "Could not send.",
+                "errorFallback": "Try again or email directly.",
+                "localPreview": "Local preview — opened mail client. Backend runs on Vercel.",
+                "network": "Network hiccup. Try again, or email directly.",
+                "errors": {
+                    "rate_limited": "Too many sends from this network. Try again in a few minutes.",
+                    "turnstile_failed": "Bot check failed — please retry the challenge.",
+                    "invalid_email": "That email address looks off.",
+                    "invalid_message": "Message must be 10–5000 characters.",
+                    "invalid_name": "Please add a name.",
+                    "too_many_files": "Up to {maxFiles} files only.",
+                    "attachments_too_large": "Attachments exceed 10 MB total.",
+                    "unsupported_file_type": "Unsupported file type. PDFs, images, docs and zips welcome.",
+                    "email_not_configured": "Backend not configured yet — please email directly.",
+                    "send_failed": "Email service hiccup. Try again, or email directly.",
+                    "default": "Something went wrong. Try again, or email directly."
+                }
+            }
+        },
+        "blogs": {
+            "label": "Blogs",
+            "headingBgAccent": "PAGES",
+            "headingBg": "I SPELT",
+            "headingFg": "Ink On",
+            "description": [
+                "Notes on technology, building systems, and how things work under the hood",
+                "— written while learning, published while it still hurts."
+            ],
+            "categories": [
+                "VIEW ALL",
+                "TECHNOLOGY",
+                "FOOD",
+                "LIFESTYLE",
+                "ECONOMICS",
+                "PSYCHOLOGY"
+            ]
+        }
+    },
+    "techStack": {
+        "row1": [
+            {
+                "name": "Python",
+                "slug": "python",
+                "color": "#3776AB",
+                "url": "https://docs.python.org/3/"
+            },
+            {
+                "name": "C++",
+                "slug": "cplusplus",
+                "color": "#00599C",
+                "url": "https://en.cppreference.com/"
+            },
+            {
+                "name": "C",
+                "slug": "c",
+                "color": "#A8B9CC",
+                "url": "https://en.cppreference.com/w/c"
+            },
+            {
+                "name": "JavaScript",
+                "slug": "javascript",
+                "color": "#F7DF1E",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+            },
+            {
+                "name": "MATLAB",
+                "slug": null,
+                "color": "#0076A8",
+                "url": "https://www.mathworks.com/help/matlab/"
+            },
+            {
+                "name": "SQL",
+                "slug": null,
+                "color": "#CC2927",
+                "url": "https://www.postgresql.org/docs/current/sql.html"
+            },
+            {
+                "name": "React",
+                "slug": "react",
+                "color": "#61DAFB",
+                "url": "https://react.dev/"
+            },
+            {
+                "name": "Next.js",
+                "slug": "nextdotjs",
+                "color": "#FFFFFF",
+                "url": "https://nextjs.org/docs"
+            },
+            {
+                "name": "FastAPI",
+                "slug": "fastapi",
+                "color": "#009688",
+                "url": "https://fastapi.tiangolo.com/"
+            },
+            {
+                "name": "HTML5",
+                "slug": "html5",
+                "color": "#E34F26",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/HTML"
+            },
+            {
+                "name": "CSS3",
+                "slug": "css",
+                "color": "#1572B6",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/CSS"
+            },
+            {
+                "name": "MySQL",
+                "slug": "mysql",
+                "color": "#4479A1",
+                "url": "https://dev.mysql.com/doc/"
+            },
+            {
+                "name": "PostgreSQL",
+                "slug": "postgresql",
+                "color": "#4169E1",
+                "url": "https://www.postgresql.org/docs/"
+            },
+            {
+                "name": "Firebase",
+                "slug": "firebase",
+                "color": "#FFCA28",
+                "url": "https://firebase.google.com/docs"
+            }
+        ],
+        "row2": [
+            {
+                "name": "TensorFlow",
+                "slug": "tensorflow",
+                "color": "#FF6F00",
+                "url": "https://www.tensorflow.org/api_docs"
+            },
+            {
+                "name": "PyTorch",
+                "slug": "pytorch",
+                "color": "#EE4C2C",
+                "url": "https://pytorch.org/docs/stable/index.html"
+            },
+            {
+                "name": "OpenCV",
+                "slug": "opencv",
+                "color": "#5C3EE8",
+                "url": "https://docs.opencv.org/4.x/"
+            },
+            {
+                "name": "Scikit-learn",
+                "slug": "scikitlearn",
+                "color": "#F7931E",
+                "url": "https://scikit-learn.org/stable/"
+            },
+            {
+                "name": "NumPy",
+                "slug": "numpy",
+                "color": "#4DABCF",
+                "url": "https://numpy.org/doc/stable/"
+            },
+            {
+                "name": "Pandas",
+                "slug": "pandas",
+                "color": "#150458",
+                "url": "https://pandas.pydata.org/docs/"
+            },
+            {
+                "name": "Matplotlib",
+                "slug": null,
+                "color": "#11557C",
+                "url": "https://matplotlib.org/stable/"
+            },
+            {
+                "name": "Arduino",
+                "slug": "arduino",
+                "color": "#00878A",
+                "url": "https://www.arduino.cc/reference/en/"
+            },
+            {
+                "name": "Raspberry Pi",
+                "slug": "raspberrypi",
+                "color": "#A22846",
+                "url": "https://www.raspberrypi.com/documentation/"
+            },
+            {
+                "name": "ESP32",
+                "slug": null,
+                "color": "#E7352C",
+                "url": "https://docs.espressif.com/projects/esp-idf/en/latest/esp32/"
+            },
+            {
+                "name": "Linux",
+                "slug": "linux",
+                "color": "#FCC624",
+                "url": "https://www.kernel.org/doc/html/latest/"
+            },
+            {
+                "name": "Git",
+                "slug": "git",
+                "color": "#F05032",
+                "url": "https://git-scm.com/doc"
+            },
+            {
+                "name": "VS Code",
+                "slug": null,
+                "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
+                "color": "#007ACC",
+                "url": "https://code.visualstudio.com/docs"
+            },
+            {
+                "name": "Jupyter",
+                "slug": "jupyter",
+                "color": "#F37626",
+                "url": "https://docs.jupyter.org/"
+            },
+            {
+                "name": "ARM Cortex-M",
+                "slug": "arm",
+                "color": "#0091BD",
+                "url": "https://developer.arm.com/Processors/Cortex-M"
+            },
+            {
+                "name": "STM32",
+                "slug": "stmicroelectronics",
+                "color": "#03234B",
+                "url": "https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html"
+            }
+        ]
+    },
+    "projects": [
+        {
+            "id": "1",
+            "title": "SpillSight",
+            "kind": "AI / ML",
+            "description": "End-to-end AI pipeline for oil-spill segmentation on SAR + optical satellite imagery using CNN / U-Net architectures.",
+            "image": "/assets/projects/AISpillgaurdPro.png",
+            "alt": "SpillSight cover",
+            "tags": [
+                "Computer Vision",
+                "U-Net",
+                "PyTorch",
+                "Satellite"
+            ],
+            "category": "project",
+            "link": "https://github.com/Premchand006/AI_SpillGaurd_Pro"
+        },
+        {
+            "id": "2",
+            "title": "InstaCartix",
+            "kind": "Hardware",
+            "description": "ARM Cortex-M4 (STM32F401RE) smart-retail node — RFID + BLE, multi-protocol firmware over SPI / I2C / UART for deterministic control.",
+            "image": "/assets/projects/Speedcontrol.png",
+            "alt": "InstaCartix cover",
+            "tags": [
+                "Embedded C",
+                "STM32",
+                "ARM",
+                "Firmware"
+            ],
+            "category": "project",
+            "link": "https://github.com/Premchand006/InstaCartix"
+        },
+        {
+            "id": "3",
+            "title": "Yulara Solar",
+            "kind": "Web-App",
+            "description": "Cloud-based predictive analytics platform using Prophet + XGBoost, with real-time WebGL 3D visualisation of panel arrays via Three.js.",
+            "image": "/assets/projects/yulara.png",
+            "alt": "Yulara cover",
+            "tags": [
+                "React",
+                "Three.js",
+                "AWS S3",
+                "Forecasting"
+            ],
+            "category": "project",
+            "link": "https://musical-tapioca-408587.netlify.app/"
+        },
+        {
+            "id": "4",
+            "title": "",
+            "kind": "",
+            "description": "",
+            "image": "",
+            "alt": "EdgeBench cover",
+            "tags": [
+                "Python",
+                "TensorFlow Lite",
+                "STM32",
+                "Benchmarking"
+            ],
+            "category": "project",
+            "link": "#"
+        },
+        {
+            "id": "5",
+            "title": "Awesome-embedded-ai-stack",
+            "kind": "Graphics",
+            "description": "",
+            "image": "/assets/projects/Embedded-AI.jpg",
+            "alt": "Awesome-embedded-ai-stack cover",
+            "tags": [
+                "Three.js",
+                "GLSL",
+                "WebGL",
+                "React"
+            ],
+            "category": "project",
+            "link": "#"
+        },
+        {
+            "id": "6",
+            "title": "Awesome-edge-ai",
+            "kind": "",
+            "description": "",
+            "image": "/assets/projects/EdgeAI.jpg",
+            "alt": "Awesome-edge-ai cover",
+            "tags": [
+                "Embedded C",
+                "STM32",
+                "ARM",
+                "Firmware"
+            ],
+            "category": "project",
+            "link": "#"
+        },
+        {
+            "id": "7",
+            "title": "Awesome-physical-ai",
+            "kind": "Hardware",
+            "description": "",
+            "image": "/assets/projects/physical_ai.jpg",
+            "alt": "Awesome-physical-ai cover",
+            "tags": [
+                "STM32",
+                "BLE",
+                "DSP",
+                "Embedded C"
+            ],
+            "category": "project",
+            "link": "#"
+        }
+    ],
+    "skills": [
+        {
+            "id": "s1",
+            "name": "Embedded C",
+            "category": "Embedded",
+            "proficiency": "Expert"
+        },
+        {
+            "id": "s2",
+            "name": "Python",
+            "category": "Languages",
+            "proficiency": "Expert"
+        },
+        {
+            "id": "s3",
+            "name": "STM32/ARM",
+            "category": "Hardware",
+            "proficiency": "Advanced"
+        },
+        {
+            "id": "s4",
+            "name": "Deep Learning",
+            "category": "AI/ML",
+            "proficiency": "Advanced"
+        },
+        {
+            "id": "s5",
+            "name": "Three.js",
+            "category": "Graphics",
+            "proficiency": "Advanced"
+        },
+        {
+            "id": "s6",
+            "name": "FastAPI",
+            "category": "Web",
+            "proficiency": "Advanced"
+        }
+    ],
+    "experience": [
+        {
+            "id": "e0",
+            "title": "Field AE AI/ML Intern",
+            "company": "SiMa.ai",
+            "logo": "/assets/logos/SiMaOG.png",
+            "period": "April 2026 — July 2026",
+            "description": "Supporting field deployments of SiMa MLSoC edge-AI silicon — model porting, on-device application building and customer-facing technical enablement.",
+            "url": "https://sima.ai/",
+            "category": "experience"
+        },
+        {
+            "id": "e1",
+            "title": "Project Intern",
+            "company": "RINL — Vizag Steel Plant",
+            "logo": "/assets/logos/rinl_vsp.jpg",
+            "period": "May 2025 — June 2025",
+            "description": "Studied industrial power transformers, control systems and automation systems on the live plant floor.",
+            "url": "https://www.vizagsteel.com/",
+            "category": "experience"
+        }
+    ],
+    "education": [
+        {
+            "id": "ed1",
+            "degree": "Foundational Schooling",
+            "institution": "Little Woods School, Kakinada",
+            "logo": "/assets/logos/LWS.jpg",
+            "period": "Until 2018",
+            "focus": "Primary & Middle School",
+            "url": "http://littlewoodsschool.com/",
+            "category": "education"
+        },
+        {
+            "id": "ed2",
+            "degree": "IX & X",
+            "institution": "Aditya EM High School",
+            "logo": "/assets/logos/aditya.jpg",
+            "period": "2018 — 2020",
+            "focus": "SSC · 97%",
+            "url": "https://aditya.ac.in/talentschool/",
+            "category": "education"
+        },
+        {
+            "id": "ed3",
+            "degree": "Senior Secondary Stage - XII",
+            "institution": "Lakshya School",
+            "logo": "/assets/logos/lakshya.png",
+            "period": "2021 — 2023",
+            "focus": "CBSE · 91.4%",
+            "url": "https://lakshyaschool.in/",
+            "category": "education"
+        },
+        {
+            "id": "ed4",
+            "degree": "B.Tech — ELC (Major)",
+            "institution": "Amrita School of Engineering",
+            "logo": "/assets/logos/amrita.jpg",
+            "period": "2023 — 2027",
+            "focus": "8.91 CGPA",
+            "url": "https://www.amrita.edu/school/engineering/coimbatore/",
+            "category": "education"
+        },
+        {
+            "id": "ed5",
+            "degree": "B.Tech — AI/ML (Minor)",
+            "institution": "Amrita School of Artificial Intelligence",
+            "logo": "/assets/logos/amrita.jpg",
+            "period": "2024 — 2027",
+            "focus": "8 CGPA",
+            "url": "https://www.amrita.edu/school/artificial-intelligence/coimbatore/",
+            "category": "education"
+        }
+    ],
+    "certificates": [
+        {
+            "id": "c1",
+            "title": "Digital Image Processing",
+            "issuer": "NPTEL (IIT Kharagpur)",
+            "date": "Nov 2025",
+            "url": "https://nptel.ac.in/courses/108105135",
+            "image": ""
+        },
+        {
+            "id": "c2",
+            "title": "OCI 2025 Certified AI Foundations Associate",
+            "issuer": "Oracle",
+            "date": "2025",
+            "url": "",
+            "image": "/assets/certificates/OCI25AICFA.jpeg"
+        },
+        {
+            "id": "c3",
+            "title": "OCI 2025 Certified Foundations Associate",
+            "issuer": "Oracle",
+            "date": "2025",
+            "url": "",
+            "image": "/assets/certificates/OCI25FNDCFA.jpeg"
+        },
+        {
+            "id": "c4",
+            "title": "Full Stack Web Development",
+            "issuer": "Udemy",
+            "date": "2025",
+            "url": "",
+            "image": "/assets/certificates/Udemy_fullstack.jpg"
+        },
+        {
+            "id": "c5",
+            "title": "AWS Academy Cloud Foundations",
+            "issuer": "AWS Academy",
+            "date": "2025",
+            "url": "",
+            "image": "/assets/certificates/aws-academy.png"
+        },
+        {
+            "id": "c6",
+            "title": "Infosys Springboard Certification",
+            "issuer": "Infosys",
+            "date": "2025",
+            "url": "",
+            "image": "/assets/certificates/Infosys.png"
+        }
+    ],
+    "publications": [
+        {
+            "id": "p1",
+            "title": "AI-Driven Financial Guidance: Bridging the Gender Gap in Economic Empowerment",
+            "venue": "IEEE ICCSC 2025",
+            "description": "Published research on economic empowerment through specialized AI strategies for women in financial decision-making.",
+            "url": "https://ieeexplore.ieee.org/abstract/document/11135375",
+            "image": "/assets/research/iccsc-2025.svg",
+            "category": "publication"
+        },
+        {
+            "id": "p2",
+            "title": "Real-World Energy Optimization in Edge Computing Infrastructure: A Comparative Evaluation of DRL Algorithms",
+            "venue": "IEEE ICISCoIS 2026",
+            "description": "Comparative evaluation of DRL algorithms for edge-computing energy efficiency on heterogeneous devices.",
+            "url": "https://ieeexplore.ieee.org/abstract/document/11465935",
+            "image": "/assets/research/iciscois-2026.svg",
+            "category": "publication"
+        },
+        {
+            "id": "p3",
+            "title": "Breaking the Debt Cycle: AI-assisted Mobile App Strategies to Empower Indian Rural Women in Combating Microfinance Loan Traps",
+            "venue": "SSRN 2025",
+            "description": "Strategies to empower Indian rural women in combating microfinance loan traps via AI-assisted financial coaching.",
+            "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5743862",
+            "image": "/assets/research/ssrn-2025.svg",
+            "category": "publication"
+        },
+        {
+            "id": "p4",
+            "title": "Transforming Marginalized Urban Communities: Participatory Models for Women Empowerment Through Green Livelihoods",
+            "venue": "In review",
+            "description": "Participatory models for empowering women in marginalized urban communities through green, sustainable livelihoods.",
+            "url": "https://ieeexplore.ieee.org/abstract/document/11448076",
+            "image": "/assets/research/transforming-urban.svg",
+            "category": "publication"
+        }
+    ],
+    "awards": [
+        {
+            "id": "a1",
+            "title": "Digital Image Processing Certification",
+            "organization": "NPTEL (IIT Kharagpur)",
+            "description": "Certified in Nov 2025.",
+            "category": "award"
+        }
+    ],
+    "socials": [
+        {
+            "id": "soc1",
+            "platform": "LinkedIn",
+            "handle": "l-k-m-prem-chand",
+            "link": "https://www.linkedin.com/in/l-k-m-prem-chand-korukonda-4a449a29a/",
+            "category": "social"
+        },
+        {
+            "id": "soc2",
+            "platform": "GitHub",
+            "handle": "@Premchand006",
+            "link": "https://github.com/Premchand006",
+            "category": "social"
+        },
+        {
+            "id": "soc3",
+            "platform": "Instagram",
+            "handle": "@urstruly_prem1508",
+            "link": "https://www.instagram.com/urstruly_prem1508/",
+            "category": "social"
+        },
+        {
+            "id": "soc4",
+            "platform": "Gmail",
+            "handle": "korukonda.lkmpremchand@gmail.com",
+            "link": "mailto:korukonda.lkmpremchand@gmail.com",
+            "category": "social"
+        },
+        {
+            "id": "soc5",
+            "platform": "ResearchGate",
+            "handle": "Prem Chand",
+            "link": "https://www.researchgate.net/profile/Korukonda-Chand?ev=hdr_xprf",
+            "category": "social"
+        },
+        {
+            "id": "soc6",
+            "platform": "Medium",
+            "handle": "@premchandkorukonda",
+            "link": "https://medium.com/@premchandkorukonda",
+            "category": "social"
+        },
+        {
+            "id": "soc7",
+            "platform": "Discord",
+            "handle": "premchand",
+            "link": "https://discord.com/users/",
+            "category": "social"
+        },
+        {
+            "id": "soc8",
+            "platform": "Letterboxd",
+            "handle": "Premchand006",
+            "link": "https://boxd.it/e9GVt",
+            "category": "social"
+        },
+        {
+            "id": "soc9",
+            "platform": "Snapchat",
+            "handle": "kpremchand1508",
+            "link": "https://www.snapchat.com/add/kpremchand1508?share_id=JVZ6ttmL4oY&locale=en-US",
+            "category": "social"
+        },
+        {
+            "id": "soc10",
+            "platform": "Google Scholar",
+            "handle": "Prem Chand",
+            "link": "https://scholar.google.com/citations?user=har8Kl0AAAAJ&hl=en&authuser=2",
+            "category": "social"
+        }
+    ],
+    "journey": [
+        {
+            "id": "j1",
+            "title": "",
+            "description": "",
+            "image": "/assets/journey/hackathon-win.svg",
+            "images": [
+                "/assets/journey/hackathon-win.svg"
+            ],
+            "date": "March 2024"
+        },
+        {
+            "id": "j2",
+            "title": "",
+            "description": "",
+            "image": "/assets/journey/paper-pub.svg",
+            "images": [
+                "/assets/journey/paper-pub.svg"
+            ],
+            "date": "Feb 2025"
+        },
+        {
+            "id": "j3",
+            "title": "The ELITE Club Leadership",
+            "description": "Appointed as Vice President of The ELITE Club, leading entrepreneurship-focused technical initiatives.",
+            "image": "/assets/journey/leadership.svg",
+            "images": [
+                "/assets/journey/leadership.svg"
+            ],
+            "date": "Aug 2024"
+        },
+        {
+            "id": "j4",
+            "title": "Sustainable Development Goal (SDG) Project",
+            "description": "Worked with Live-in-Labs on sustainable rural development projects in Tamil Nadu, impacting over 50 households.",
+            "image": "/assets/journey/social-impact.svg",
+            "images": [
+                "/assets/journey/social-impact.svg"
+            ],
+            "date": "June 2024"
+        }
+    ],
+    "_timeline_help": "Your achievements timeline. Edit these entries. `status` is the gold badge (e.g. WINNER / FIRST RUNNER UP) — leave empty for none. Put images in /public/assets/timeline/ and reference them as /assets/timeline/your-file.jpg. Each entry can have multiple images (they become a carousel).",
+    "timeline": [
+        {
+            "status": "Winner",
+            "date": "26-28 Mar 2026",
+            "title": "AI & Innovation at NEGC 2026, USTM",
+            "description": "AI & Innovation — Awarded competition conducted during North East Graduate Congress-2026 held at University of Science & Technology Meghalaya from 26th–28th March, 2026.",
+            "images": [
+                "https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/AI%20%26%20Inno%202026%20-%201st.webp",
+                "https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/AI%20%26%20Inno%20-%201.webp",
+                "https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/AI%20%26%20Inno%20-%202.webp"
+            ]
+        },
+        {
+            "status": "Winner",
+            "date": "11-14 Mar 2026",
+            "title": "Prajukti 2026 GCU Hackathon",
+            "description": "Prajukti 2026 GCU Hackathon held during GCU Varsity Week: EUPHUISM 2026 (Roots and Resilience) from 11th to 14th March, 2026.",
+            "images": [
+                "https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/Prajukti%202026%20-%201st.webp",
+                "https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/Prajukti%20-%201.webp",
+                "https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/Prajukti%20-%202.webp"
+            ]
+        },
+        {
+            "status": "First Runner Up",
+            "date": "26 Feb 2026",
+            "title": "Codestellation, under CodeWar 7.0 at AEC",
+            "description": "This Hackathon was held by Assam Engineering College (AEC) under CodeWar 7.0 part of Pyrokinesis 2026 organised by Coding Club, AEC named as Codestellation on 26 Feb 2026.",
+            "images": [
+                "https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/CodeWar%202026%20-%202nd.webp",
+                "https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/CodeWar%20-%201.webp",
+                "https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/CodeWar%20-%202.webp"
+            ]
+        },
+        {
+            "status": "Winner",
+            "date": "27 Nov 2024",
+            "title": "Ideathon — Where Ideas Compile",
+            "description": "First place at the Ideathon competition — a stage where raw ideas meet real execution. Pitched a solution that stood out from the crowd and brought home the win.",
+            "images": [
+                "https://pub-fe9b85f97c6a4773bbf0ceb5f53c430b.r2.dev/achievement/Idea%20Comp%202024%20-%201st.webp"
+            ]
+        }
+    ],
+    "cta": {
+        "primary": {
+            "label": "Hire me",
+            "href": "#contact"
+        },
+        "secondary": {
+            "label": "View work",
+            "href": "#projects"
+        }
+    },
+    "availability": {
+        "status": "open",
+        "label": "Open to work",
+        "tone": "live"
+    },
+    "mobile": {
+        "tagline": "I build systems that think — from silicon to satellites.",
+        "role": "Embedded AI · Deep Learning · Computer Vision",
+        "subrole": "B.Tech ELC @ Amrita · CGPA 8.91",
+        "cgpa": "8.91",
+        "quicknav": [
+            {
+                "href": "#about",
+                "label": "About"
+            },
+            {
+                "href": "#projects",
+                "label": "Projects"
+            },
+            {
+                "href": "#experience",
+                "label": "Experience"
+            },
+            {
+                "href": "#contact",
+                "label": "Contact"
+            }
+        ],
+        "sections": {
+            "projects": {
+                "eyebrow": "Selected work",
+                "title": "Featured",
+                "headingAccent": "Projects"
+            },
+            "experience": {
+                "eyebrow": "Career",
+                "title": "My",
+                "headingAccent": "Experience"
+            },
+            "education": {
+                "eyebrow": "Academics",
+                "title": "My",
+                "headingAccent": "Education"
+            },
+            "research": {
+                "eyebrow": "Publications",
+                "title": "Research",
+                "headingAccent": "Papers"
+            },
+            "skills": {
+                "eyebrow": "Skills",
+                "title": "Tech",
+                "headingAccent": "Stack"
+            },
+            "certs": {
+                "eyebrow": "Credentials",
+                "title": "My",
+                "headingAccent": "Certifications"
+            },
+            "contact": {
+                "eyebrow": "Get in touch",
+                "title": "Dont be a",
+                "headingAccent": "stranger"
+            }
+        },
+        "contactLead": "Hiring, collaborating, or just curious — the fastest way to reach me is email."
+    },
+    "footer": {
+        "copyrightTemplate": "© {year} L K M Prem Chand Korukonda · Built with intention, designed for clarity.",
+        "logoAlt": "Prem Chand · Logo"
+    },
+    "loading": {
+        "headline": "My world is loading",
+        "earthText": "LOADING EARTH"
+    },
+    "arceus": {
+        "title": "Arceus",
+        "subtitle": "Ask me anything about Prem",
+        "greeting": "Hi — I am Arceus. Ask me about Prem, or jump straight to a section.",
+        "placeholderReply": "I'm Arceus. My full intelligence is being calibrated. Ask me anything soon.",
+        "inputPlaceholder": "Type your question…",
+        "quicklinkPrefix": "Go to",
+        "quicklinkCount": 5
+    },
+    "omnibar": {
+        "searchPlaceholder": "Type a command or search…",
+        "brand": "KPC",
+        "navigateLabel": "Navigate",
+        "askIntro": "Ask anything about Prem — work, papers, projects, education, availability.",
+        "askSuggestions": [
+            "What is his current role?",
+            "Tell me about his projects.",
+            "Show me his IEEE papers.",
+            "Is he open to opportunities?"
+        ]
+    },
+    "blogs": [
+        {
+            "id": "b1",
+            "title": "The 99.3% Paradox",
+            "category": "ECONOMICS",
+            "date": "15 Jun 2026",
+            "image": "https://cdn-images-1.medium.com/max/477/1*7c9Wi-LiDJfdJV-oSC4v_A.png",
+            "url": "https://medium.com/@premchandkorukonda/the-99-3-paradox-591fc10e3289"
+        },
+        {
+            "id": "b2",
+            "title": "The BIRYANI Review",
+            "category": "FOOD",
+            "date": "14 Jun 2026",
+            "image": "https://cdn-images-1.medium.com/max/960/1*Qa5EfpGly3l96Q8LEe--lw.avif",
+            "url": "https://medium.com/@premchandkorukonda/the-biryani-review-14e4f688bbc9"
+        },
+        {
+            "id": "b3",
+            "title": "The Metro Story",
+            "category": "PSYCHOLOGY",
+            "date": "13 Jun 2026",
+            "image": "https://cdn-images-1.medium.com/max/1024/1*4Q7z2LzaGvZH2hjVS0jJaA.png",
+            "url": "https://medium.com/@premchandkorukonda/the-metro-story-9e891191a876"
+        },
+        {
+            "id": "b4",
+            "title": "MANGOS",
+            "category": "TECHNOLOGY",
+            "date": "12 Jun 2026",
+            "image": "https://cdn-images-1.medium.com/max/1024/1*lqfYYSLEGJkVYmISgTbVeQ.png",
+            "url": "https://medium.com/@premchandkorukonda/mangos-ebba56178863"
+        },
+        {
+            "id": "b5",
+            "title": "Excel is Dead ?",
+            "category": "TECHNOLOGY",
+            "date": "11 Jun 2026",
+            "image": "https://cdn-images-1.medium.com/max/597/0*qTqrglH1Abq2eHhW",
+            "url": "https://medium.com/@premchandkorukonda/excel-is-dead-36f88e9252be"
+        },
+        {
+            "id": "b6",
+            "title": "Agentic AI Is Not the Future",
+            "category": "TECHNOLOGY",
+            "date": "10 Jun 2026",
+            "image": "https://cdn-images-1.medium.com/max/1024/1*jxdVfd6fG_nBf3w5gH4Nmw.png",
+            "url": "https://medium.com/@premchandkorukonda/agentic-ai-is-not-the-future-59a86ae45e1b"
+        },
+        {
+            "id": "b7",
+            "title": "The Fall of Tesla’s Monopoly",
+            "category": "TECHNOLOGY",
+            "date": "09 Jun 2026",
+            "image": "https://cdn-images-1.medium.com/max/1000/0*Bv734Uy1-2K2KlFj.jpg",
+            "url": "https://medium.com/@premchandkorukonda/the-fall-of-teslas-monopoly-dd6b6139efd7"
+        },
+        {
+            "id": "b8",
+            "title": "The Rupee's New Upgrade: Why India is Re-Opening the Case for Plastic Currency ?",
+            "category": "ECONOMICS",
+            "date": "08 Jun 2026",
+            "image": "https://miro.medium.com/v2/resize:fit:1049/1*1eoWYdTRyJ--dROgFZjL6Q.png",
+            "url": "https://medium.com/@premchandkorukonda/the-rupees-new-upgrade-why-india-is-re-opening-the-case-for-plastic-currency-f564662e8446"
+        },
+        {
+            "id": "b9",
+            "title": "If the week starts on Sunday, why is Monday boring?",
+            "category": "PSYCHOLOGY",
+            "date": "07 Jun 2026",
+            "image": "https://miro.medium.com/v2/resize:fit:1024/0*mOmQ6R5eKftmY3bv.jpeg",
+            "url": "https://medium.com/@premchandkorukonda/if-the-week-starts-on-sunday-why-is-monday-boring-f8b9dd812645"
+        },
+        {
+            "id": "b10",
+            "title": "I Asked My CEO If AI Would Steal Jobs",
+            "category": "TECHNOLOGY",
+            "date": "06 Jun 2026",
+            "image": "https://miro.medium.com/v2/resize:fit:1024/0*9Irh9vBQK5nuZTsr",
+            "url": "https://medium.com/@premchandkorukonda/i-asked-my-ceo-if-ai-would-steal-jobs-4cf55ca258e9"
+        },
+        {
+            "id": "b11",
+            "title": "A New Era Of Computers",
+            "category": "TECHNOLOGY",
+            "date": "05 Jun 2026",
+            "image": "https://miro.medium.com/v2/da:true/resize:fit:1200/0*XivJgSGvlYvrbg-F",
+            "url": "https://medium.com/@premchandkorukonda/a-new-era-of-computers-0634e9f8a0e8"
+        },
+        {
+            "id": "b12",
+            "title": "What is a great product?",
+            "category": "TECHNOLOGY",
+            "date": "04 Jun 2026",
+            "image": "https://miro.medium.com/v2/resize:fit:720/0*LbyIA3KpNfGoqUtd.png",
+            "url": "https://medium.com/@premchandkorukonda/what-is-a-great-product-224f377c0b7a"
+        }
+    ]
+}

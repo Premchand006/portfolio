@@ -1,0 +1,57 @@
+/* Container for meteors */
+.meteor-container {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+    background: transparent;
+}
+
+/* Meteor element - white head + white gradient trail. */
+.meteor {
+    position: absolute;
+    height: 1.5px;
+    width: 1.5px;
+    border-radius: 9999px;
+    background-color: #cfbdb0;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.55);
+    transform: rotate(135deg);
+    animation: meteor-effect 5s linear infinite;
+    will-change: transform, opacity;
+}
+
+/* Tail of the meteor */
+.meteor::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 90px;
+    height: 1.5px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.85), transparent);
+}
+
+@keyframes meteor-effect {
+    0% {
+        transform: rotate(135deg) translateX(0);
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        /* Viewport-relative travel so meteors always cross the full screen,
+           from small laptops to ultrawide. (translateX runs along the rotated
+           135deg axis; -150vw guarantees a complete diagonal traversal at any
+           width instead of the old fixed -700px that stopped mid-screen.) */
+        transform: rotate(135deg) translateX(-150vw);
+        opacity: 0;
+    }
+}
+
+/* ===== LIGHT THEME =====
+   No override: meteors only cross the home section, which keeps its black
+   space backdrop in both themes. */
